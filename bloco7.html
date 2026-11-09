@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bloco 7: modos torsionais e Chladni | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611092011">
-<script src="assets/js/comum.js?v=202611092011"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611092019">
+<script src="assets/js/comum.js?v=202611092019"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -64,7 +64,7 @@
   \(\beta^4=\rho h\omega^2/D\), basta derivar:</p>
 
   <div class="destaque">
-    <span class="anuncio">Solução de Navier</span>
+    <span class="anuncio">Solução de <a href="https://pt.wikipedia.org/wiki/Claude-Louis_Navier">Navier</a></span>
     \[\omega_{mn}=\pi^2\left[\left(\frac{m}{a}\right)^2+\left(\frac{n}{b}\right)^2\right]
     \sqrt{\frac{D}{\rho h}},
     \qquad
@@ -121,8 +121,7 @@
 
   <p>Experimentalmente, quem escolhe a combinação é onde se prende a placa e onde se
   excita: o modo que aparece é o que tem um nó no ponto preso. É por isso que a mesma placa,
-  na mesma frequência, mostra figuras diferentes conforme o ponto de apoio, e foi isso que
-  Chladni catalogou sem ter como explicar.</p>
+  na mesma frequência, mostra figuras diferentes conforme o ponto de apoio, e foi isso que <a href="https://pt.wikipedia.org/wiki/Ernst_Chladni">Chladni</a> catalogou sem ter como explicar.</p>
 
   <div data-widget="chladni"></div>
 
@@ -135,7 +134,7 @@
   </div>
 
   <p>A placa quadrada <em>livre</em> nos quatro lados, que é a do experimento de Chladni, não
-  tem solução exata. Walther Ritz a resolveu em 1909, com o método que leva o seu nome, e
+  tem solução exata. <a href="https://en.wikipedia.org/wiki/Walther_Ritz">Walther Ritz</a> a resolveu em 1909, com o método que leva o seu nome, e
   obteve \(\lambda_1=14{,}10\) para o primeiro modo elástico com \(\nu=0{,}225\). O programa
   da seção 5 devolve 14,12 em menos de um segundo.</p>
 
@@ -143,7 +142,7 @@
   <h2 id="s3">3. A solução de Lévy</h2>
 
   <p>Entre a placa totalmente apoiada, que se resolve exatamente, e a totalmente livre, que
-  não se resolve, existe um caso intermediário devido a Maurice Lévy, em 1899. Basta que
+  não se resolve, existe um caso intermediário devido a <a href="https://en.wikipedia.org/wiki/Maurice_L%C3%A9vy">Maurice Lévy</a>, em 1899. Basta que
   <strong>um par de bordas opostas</strong> seja apoiado.</p>
 
   <p>Suponha \(x=0\) e \(x=a\) apoiadas, e as bordas \(y=\text{const.}\) quaisquer. Com
@@ -217,7 +216,8 @@
     \qquad G=\frac{Y}{2(1+\nu)}.\]
   </div>
 
-  <p>O módulo de elasticidade e o coeficiente de Poisson desaparecem, e sobra o módulo de
+  <p>O módulo de elasticidade e o coeficiente de
+<a href="https://pt.wikipedia.org/wiki/Sim%C3%A9on_Denis_Poisson">Poisson</a> desaparecem, e sobra o módulo de
   cisalhamento sozinho. Um modo que se deforma sobretudo por torção tem a sua frequência
   governada por \(G\); um modo de flexão pura, por \(D\), isto é, por \(Y/(1-\nu^2)\).
   <strong>Medindo um modo de cada tipo, medem-se duas constantes elásticas
@@ -238,7 +238,7 @@
 
   <div class="bloco fisica">
     <span class="rotulo">Conferindo a torção por outro caminho</span>
-    <p>Uma barra longa e estreita em torção obedece a Saint-Venant, com constante de torção
+    <p>Uma barra longa e estreita em torção obedece a <a href="https://en.wikipedia.org/wiki/Adh%C3%A9mar_Jean_Claude_Barr%C3%A9_de_Saint-Venant">Saint-Venant</a>, com constante de torção
     \(J\approx bh^3/3\) e inércia polar \(\rho b^3h/12\) por unidade de comprimento. A
     primeira frequência de torção de uma barra engastada numa ponta fica</p>
     <p>\[f_1=\frac{1}{2a}\,\frac{h}{b}\sqrt{\frac{G}{\rho}}
@@ -361,6 +361,6 @@ if __name__ == '__main__':
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611092011"></script>
+<script src="assets/js/widgets.js?v=202611092019"></script>
 </body>
 </html>

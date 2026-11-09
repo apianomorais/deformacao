@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bloco 2: a barra e a quarta ordem | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611092011">
-<script src="assets/js/comum.js?v=202611092011"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611092019">
+<script src="assets/js/comum.js?v=202611092019"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -52,21 +52,21 @@
   <!-- ============================================== -->
   <h2 id="s1">1. De Galileu a Chladni</h2>
 
-  <p>A história da barra começa com um erro famoso. No <em>Discorsi</em> de 1638, Galileu
-  pergunta qual é a carga que quebra uma viga engastada numa parede, e monta a conta
+  <p>A história da barra começa com um erro famoso. No <em>Discorsi</em> de 1638, <a href="https://pt.wikipedia.org/wiki/Galileu">Galileu</a>
+pergunta qual é a carga que quebra uma viga engastada numa parede, e monta a conta
   supondo que todas as fibras da seção resistem igualmente, com a rotação se dando em torno
   da face de baixo. O resultado é a lei de escala certa e o valor errado por um fator três:
   Galileu não tinha a ideia de linha neutra, nem a de que a tensão varia ao longo da
   seção.</p>
 
-  <p>Corrigir isso levou um século. Mariotte, nos anos 1680, percebe que parte da seção é
-  comprimida. Parent, em 1713, localiza a linha neutra no centroide. E Jacob Bernoulli, em
-  1694, dá o passo que interessa aqui: propõe que o momento fletor é proporcional à
+  <p>Corrigir isso levou um século. <a href="https://en.wikipedia.org/wiki/Edme_Mariotte">Mariotte</a>, nos anos 1680, percebe que parte da seção é
+  comprimida. <a href="https://en.wikipedia.org/wiki/Antoine_Parent">Parent</a>, em 1713, localiza a linha neutra no centroide. E <a href="https://pt.wikipedia.org/wiki/Jakob_Bernoulli">Jacob Bernoulli</a>, em
+1694, dá o passo que interessa aqui: propõe que o momento fletor é proporcional à
   <strong>curvatura</strong> da linha média, e não à inclinação nem ao deslocamento.</p>
 
   <div class="bloco fisica">
     <span class="rotulo">A elástica</span>
-    <p>Daniel Bernoulli escreveu a Euler, em 1742, sugerindo que a forma de uma lâmina
+    <p><a href="https://pt.wikipedia.org/wiki/Daniel_Bernoulli">Daniel Bernoulli</a> escreveu a <a href="https://pt.wikipedia.org/wiki/Leonhard_Euler">Euler</a>, em 1742, sugerindo que a forma de uma lâmina
     encurvada é a que minimiza \(\int\kappa^2\,ds\), a integral do quadrado da curvatura.
     Euler atacou o problema em 1744, no primeiro livro de cálculo variacional da história, e
     classificou todas as formas possíveis. A curva ficou conhecida como <em>elástica</em>, e
@@ -75,14 +75,14 @@
     funcional.</p>
   </div>
 
-  <p>O lado acústico veio de Ernst Chladni, que em 1787 publicou as
+  <p>O lado acústico veio de <a href="https://pt.wikipedia.org/wiki/Ernst_Chladni">Ernst Chladni</a>, que em 1787 publicou as
   <em>Entdeckungen über die Theorie des Klanges</em> e mediu, com cuidado notável, as
   frequências de barras livres. Encontrou razões que não eram inteiras: para uma barra
   solta nas duas pontas, algo próximo de 1 : 2,76 : 5,40. Chladni não tinha a equação, e
   tinha os números, que batem em quatro casas com o que vamos calcular daqui a pouco.</p>
 
-  <p>A forma final da equação é de Navier, em 1826, e o tratamento completo das vibrações é
-  de Rayleigh, na <em>Theory of Sound</em> de 1877. Vale guardar as datas: a corda foi
+  <p>A forma final da equação é de <a href="https://pt.wikipedia.org/wiki/Claude-Louis_Navier">Navier</a>, em 1826, e o tratamento completo das vibrações é de
+<a href="https://pt.wikipedia.org/wiki/John_William_Strutt">Rayleigh</a>, na <em>Theory of Sound</em> de 1877. Vale guardar as datas: a corda foi
   resolvida em 1747 e a barra, para efeitos práticos, só nos anos 1820. A derivada a mais
   custou oitenta anos.</p>
 
@@ -126,7 +126,7 @@
   \qquad
   T=\frac{\rho A}{2}\int_0^L\dot w^2\,dx.\]</p>
 
-  <p><strong>Princípio de Hamilton.</strong> O movimento real torna estacionário
+  <p><strong>Princípio de <a href="https://pt.wikipedia.org/wiki/William_Rowan_Hamilton">Hamilton</a>.</strong> O movimento real torna estacionário
   \(\int_{t_1}^{t_2}(T-U)\,dt\). Variando,</p>
 
   <p>\[\delta\!\int(T-U)\,dt=\int\!\!\int\left[-\rho A\,\ddot w\,\delta w
@@ -333,6 +333,6 @@ print('barra: cortar pela metade multiplica f por', 2 ** 2)</code></pre>
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611092011"></script>
+<script src="assets/js/widgets.js?v=202611092019"></script>
 </body>
 </html>

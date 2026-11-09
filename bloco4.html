@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bloco 4: o método dos elementos finitos | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611092011">
-<script src="assets/js/comum.js?v=202611092011"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611092019">
+<script src="assets/js/comum.js?v=202611092019"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -81,7 +81,7 @@
   <div class="bloco">
     <span class="rotulo">As três origens</span>
     <ul>
-      <li><strong>Richard Courant, 1943.</strong> Num artigo sobre problemas de torção,
+      <li><strong><a href="https://pt.wikipedia.org/wiki/Richard_Courant">Richard Courant</a>, 1943.</strong> Num artigo sobre problemas de torção,
       propõe dividir o domínio em triângulos e aproximar a solução por funções lineares em
       cada um, minimizando o funcional de energia. Está tudo lá, e ninguém notou: o artigo
       ficou esquecido por quinze anos, porque não havia computador para executar a
@@ -90,11 +90,11 @@
       calcular asas em flecha, montam a rigidez da estrutura somando contribuições de
       painéis triangulares. É o primeiro uso prático, e vem da engenharia, não da
       matemática.</li>
-      <li><strong>John Argyris, nos anos 1950.</strong> Em Stuttgart e em Londres, desenvolve
+      <li><strong><a href="https://en.wikipedia.org/wiki/John_Argyris">John Argyris</a>, nos anos 1950.</strong> Em Stuttgart e em Londres, desenvolve
       a formulação matricial geral da análise estrutural, que é o arcabouço em que tudo isso
       se encaixa.</li>
     </ul>
-    <p>O nome "elemento finito" é de Ray Clough, em 1960. O livro de Zienkiewicz, de 1967,
+    <p>O nome "elemento finito" é de <a href="https://en.wikipedia.org/wiki/Ray_W._Clough">Ray Clough</a>, em 1960. O livro de <a href="https://en.wikipedia.org/wiki/O._C._Zienkiewicz">Zienkiewicz</a>, de 1967,
     transformou o método numa disciplina. Hoje é a ferramenta de cálculo estrutural do
     planeta, e o elemento de viga que vamos montar à mão é o mais simples que existe.</p>
   </div>
@@ -135,8 +135,7 @@
 
   <p>\[\vet{u}_e=\left\{w_1,\ \theta_1,\ w_2,\ \theta_2\right\}^{\mathsf T}.\]</p>
 
-  <p>Dentro do elemento, interpolamos com quatro polinômios cúbicos, as <strong>funções de
-  forma de Hermite</strong> \(N_i(x)\), tais que \(W(x)=\sum_iN_i(x)u_{e,i}\). Cada \(N_i\)
+  <p>Dentro do elemento, interpolamos com quatro polinômios cúbicos, as <strong>funções de forma de <a href="https://pt.wikipedia.org/wiki/Charles_Hermite">Hermite</a></strong> \(N_i(x)\), tais que \(W(x)=\sum_iN_i(x)u_{e,i}\). Cada \(N_i\)
   vale 1 no grau de liberdade correspondente e 0 nos outros três. Por que cúbicas? Porque
   quatro coeficientes é o que quatro números determinam, e porque a forma fraca exige
   derivada segunda, que uma cúbica tem de sobra.</p>
@@ -207,6 +206,6 @@
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611092011"></script>
+<script src="assets/js/widgets.js?v=202611092019"></script>
 </body>
 </html>

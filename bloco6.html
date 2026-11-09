@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bloco 6: da viga à placa | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611092011">
-<script src="assets/js/comum.js?v=202611092011"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611092019">
+<script src="assets/js/comum.js?v=202611092019"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -53,11 +53,11 @@
   <!-- ============================================== -->
   <h2 id="s1">1. Chladni, Napoleão e Sophie Germain</h2>
 
-  <p>Em 1787 Ernst Chladni publicou um livro com desenhos que ninguém sabia explicar. Ele
+  <p>Em 1787 <a href="https://pt.wikipedia.org/wiki/Ernst_Chladni">Ernst Chladni</a> publicou um livro com desenhos que ninguém sabia explicar. Ele
   espalhava areia fina sobre placas de metal, prendia a placa num ponto e passava um arco de
   violino na borda; a areia fugia das regiões que vibravam e se acumulava nas linhas
   paradas, desenhando figuras de uma simetria desconcertante. Chladni percorreu a Europa
-  fazendo a demonstração, e em 1809 a fez diante de Napoleão.</p>
+  fazendo a demonstração, e em 1809 a fez diante de <a href="https://pt.wikipedia.org/wiki/Napole%C3%A3o_Bonaparte">Napoleão</a>.</p>
 
   <p>Napoleão, que havia estudado matemática, ficou impressionado e destinou um prêmio de um
   quilo de ouro a quem desse a teoria das superfícies elásticas. A Academia de Paris abriu o
@@ -65,31 +65,36 @@
 
   <div class="bloco fisica">
     <span class="rotulo">Sophie Germain e o prêmio</span>
-    <p>Na primeira rodada apareceu uma única candidata, Sophie Germain, que não tinha
+    <p>Na primeira rodada apareceu uma única candidata, <a href="https://pt.wikipedia.org/wiki/Sophie_Germain">Sophie Germain</a>, que não tinha
     formação formal: como mulher, não podia frequentar a École Polytechnique, e estudava
     com notas de aula emprestadas. A sua primeira memória, de 1811, continha a ideia certa
     (a energia proporcional ao quadrado da curvatura média) e erros de cálculo variacional.
-    Lagrange, no comitê, corrigiu as contas e escreveu a equação correta. Germain tentou de
+    <a href="https://pt.wikipedia.org/wiki/Joseph-Louis_Lagrange">Lagrange</a>, no comitê, corrigiu as contas e escreveu a equação correta. Germain tentou de
     novo em 1813, ganhou menção honrosa, e venceu o prêmio em 1816, na terceira tentativa.
     A equação leva hoje os dois nomes.</p>
   </div>
 
   <p>A história não acaba bem nem rápido. A equação de Germain-Lagrange estava certa, e as
-  condições de contorno estavam erradas, e assim ficaram por trinta e cinco anos. Poisson,
-  em 1814, e Navier, em 1820, impunham três condições em cada borda livre: cortante nulo,
+  condições de contorno estavam erradas, e assim ficaram por trinta e cinco anos. <a href="https://pt.wikipedia.org/wiki/Sim%C3%A9on_Denis_Poisson">Poisson</a>, em 1814, e <a href="https://pt.wikipedia.org/wiki/Claude-Louis_Navier">Navier</a>, em 1820, impunham três condições em cada borda livre: cortante nulo,
   momento fletor nulo e momento torçor nulo. Mas a equação é de quarta ordem e só admite
   <strong>duas</strong> condições por borda. O sistema era inconsistente.</p>
 
-  <p>Gustav Kirchhoff resolveu o impasse em 1850, mostrando que o momento torçor distribuído
+  <p><a href="https://pt.wikipedia.org/wiki/Gustav_Kirchhoff">Gustav Kirchhoff</a> resolveu o impasse em 1850, mostrando que o momento torçor distribuído
   ao longo da borda é estaticamente equivalente a uma distribuição de forças transversais
   mais forças concentradas nos cantos. Dessas três condições, duas se fundem numa só, e
-  nasce o <strong>cortante efetivo</strong> que vamos deduzir na última seção. Thomson e
-  Tait, em 1867, deram o argumento físico que torna isso intuitivo.</p>
+  nasce o <strong>cortante efetivo</strong> que vamos deduzir na última seção. <a href="https://pt.wikipedia.org/wiki/William_Thomson">Thomson</a> e
+<a href="https://en.wikipedia.org/wiki/Peter_Guthrie_Tait">Tait</a>, em 1867, deram o argumento físico que torna isso intuitivo.</p>
+
+  <p>O nome duplo da teoria vem de depois. Em 1888,
+  <a href="https://en.wikipedia.org/wiki/Augustus_Edward_Hough_Love">Augustus Edward Hough
+  Love</a> estendeu as mesmas hipóteses a superfícies curvas, fundando a teoria de cascas,
+  e desde então a versão plana leva os dois nomes. É a teoria que o resto deste bloco
+  deduz.</p>
 
   <div class="bloco">
     <span class="rotulo">E as figuras de Chladni?</span>
     <p>Continuaram sem solução. A placa quadrada livre nos quatro lados não cede a nenhum
-    dos métodos exatos, e só foi resolvida em 1909, por Walther Ritz, num trabalho dedicado
+    dos métodos exatos, e só foi resolvida em 1909, por <a href="https://en.wikipedia.org/wiki/Walther_Ritz">Walther Ritz</a>, num trabalho dedicado
     justamente às figuras de Chladni. O método que ele inventou para isso é o que hoje se
     chama Rayleigh-Ritz, é o avô do método dos elementos finitos, e é o que vamos rodar no
     bloco 8. São cento e vinte e dois anos entre a pergunta e a resposta.</p>
@@ -131,15 +136,14 @@
   Q_n&amp;=Q_\alpha n_\alpha=Q_x\cos\theta+Q_y\sen\theta.
   \end{aligned}\]</p>
 
-  <p>São as fórmulas do círculo de Mohr, com momentos no lugar de tensões. Existem direções
+  <p>São as fórmulas do círculo de <a href="https://en.wikipedia.org/wiki/Christian_Otto_Mohr">Mohr</a>, com momentos no lugar de tensões. Existem direções
   principais, em que \(M_{ns}=0\) e só há flexão pura, e direções a 45° delas, em que a
   torção é máxima. Guarde essa ideia: ela é o que separa, no bloco 7, um modo de flexão de
   um modo de torção.</p>
 
   <div class="bloco cuidado">
     <span class="rotulo">Convenções de sinal variam entre livros</span>
-    <p>Com \(z\) para cima, \(M_x&gt;0\) traciona as fibras superiores. Timoshenko usa \(z\)
-    para baixo e define o momento torçor com o sinal trocado. As equações finais são as
+    <p>Com \(z\) para cima, \(M_x&gt;0\) traciona as fibras superiores. <a href="https://en.wikipedia.org/wiki/Stephen_Timoshenko">Timoshenko</a> usa \(z\) para baixo e define o momento torçor com o sinal trocado. As equações finais são as
     mesmas; os sinais intermediários não. Aqui se adota a convenção tensorial acima, que faz
     as transformações de coordenadas saírem sozinhas.</p>
   </div>
@@ -201,7 +205,7 @@
   <!-- ============================================== -->
   <h2 id="s4">4. Rigidez à flexão e momento-curvatura</h2>
 
-  <p>Com \(\sigma_z=0\), a lei de Hooke em estado plano de tensões dá</p>
+  <p>Com \(\sigma_z=0\), a lei de <a href="https://pt.wikipedia.org/wiki/Robert_Hooke">Hooke</a> em estado plano de tensões dá</p>
 
   <p>\[\sigma_x=\frac{Y}{1-\nu^2}(\varepsilon_x+\nu\varepsilon_y),\qquad
   \sigma_y=\frac{Y}{1-\nu^2}(\varepsilon_y+\nu\varepsilon_x),\qquad
@@ -247,8 +251,8 @@
     nenhuma. A saída clássica é tratar \(Q_\alpha\) como <strong>reação interna</strong>,
     determinada pelo equilíbrio e não pela lei constitutiva. Integrando o equilíbrio
     tridimensional com faces livres, recupera-se a distribuição parabólica
-    \(\tau_{xz}=\frac{3Q_x}{2h}\left(1-4z^2/h^2\right)\), a mesma de Jourawski para vigas. A
-    teoria de Mindlin-Reissner elimina a inconsistência admitindo que a normal gire
+    \(\tau_{xz}=\frac{3Q_x}{2h}\left(1-4z^2/h^2\right)\), a mesma de <a href="https://en.wikipedia.org/wiki/Dmitrii_Zhuravskii">Jourawski</a> para vigas. A teoria de
+  <a href="https://en.wikipedia.org/wiki/Raymond_D._Mindlin">Mindlin</a>-<a href="https://en.wikipedia.org/wiki/Eric_Reissner">Reissner</a> elimina a inconsistência admitindo que a normal gire
     independentemente, e é a que se usa para placas espessas.</p>
   </div>
 
@@ -398,6 +402,6 @@
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611092011"></script>
+<script src="assets/js/widgets.js?v=202611092019"></script>
 </body>
 </html>
