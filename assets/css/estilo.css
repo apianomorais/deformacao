@@ -622,3 +622,9 @@ p.centro{text-align:center}
 
 /* o logotipo do herói é retrato: limitar a altura evita que ele domine a capa */
 .heroi .placa-logo img{max-height:190px;width:auto !important}
+
+/* o link de inscrição fica sobre o fundo escuro do herói: herda a cor
+   clara do texto, senão some */
+.heroi .meta a{color:inherit;text-decoration:underline;
+  text-underline-offset:2px;opacity:.95}
+.heroi .meta a:hover{opacity:1}
