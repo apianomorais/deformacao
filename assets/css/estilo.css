@@ -1,0 +1,624 @@
+/* ===================================================================
+   Audiowide — fonte de display da identidade do LFCA
+   Auto-hospedada: sem dependência do Google Fonts, funciona offline.
+   =================================================================== */
+@font-face{
+  font-family:'Audiowide';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('../fontes/audiowide-latin-ext-400-normal.woff2') format('woff2');
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face{
+  font-family:'Audiowide';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('../fontes/audiowide-latin-400-normal.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* ===================================================================
+   Fenômenos de Transporte — Bacharelado em Física / URCA
+   Folha de estilo única. Sem dependências.
+   A cor mestra é o índigo, para a disciplina não se confundir com
+   Mecânica Clássica II, que é verde-petróleo, nem com Física
+   Estatística, que é azul-marinho.
+   =================================================================== */
+
+:root{
+  --azul:#6b3b1c;
+  --azul-claro:#a06a2c;
+  --azul-pastel:#f6ecdf;
+  --vinho:#8c2f39;
+  --verde:#2c5f8d;
+  --ambar:#b5831f;
+  --tinta:#1b1f24;
+  --tinta-suave:#4a5560;
+  --papel:#ffffff;
+  --papel-alt:#faf6f0;
+  --borda:#e6dccd;
+  --raio:10px;
+  --sombra:0 1px 3px rgba(19,80,78,.10), 0 6px 20px rgba(19,80,78,.06);
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,"Times New Roman",serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  /* fonte de display da identidade do LFCA */
+  --display:"Audiowide",system-ui,sans-serif;
+  /* cores da logo do laboratório */
+  --laranja:#fd6500;        /* laranja da marca — preenchimentos e bordas */
+  --laranja-texto:#bc4a00;  /* versão escurecida, legível sobre branco */
+  --preto-lfca:#000000;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:86px}
+body{
+  margin:0;background:var(--papel);color:var(--tinta);
+  font-family:var(--serif);font-size:18px;line-height:1.65;
+  -webkit-text-size-adjust:100%;
+}
+
+/* ---------- Cabeçalho e navegação ---------- */
+.topo{
+  position:sticky;top:0;z-index:50;
+  background:var(--azul);color:#fff;
+  box-shadow:0 2px 10px rgba(0,0,0,.18);
+}
+.topo-interno{
+  max-width:1180px;margin:0 auto;padding:.55rem 1.1rem;
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+}
+.marca{font-family:var(--sans);font-weight:700;font-size:.95rem;letter-spacing:.02em;
+  color:#fff;text-decoration:none;white-space:nowrap}
+.marca span{opacity:.72;font-weight:400}
+.menu{display:flex;gap:.2rem;flex-wrap:wrap;margin-left:auto;font-family:var(--sans);font-size:.82rem}
+.menu a{
+  color:#dbe6f2;text-decoration:none;padding:.3rem .62rem;border-radius:6px;
+  transition:background .15s,color .15s;
+}
+.menu a:hover{background:rgba(255,255,255,.12);color:#fff}
+.menu a.ativo{background:#fff;color:var(--azul);font-weight:600}
+.menu .grupo{
+  font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  color:#9fb6cd;padding:.3rem .1rem .3rem .55rem;align-self:center;
+}
+.menu .grupo:first-of-type{padding-left:.3rem}
+.menu a.num{min-width:1.85em;text-align:center;padding:.3rem .4rem}
+
+/* ---------- Layout ---------- */
+.envoltorio{max-width:1180px;margin:0 auto;padding:0 1.1rem;display:flex;gap:2.2rem}
+.conteudo{flex:1;min-width:0;padding:1.6rem 0 4rem}
+.lateral{
+  width:234px;flex-shrink:0;position:sticky;top:86px;align-self:flex-start;
+  max-height:calc(100vh - 110px);overflow-y:auto;padding:1.6rem 0;
+  font-family:var(--sans);font-size:.8rem;
+}
+.lateral h4{margin:0 0 .5rem;font-size:.7rem;text-transform:uppercase;
+  letter-spacing:.09em;color:var(--tinta-suave)}
+.lateral ol{list-style:none;margin:0;padding:0;border-left:2px solid var(--borda)}
+.lateral li a{display:block;padding:.3rem .7rem;color:var(--tinta-suave);
+  text-decoration:none;border-left:2px solid transparent;margin-left:-2px}
+.lateral li a:hover{color:var(--azul);background:var(--papel-alt)}
+.lateral li a.ativo{color:var(--azul);border-left-color:var(--azul);font-weight:600}
+
+/* ---------- Tipografia ---------- */
+h1{font-size:2.05rem;line-height:1.2;margin:.2rem 0 .4rem;color:var(--azul);letter-spacing:-.01em}
+h2{font-size:1.5rem;margin:2.6rem 0 .8rem;color:var(--azul);
+   padding-bottom:.3rem;border-bottom:2px solid var(--azul-pastel)}
+h3{font-size:1.16rem;margin:1.7rem 0 .5rem;color:var(--azul-claro)}
+h4{font-size:1rem;margin:1.2rem 0 .4rem}
+p{margin:.7rem 0}
+a{color:var(--azul-claro)}
+ul,ol{padding-left:1.4rem}
+li{margin:.3rem 0}
+code{font-family:var(--mono);font-size:.88em;background:var(--papel-alt);
+  padding:.1em .35em;border-radius:4px}
+/* listagens de programa, usadas na unidade de métodos numéricos */
+pre.codigo{font-family:var(--mono);font-size:.82rem;line-height:1.55;
+  background:var(--papel-alt);border:1px solid var(--borda);
+  border-left:3px solid var(--azul-claro);border-radius:6px;
+  padding:.85rem 1rem;margin:1.1rem 0;overflow-x:auto;color:var(--tinta)}
+pre.codigo b{font-weight:600;color:var(--azul-claro)}
+pre.codigo i{font-style:normal;color:var(--tinta-suave)}
+pre.codigo .leg{display:block;font-family:var(--sans);font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--tinta-suave);
+  margin-bottom:.5rem}
+.chapeu{font-family:var(--sans);font-size:.74rem;text-transform:uppercase;
+  letter-spacing:.13em;color:var(--vinho);font-weight:600;margin:0}
+.subtitulo{font-size:1.06rem;color:var(--tinta-suave);margin:.2rem 0 1.4rem;font-style:italic}
+.linha{border:0;border-top:1px solid var(--borda);margin:2.6rem 0}
+
+/* ---------- Blocos ---------- */
+.bloco{
+  border:1px solid var(--borda);border-left:4px solid var(--azul-claro);
+  background:var(--papel-alt);border-radius:var(--raio);
+  padding:.9rem 1.15rem;margin:1.2rem 0;
+}
+.bloco>:first-child{margin-top:0}
+.bloco>:last-child{margin-bottom:0}
+.bloco .rotulo{
+  display:block;font-family:var(--sans);font-size:.7rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.09em;color:var(--azul-claro);margin-bottom:.35rem;
+}
+.bloco.def{border-left-color:var(--azul-claro)}
+.bloco.def .rotulo{color:var(--azul-claro)}
+.bloco.ex{border-left-color:var(--verde);background:#f1f8f5}
+.bloco.ex .rotulo{color:var(--verde)}
+.bloco.alerta{border-left-color:var(--vinho);background:#fdf3f4}
+.bloco.alerta .rotulo{color:var(--vinho)}
+.bloco.fisica{border-left-color:var(--ambar);background:#fdf8ec}
+.bloco.fisica .rotulo{color:var(--ambar)}
+.destaque{
+  background:linear-gradient(0deg,#fff8dd,#fff8dd);border:1px solid #e8d79a;
+  border-radius:var(--raio);padding:.75rem 1.1rem;margin:1.2rem 0;text-align:center;
+}
+
+/* ---------- Solução recolhível ---------- */
+details.solucao{
+  border:1px solid var(--borda);border-radius:var(--raio);
+  margin:.8rem 0;background:var(--papel);overflow:hidden;
+}
+details.solucao>summary{
+  cursor:pointer;padding:.6rem 1rem;font-family:var(--sans);font-size:.85rem;
+  font-weight:600;color:var(--azul);background:var(--azul-pastel);list-style:none;
+  user-select:none;
+}
+details.solucao>summary::-webkit-details-marker{display:none}
+details.solucao>summary::before{content:"▸ ";font-size:.9em}
+details.solucao[open]>summary::before{content:"▾ "}
+details.solucao>summary:hover{background:#dbe7f3}
+.corpo-solucao{padding:.5rem 1.15rem 1rem}
+
+/* ---------- Tabelas ---------- */
+.tabela-rolavel{overflow-x:auto;margin:1.1rem 0}
+table{border-collapse:collapse;width:100%;font-size:.93rem;font-family:var(--sans)}
+th,td{padding:.45rem .7rem;text-align:left;border-bottom:1px solid var(--borda)}
+thead th{border-bottom:2px solid var(--azul);color:var(--azul);font-size:.82rem;
+  text-transform:uppercase;letter-spacing:.04em}
+tbody tr:hover{background:var(--papel-alt)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* ---------- Widgets ---------- */
+.widget{
+  border:1px solid var(--borda);border-radius:var(--raio);background:var(--papel);
+  box-shadow:var(--sombra);margin:1.6rem 0;overflow:hidden;
+}
+.widget-cabeca{
+  background:var(--azul);color:#fff;padding:.5rem .95rem;
+  font-family:var(--sans);font-size:.82rem;font-weight:600;letter-spacing:.02em;
+  display:flex;align-items:center;gap:.5rem;
+}
+.widget-cabeca::before{content:"◆";opacity:.65;font-size:.7em}
+.widget-corpo{padding:1rem}
+.controles{
+  display:flex;flex-wrap:wrap;gap:.9rem 1.3rem;align-items:flex-end;
+  margin-bottom:.9rem;font-family:var(--sans);font-size:.82rem;
+}
+.campo{display:flex;flex-direction:column;gap:.22rem;min-width:132px;flex:1 1 132px}
+/* sem text-transform: maiúsculas destroem letras gregas (λ→Λ, σ→Σ, μ→Μ) */
+.campo label{font-weight:700;color:var(--tinta-suave);font-size:.76rem;letter-spacing:.02em}
+.campo .valor{color:var(--azul);font-weight:700;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--azul-claro);margin:0}
+input[type=number],input[type=text],select{
+  font-family:var(--sans);font-size:.9rem;padding:.33rem .5rem;
+  border:1px solid var(--borda);border-radius:6px;background:#fff;color:var(--tinta);width:100%;
+}
+input[type=number]:focus,input[type=text]:focus,select:focus{
+  outline:2px solid var(--azul-pastel);border-color:var(--azul-claro)}
+.botoes{display:flex;gap:.5rem;flex-wrap:wrap}
+button{
+  font-family:var(--sans);font-size:.83rem;font-weight:600;
+  padding:.42rem .9rem;border-radius:7px;border:1px solid var(--azul);
+  background:var(--azul);color:#fff;cursor:pointer;transition:background .15s,transform .05s;
+}
+button:hover{background:var(--azul-claro)}
+button:active{transform:translateY(1px)}
+button.sec{background:#fff;color:var(--azul)}
+button.sec:hover{background:var(--azul-pastel)}
+canvas{display:block;width:100%;height:auto;border-radius:6px;background:#fff}
+.saida{
+  font-family:var(--sans);font-size:.88rem;background:var(--azul-pastel);
+  border-radius:var(--raio);padding:.7rem .95rem;margin-top:.9rem;line-height:1.55;
+}
+.saida b{color:var(--azul)}
+.grade-num{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:.6rem;margin-top:.9rem}
+.cartao-num{
+  background:var(--papel-alt);border:1px solid var(--borda);border-radius:8px;
+  padding:.55rem .7rem;text-align:center;font-family:var(--sans);
+}
+.cartao-num .rot{font-size:.7rem;letter-spacing:.01em;font-weight:600;
+  color:var(--tinta-suave);display:block}
+.cartao-num .val{font-size:1.18rem;font-weight:700;color:var(--azul);
+  font-variant-numeric:tabular-nums}
+.legenda{font-family:var(--sans);font-size:.76rem;color:var(--tinta-suave);
+  margin-top:.5rem;text-align:center}
+.lista-rolavel{max-height:190px;overflow-y:auto;background:var(--papel-alt);
+  border:1px solid var(--borda);border-radius:8px;padding:.55rem .7rem;
+  font-family:var(--mono);font-size:.78rem;line-height:1.75;margin-top:.8rem}
+
+/* ---------- Cartões da página inicial ---------- */
+.heroi{
+  background:linear-gradient(135deg,var(--azul),var(--azul-claro));
+  color:#fff;border-radius:14px;padding:2.2rem 1.9rem;margin:1.6rem 0 2.2rem;
+}
+.heroi h1{color:#fff;margin:0 0 .5rem}
+/* O ganso é cinza-claro: brilha sobre o azul do heroi, sem placa. */
+.placa-logo{
+  display:inline-block;margin-bottom:1.1rem;line-height:0;
+  filter:drop-shadow(0 3px 10px rgba(0,0,0,.28));
+}
+.placa-logo img{height:124px;width:auto;display:block}
+@media (max-width:620px){.placa-logo img{height:86px}}
+
+/* No rodape o fundo e claro: o ganso ganha uma placa discreta para nao sumir. */
+.rodape img.logo-rodape{
+  height:118px;width:auto;margin-bottom:.8rem;display:inline-block;
+  background:var(--azul);border-radius:12px;padding:.55rem .8rem;
+  box-shadow:0 2px 10px rgba(16,64,58,.18);
+}
+@media (max-width:620px){.rodape img.logo-rodape{height:92px}}
+.heroi p{margin:.3rem 0;opacity:.93}
+.heroi .meta{font-family:var(--sans);font-size:.82rem;opacity:.8;margin-top:1rem}
+.cartoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:1.1rem;margin:1.4rem 0}
+.cartao{
+  border:1px solid var(--borda);border-radius:12px;padding:1.15rem;
+  background:var(--papel);box-shadow:var(--sombra);text-decoration:none;color:inherit;
+  display:block;transition:transform .14s,box-shadow .14s,border-color .14s;
+}
+.cartao:hover{transform:translateY(-3px);border-color:var(--azul-claro);
+  box-shadow:0 8px 26px rgba(16,64,58,.14)}
+.cartao .numero{font-family:var(--sans);font-size:.68rem;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--vinho)}
+.cartao h3{margin:.25rem 0 .4rem;font-size:1.1rem;color:var(--azul)}
+.cartao p{font-size:.9rem;color:var(--tinta-suave);margin:0 0 .6rem}
+.etiquetas{display:flex;flex-wrap:wrap;gap:.3rem}
+.etiqueta{font-family:var(--sans);font-size:.67rem;background:var(--azul-pastel);
+  color:var(--azul);padding:.13rem .45rem;border-radius:20px}
+
+/* ---------- Rodapé e navegação inferior ---------- */
+.nav-aulas{display:flex;justify-content:space-between;gap:1rem;margin:3rem 0 0;
+  font-family:var(--sans);font-size:.86rem}
+.nav-aulas a{
+  flex:1;padding:.8rem 1rem;border:1px solid var(--borda);border-radius:var(--raio);
+  text-decoration:none;color:var(--azul);background:var(--papel-alt);transition:background .15s}
+.nav-aulas a:hover{background:var(--azul-pastel)}
+.nav-aulas a.prox{text-align:right}
+.nav-aulas small{display:block;color:var(--tinta-suave);font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.07em}
+.rodape{
+  border-top:1px solid var(--borda);margin-top:3rem;padding:1.6rem 1.1rem 2.4rem;
+  font-family:var(--sans);font-size:.8rem;color:var(--tinta-suave);text-align:center;
+}
+.rodape a{color:var(--azul-claro)}
+
+/* ---------- MathJax: fórmulas largas em telas estreitas ---------- */
+mjx-container{max-width:100%}
+mjx-container[display="true"]{
+  overflow-x:auto;overflow-y:hidden;
+  padding-bottom:.25rem;
+}
+/* fórmula longa dentro de um bloco não pode esticar a página */
+.bloco,.destaque,.corpo-solucao,.saida{overflow-x:auto}
+
+/* ---------- Responsivo ---------- */
+@media (max-width:980px){
+  .lateral{display:none}
+  .envoltorio{gap:0}
+}
+@media (max-width:620px){
+  /* tabelas com 4+ colunas rolam na horizontal em vez de espremer */
+  .tabela-rolavel table:has(th:nth-child(3)){min-width:470px}
+  .tabela-rolavel table:has(th:nth-child(4)){min-width:560px}
+  #tabelaZ table{min-width:660px}
+  .tabela-rolavel{
+    background:linear-gradient(90deg,#fff 30%,hsla(0,0%,100%,0)),
+               linear-gradient(90deg,hsla(0,0%,100%,0),#fff 70%) 100% 0,
+               radial-gradient(farthest-side at 0 50%,rgba(16,64,58,.16),transparent),
+               radial-gradient(farthest-side at 100% 50%,rgba(16,64,58,.16),transparent) 100% 0;
+    background-repeat:no-repeat;background-size:36px 100%,36px 100%,14px 100%,14px 100%;
+    background-attachment:local,local,scroll,scroll;
+  }
+  body{font-size:17px}
+  h1{font-size:1.7rem}
+  h2{font-size:1.3rem}
+  .heroi{padding:1.6rem 1.2rem}
+  .topo-interno{padding:.5rem .8rem}
+  .menu{font-size:.76rem;width:100%;margin-left:0}
+  .nav-aulas{flex-direction:column}
+  .campo{min-width:100%;flex-basis:100%}
+}
+
+/* ---------- Impressão ---------- */
+@media print{
+  .topo,.lateral,.nav-aulas,.rodape,.botoes{display:none}
+  .widget{break-inside:avoid;box-shadow:none}
+  details.solucao{border:none}
+  details.solucao>summary{display:none}
+  details.solucao .corpo-solucao{padding:0}
+  body{font-size:11pt}
+}
+
+/* ---------- Módulo ainda não publicado ---------- */
+.nav-aulas .em-breve{
+  flex:1;padding:.8rem 1rem;border:1px dashed var(--borda);border-radius:var(--raio);
+  color:var(--tinta-suave);background:transparent;text-align:right;
+}
+.nav-aulas .em-breve small{display:block;color:var(--tinta-suave);font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.07em}
+
+/* ---------- Grade do espaço amostral de dois dados ---------- */
+.grade-dados{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:3px;
+  margin:.4rem auto 1rem;font-family:var(--sans);max-width:540px;
+}
+.grade-dados>div{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  aspect-ratio:1/1;border-radius:6px;line-height:1.1;
+}
+.gd-canto{background:transparent;color:var(--tinta-suave);font-size:1rem;font-weight:700}
+.gd-cab{font-weight:700;font-size:.95rem;color:#fff}
+.gd-vermelho{background:var(--vinho)}
+.gd-azul{background:var(--azul-claro)}
+.gd-cel{
+  background:var(--papel-alt);border:1px solid var(--borda);
+  transition:background .12s,border-color .12s,transform .12s;
+}
+.gd-cel .gd-soma{font-size:1.05rem;font-weight:700;color:var(--tinta-suave)}
+.gd-cel .gd-par{font-size:.62rem;color:#96a2ad;margin-top:1px}
+.gd-cel.favoravel{
+  background:#fbe9c8;border-color:var(--ambar);transform:scale(1.04);
+}
+.gd-cel.favoravel .gd-soma{color:#8a5f0d}
+.gd-cel.favoravel .gd-par{color:#a8822f}
+@media (max-width:520px){
+  .grade-dados{gap:2px}
+  .gd-cel .gd-soma{font-size:.82rem}
+  .gd-cel .gd-par{font-size:.5rem}
+  .gd-cab{font-size:.8rem}
+}
+
+/* ===================================================================
+   Identidade do LFCA — fonte de display e cores da marca
+   =================================================================== */
+
+/* Audiowide é uma fonte de exibição: só em textos curtos e grandes */
+.marca,
+.heroi h1,
+.chapeu,
+.cartao .numero,
+.destaque .anuncio,
+.widget-cabeca{
+  font-family:var(--display);
+  font-weight:400;
+}
+
+.marca{font-size:.86rem;letter-spacing:0}
+.marca span{font-family:var(--sans);font-weight:400}
+.heroi h1{letter-spacing:.005em;font-size:1.85rem;line-height:1.25}
+.chapeu{color:var(--laranja-texto);letter-spacing:.06em;font-size:.68rem}
+.cartao .numero{color:var(--laranja-texto);letter-spacing:.04em;font-size:.62rem}
+.widget-cabeca{font-size:.76rem;letter-spacing:.01em}
+
+/* anúncio especial: a chamada curta no alto de um bloco de destaque */
+.destaque .anuncio{
+  display:block;color:var(--laranja-texto);
+  font-size:.82rem;letter-spacing:.03em;margin-bottom:.45rem;
+}
+
+/* o laranja da marca como cor de acento */
+.destaque{
+  background:#fff8f2;border-color:#f2c49b;
+}
+.bloco.fisica{border-left-color:var(--laranja);background:#fff7f0}
+.bloco.fisica .rotulo{color:var(--laranja-texto)}
+.cartao:hover{border-color:var(--laranja)}
+.etiqueta{background:#ffeede;color:var(--laranja-texto)}
+.topo{border-bottom:3px solid var(--laranja)}
+.rodape{border-top:3px solid var(--laranja)}
+
+
+@media (max-width:620px){
+  .marca{font-size:.72rem}
+  .heroi h1{font-size:1.4rem}
+}
+
+/* ---------- Triângulo de Pascal ---------- */
+.triangulo{margin:.6rem 0 1rem;overflow-x:auto;padding-bottom:.3rem}
+.tri-linha{display:flex;justify-content:center;align-items:center;gap:3px;margin-bottom:3px}
+.tri-rot{
+  font-family:var(--sans);font-size:.6rem;color:#9aa6b2;
+  width:34px;text-align:right;flex-shrink:0;padding-right:4px;
+}
+.tri-cel{
+  font-family:var(--sans);font-size:.74rem;font-weight:600;
+  min-width:38px;padding:.26rem .3rem;border-radius:5px;
+  background:var(--papel-alt);border:1px solid var(--borda);color:var(--tinta-suave);
+  cursor:pointer;transition:all .12s;
+}
+.tri-cel:hover{border-color:var(--laranja);color:var(--laranja-texto);background:#fff}
+.tri-cel.linha-ativa{background:#eaf1f8;border-color:#b9cfe3;color:var(--azul)}
+.tri-cel.pai{background:#ffe4cc;border-color:var(--laranja);color:var(--laranja-texto)}
+.tri-cel.sel{
+  background:var(--azul);border-color:var(--azul);color:#fff;
+  transform:scale(1.1);box-shadow:0 2px 8px rgba(16,64,58,.3);
+}
+@media (max-width:520px){
+  .tri-cel{min-width:27px;font-size:.6rem;padding:.2rem .18rem}
+  .tri-rot{width:26px;font-size:.52rem}
+  .tri-linha{gap:2px;margin-bottom:2px}
+}
+
+/* tabelas dentro de widgets: sem caixa alta, que estragaria os índices
+   (x_i viraria X_I) */
+.widget-corpo thead th{text-transform:none;letter-spacing:0;font-size:.86rem}
+.widget-corpo table{font-size:.86rem}
+.widget-corpo tbody th{color:var(--azul);font-weight:700}
+
+/* ---------- Tabela de contingência editável ---------- */
+.widget-corpo table input[type=number]{
+  width:64px;text-align:right;padding:.22rem .34rem;font-size:.82rem;
+}
+.widget-corpo table td{text-align:right}
+.widget-corpo table td:has(input){width:1%;white-space:nowrap}
+.widget-corpo table th:first-child{text-align:left;white-space:nowrap}
+
+/* Cabeçalho de unidade no índice */
+h3.unidade{
+  font-family:'Audiowide',var(--fonte);
+  font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--azul);margin:2.4rem 0 .9rem;padding-bottom:.45rem;
+  border-bottom:2px solid var(--azul-pastel)}
+h3.unidade:first-of-type{margin-top:1.2rem}
+
+/* ===================================================================
+   Quadrado termodinâmico (módulo 1)
+   =================================================================== */
+.quadrado{
+  display:grid;grid-template-columns:repeat(3,76px);grid-auto-rows:76px;
+  gap:10px;justify-content:center;margin:.4rem auto 1rem;
+}
+.quadrado>div{
+  display:flex;align-items:center;justify-content:center;
+  border-radius:10px;font-size:1.05rem;line-height:1;
+}
+.quadrado .var{
+  border:1.5px solid var(--borda);background:#fff;color:var(--tinta-suave);
+  transition:background .15s,border-color .15s,color .15s;
+}
+.quadrado .pot{
+  border:1.5px solid var(--azul-claro);background:var(--azul-pastel);
+  color:var(--azul);cursor:pointer;
+  transition:background .15s,box-shadow .15s,border-color .15s;
+}
+.quadrado .pot:hover{background:#fff;box-shadow:0 0 0 2px var(--azul-claro)}
+.quadrado .pot:focus-visible{outline:2px solid var(--azul);outline-offset:2px}
+.quadrado .vazio{border:none;background:transparent}
+.quadrado .aceso{background:var(--azul);border-color:var(--azul);color:#fff}
+.quadrado .aceso mjx-container,.quadrado .aceso svg{color:#fff;fill:currentColor}
+.quadrado .conjugado{border-color:var(--vinho);background:#fdf3f4;color:var(--vinho)}
+
+/* Cartão de módulo ainda não publicado, na página inicial */
+.cartao.em-preparo{
+  opacity:.62;cursor:default;box-shadow:none;
+  border-style:dashed;background:var(--papel-alt);
+}
+.cartao.em-preparo:hover{transform:none;box-shadow:none}
+
+/* Caixa de seleção dentro dos controles de um widget */
+.controles .caixa{
+  display:flex;align-items:center;gap:.45rem;
+  font-family:var(--sans);font-size:.82rem;color:var(--tinta-suave);
+  cursor:pointer;white-space:nowrap;
+}
+.controles .caixa input{width:auto;margin:0;accent-color:var(--azul-claro)}
+
+/* Diagramas em SVG dentro do texto */
+.diagrama-niveis{margin:1.4rem 0;text-align:center}
+.diagrama-niveis svg{width:100%;max-width:660px;height:auto}
+.diagrama-niveis .legenda{
+  font-family:var(--sans);font-size:.8rem;color:var(--tinta-suave);
+  margin:.3rem auto 0;max-width:620px;
+}
+
+/* ===================================================================
+   Enumeração de microestados (módulo 3)
+   =================================================================== */
+.microestados{margin:.9rem 0 .2rem}
+.microestados .legenda{
+  font-family:var(--sans);font-size:.82rem;color:var(--tinta-suave);margin:0 0 .5rem;
+}
+.grade-micro{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,max-content));
+  gap:.45rem;justify-content:start;
+}
+.micro{
+  display:flex;align-items:flex-end;gap:2px;padding:.3rem .4rem;
+  border:1px solid var(--borda);border-radius:6px;background:var(--papel-alt);
+}
+.micro .cx{
+  width:12px;height:12px;border:1.4px solid var(--azul-claro);border-radius:3px;
+  background:#fff;display:inline-block;
+}
+.micro .cx.cheio{background:var(--azul);border-color:var(--azul)}
+.micro .spin{
+  font:700 13px/1 system-ui,sans-serif;color:var(--azul);width:11px;text-align:center;
+}
+.micro .spin.baixo{color:var(--vinho)}
+.micro .osc{
+  display:inline-flex;flex-direction:column-reverse;gap:2px;
+  width:11px;min-height:12px;border-bottom:1.6px solid var(--tinta-suave);
+}
+.micro .osc i{width:7px;height:7px;border-radius:50%;background:var(--azul);margin:0 auto}
+
+/* Citação em destaque e a figura dos passeios aleatórios (capa) */
+.destaque.citacao{
+  font-family:var(--serif);font-size:1.22rem;line-height:1.45;font-style:italic;
+}
+.destaque.citacao .autoria{
+  display:block;margin-top:.7rem;font-family:var(--sans);font-style:normal;
+  font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--tinta-suave);
+}
+.figura-passeio{margin:1.5rem 0 2rem}
+.figura-passeio svg{width:100%;height:auto;display:block}
+.figura-passeio .legenda{
+  font-family:var(--sans);font-size:.84rem;color:var(--tinta-suave);
+  margin:.6rem auto 0;max-width:62ch;line-height:1.55;
+}
+
+/* Figuras do autor em SVG, lado a lado em telas largas */
+.figuras{display:flex;flex-wrap:wrap;gap:1rem;margin:.25rem 0 1rem}
+.figuras figure{flex:1 1 150px;margin:0;min-width:0;max-width:100%}
+.figuras img{width:100%;height:auto;display:block}
+.figuras figcaption{
+  font-size:.82rem;color:var(--tinta-suave);text-align:center;
+  margin-top:.35rem;line-height:1.35}
+@media (max-width:620px){.figuras{gap:1.4rem}.figuras figure{flex:1 1 100%}}
+
+/* Dois painéis lado a lado dentro de um widget, um por tela, que passam
+   a ficar um sobre o outro quando a janela é estreita. */
+.paineis{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;align-items:start}
+.paineis canvas{width:100%;display:block}
+@media (max-width:720px){.paineis{grid-template-columns:1fr}}
+
+
+/* ===== blocos de programa, com realce e botão de copiar ===== */
+.codigo{margin:1.2rem 0;border:1px solid var(--borda);border-radius:var(--raio);
+  background:#0f1b1b;overflow:hidden;box-shadow:var(--sombra)}
+.codigo-barra{display:flex;align-items:center;justify-content:space-between;
+  padding:.35rem .75rem;background:#0b1414;border-bottom:1px solid #1d2f2e}
+.codigo-barra span{font-family:var(--sans);font-size:.72rem;letter-spacing:.12em;
+  text-transform:uppercase;color:#8fb3b1}
+.codigo-barra button{font-family:var(--sans);font-size:.72rem;letter-spacing:.06em;
+  color:#cfe5e3;background:transparent;border:1px solid #2c4745;border-radius:6px;
+  padding:.2rem .6rem;cursor:pointer;transition:background .15s,color .15s}
+.codigo-barra button:hover{background:#1b2f2e;color:#fff}
+.codigo-barra button.feito{background:#1f7a78;border-color:#1f7a78;color:#fff}
+.codigo pre{margin:0;padding:.85rem 1rem;overflow-x:auto;line-height:1.55}
+.codigo code{font-family:var(--mono);font-size:.84rem;line-height:1.55;
+  color:#e3efee;background:none;padding:0;white-space:pre}
+.codigo .pal{color:#7fd1c8;font-weight:600}   /* palavra reservada */
+.codigo .bui{color:#8ab4f8}                    /* função embutida */
+.codigo .str{color:#f0b37e}                    /* texto */
+.codigo .num{color:#d5a6f0}                    /* número */
+.codigo .com{color:#6f8f8d;font-style:italic}  /* comentário */
+.codigo .dec{color:#e8d07a}                    /* decorador e def/class nomeados */
+@media (max-width:720px){.codigo code{font-size:.78rem}}
+
+/* figuras geradas a partir dos programas da aula */
+figure{margin:1.4rem 0;text-align:center}
+figure img{max-width:100%;border:1px solid var(--borda);border-radius:var(--raio);
+  background:#fff}
+figcaption{font-family:var(--sans);font-size:.82rem;color:var(--tinta-suave);
+  margin-top:.5rem}
+p.centro{text-align:center}
+
+/* botão de download da apostila */
+.botao-grande{display:inline-block;background:var(--azul);color:#fff;
+  font-family:var(--sans);font-size:.92rem;letter-spacing:.02em;
+  padding:.7rem 1.3rem;border-radius:var(--raio);text-decoration:none}
+.botao-grande:hover{background:var(--azul-claro);color:#fff}
+
+/* o logotipo do herói é retrato: limitar a altura evita que ele domine a capa */
+.heroi .placa-logo img{max-height:190px;width:auto !important}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apêndices | Da kalimba à viga</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
+<script src="assets/js/comum.js?v=202611091502"></script>
+<script src="assets/js/codigo.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="index.html">Da kalimba à viga <span>· LFCA/URCA</span></a>
+    <nav class="menu">
+      <a href="index.html">Início</a>
+      <span class="grupo">Blocos</span>
+      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="apendices.html" class="ativo">Apêndices</a>
+    </nav>
+  </div>
+</header>
+
+<div class="envoltorio">
+
+<aside class="lateral">
+  <h4>Neste bloco</h4>
+  <ol>
+    <li><a href="#s1">1. A: a equação de onda</a></li>
+    <li><a href="#s2">2. B: Euler-Bernoulli</a></li>
+    <li><a href="#s3">3. C: folha de apoio</a></li>
+    <li><a href="#s4">4. D: preparando o computador</a></li>
+  </ol>
+</aside>
+
+<main class="conteudo">
+
+
+  <h1>Apêndices</h1>
+  <p class="subtitulo">As duas deduções passo a passo, a folha de apoio com tudo em uma página e o preparo do computador.</p>
+  <!-- ============================================== -->
+  <h2 id="s1">1. Apêndice A: dedução da equação de onda (corda)</h2>
+
+  <p>Este apêndice mostra de onde sai a equação de onda. Nada além da segunda lei de Newton e
+  de uma aproximação de ângulo pequeno.</p>
+
+  <p><strong>Hipóteses.</strong> A corda é perfeitamente flexível, isto é, não resiste a ser
+  encurvada; a tração \(T\) é a mesma em todo ponto e não muda durante o movimento; o
+  movimento é pequeno e puramente transversal, de modo que
+  \(\partial u/\partial x\ll1\).</p>
+
+  <p>Tome o pedaço entre \(x\) e \(x+dx\). As forças nas duas pontas são as trações, tangentes
+  à corda, com ângulos \(\theta(x)\) e \(\theta(x+dx)\) em relação à horizontal. A componente
+  horizontal resultante é \(T\cos\theta(x+dx)-T\cos\theta(x)\), que é de segunda ordem em
+  \(\theta\) e se despreza. A vertical é</p>
+
+  <p>\[dF_y=T\sen\theta(x+dx)-T\sen\theta(x)\approx
+  T\left[\pder{u}{x}\bigg|_{x+dx}-\pder{u}{x}\bigg|_{x}\right]
+  =T\,\pder{^2u}{x^2}\,dx,\]</p>
+
+  <p>onde se usou \(\sen\theta\approx\tg\theta=\partial u/\partial x\). A massa do pedaço é
+  \(\mu\,dx\), e a segunda lei dá</p>
+
+  <p>\[\mu\,dx\,\pder{^2u}{t^2}=T\,\pder{^2u}{x^2}\,dx
+  \;\Longrightarrow\;
+  \pder{^2u}{t^2}=\frac{T}{\mu}\pder{^2u}{x^2}.\]</p>
+
+  <p>O \(dx\) se cancela, o que é o sinal de que a equação é local: ela vale em cada ponto, e
+  não depende do tamanho do pedaço escolhido.</p>
+
+  <p><strong>Modos da corda presa nas duas pontas.</strong> Com \(u=U(x)\cos\omega t\), sai
+  \(U''=-\left(\omega/c\right)^2U\), cuja solução é seno e cosseno. A condição \(u(0)=0\)
+  descarta o cosseno, e \(u(L)=0\) exige \(\sen(\omega L/c)=0\), de onde</p>
+
+  <p>\[f_n=\frac{n}{2L}\sqrt{\frac{T}{\mu}},\qquad n=1,2,3,\dots\]</p>
+
+  <p>que é a série harmônica inteira do bloco 1.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. Apêndice B: dedução da equação de Euler-Bernoulli (viga)</h2>
+
+  <p><strong>Hipóteses.</strong> As seções planas permanecem planas e perpendiculares à linha
+  neutra (hipótese de Euler-Bernoulli); a deformação por cisalhamento e a inércia de rotação
+  são desprezadas; o material é elástico linear e as deflexões são pequenas.</p>
+
+  <p><strong>Passo 1: da curvatura ao momento interno.</strong> Quando a barra se encurva com
+  raio \(R\), uma fibra à distância \(y\) da linha neutra estica de
+  \(\varepsilon=y/R\). A tensão nela é \(\sigma=E\varepsilon=Ey/R\), e o momento que todas as
+  fibras exercem sobre a seção é</p>
+
+  <p>\[M=\int_A y\,\sigma\,dA=\frac{E}{R}\int_Ay^2dA=\frac{EI}{R}\approx EI\,\pder{^2w}{x^2},\]</p>
+
+  <p>onde \(I=\int y^2dA\) é o momento de inércia de área, que para seção retangular vale
+  \(bh^3/12\), e usamos \(1/R\approx\partial^2w/\partial x^2\) para curvaturas pequenas.</p>
+
+  <p><strong>Passo 2: equilíbrio do elemento.</strong> Num pedaço \(dx\), o equilíbrio de
+  momentos relaciona a força cortante \(V\) com o momento, \(V=\partial M/\partial x\), e o
+  equilíbrio de forças verticais dá</p>
+
+  <p>\[\rho A\,dx\,\pder{^2w}{t^2}=\pder{V}{x}dx=\pder{^2M}{x^2}dx.\]</p>
+
+  <p><strong>Passo 3: juntar tudo.</strong> Substituindo \(M=EI\,\partial^2w/\partial x^2\)
+  e cancelando \(dx\),</p>
+
+  <p>\[\rho A\,\pder{^2w}{t^2}+EI\,\pder{^4w}{x^4}=0,\]</p>
+
+  <p>com o sinal de mais porque a derivada segunda do momento entra com sinal trocado em
+  relação à curvatura. Cada derivada espacial tem uma origem física: duas vêm da curvatura que
+  gera o momento, e duas do equilíbrio que transforma momento em força.</p>
+
+  <div class="bloco alerta">
+    <span class="rotulo">Onde essa equação falha</span>
+    <p>Em dois casos. Quando a viga é <strong>curta e grossa</strong>, digamos
+    \(L/h\lesssim10\), a deformação por cisalhamento passa a importar. E quando o
+    <strong>modo é alto</strong>: no modo \(n\), o comprimento de onda é da ordem de \(L/n\),
+    e a viga se comporta como uma sequência de trechos curtos. Nesses casos usa-se a teoria de
+    <strong>Timoshenko</strong>, que inclui cisalhamento e inércia de rotação e sempre prevê
+    frequências <em>menores</em> que Euler-Bernoulli. Guarde isso: parte do erro que você verá
+    nos modos altos do bloco 4 é numérica, da malha, mas parte é do próprio modelo.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s3">3. Apêndice C: folha de apoio, tudo em uma página</h2>
+
+  <p><strong>Corda (equação de onda).</strong></p>
+  <p>\[u_{tt}=c^2u_{xx},\quad c=\sqrt{T/\mu},\qquad \omega=ck,
+  \qquad f_n=\frac{n}{2L}\sqrt{\frac{T}{\mu}}.\]</p>
+
+  <p><strong>Viga (Euler-Bernoulli).</strong></p>
+  <p>\[\rho A\,w_{tt}+EI\,w_{xxxx}=0,\qquad \omega=k^2\sqrt{\frac{EI}{\rho A}},
+  \qquad I=\frac{bh^3}{12},\quad A=bh.\]</p>
+
+  <p><strong>Viga engastada-livre.</strong></p>
+  <p>\[\cos\left(\beta L\right)\cosh\left(\beta L\right)+1=0,\qquad
+  f_n=\frac{\left(\beta_nL\right)^2}{2\pi L^2}\,\frac{h}{\sqrt{12}}\sqrt{\frac{E}{\rho}},\]</p>
+  <p>\[\beta_1L=1{,}8751,\quad\beta_2L=4{,}6941,\quad\beta_3L=7{,}8548,
+  \quad\beta_4L=10{,}996.\]</p>
+
+  <p><strong>Problema de autovalores.</strong>
+  \(\Ten{K}\vet{\phi}=\omega^2\Ten{M}\vet{\phi}\), com \(f=\omega/2\pi\).</p>
+
+  <p><strong>Propriedades úteis.</strong></p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Material</th><th>\(E\) [GPa]</th><th>\(\rho\) [kg/m³]</th>
+      <th>\(\sqrt{E/\rho}\) [m/s]</th></tr></thead>
+    <tbody>
+      <tr><td>Aço</td><td>200</td><td>7850</td><td>5050</td></tr>
+      <tr><td>Alumínio</td><td>69</td><td>2700</td><td>5050</td></tr>
+      <tr><td>Latão</td><td>100</td><td>8500</td><td>3430</td></tr>
+      <tr><td>Acrílico (PMMA)</td><td>3,0</td><td>1190</td><td>1590</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p><strong>Razões entre modos.</strong> Corda: 1 : 2 : 3 : 4. Viga engastada-livre:
+  1 : 6,27 : 17,55 : 34,4. Viga livre-livre: 1 : 2,76 : 5,40 : 8,93.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. Apêndice D: preparando o computador</h2>
+
+  <p>O curso usa apenas <code>numpy</code>, <code>scipy</code> e <code>matplotlib</code>, mais
+  <code>IPython.display.Audio</code> para ouvir os sons. Tudo isso já vem na instalação padrão
+  do Anaconda e do Google Colab.</p>
+
+  <p>No laboratório, abra o Spyder e rode esta célula. Se ela imprimir "ambiente OK" e tocar um
+  bipe, está tudo pronto:</p>
+
+<div class="codigo" data-lingua="Python"><pre><code>import sys
+import numpy as np
+import scipy
+import matplotlib
+from scipy.linalg import eigh
+from scipy.optimize import brentq
+
+print("Python     ", sys.version.split()[0])
+print("NumPy      ", np.__version__)
+print("SciPy      ", scipy.__version__)
+print("Matplotlib ", matplotlib.__version__)
+
+# um teste de verdade: o autovalor de uma matriz 2x2 conhecida
+K = np.array([[2.0, -1.0], [-1.0, 2.0]])
+M = np.eye(2)
+lam, _ = eigh(K, M)
+assert np.allclose(lam, [1.0, 3.0]), "algo errado com o SciPy"
+
+print("ambiente OK")
+
+# bipe de 1 segundo em la 440, so para confirmar o som
+from IPython.display import Audio
+fs = 44100
+t = np.arange(0, 1.0, 1/fs)
+Audio(0.3*np.sin(2*np.pi*440*t), rate=fs, autoplay=True)</code></pre></div>
+
+  <p>Se estiver no Colab, não é preciso instalar nada. Se estiver numa instalação enxuta do
+  Python, o comando é</p>
+
+<div class="codigo" data-lingua="terminal"><pre><code>pip install numpy scipy matplotlib ipython</code></pre></div>
+
+  <div class="bloco alerta">
+    <span class="rotulo">Cuidado</span>
+    <p>No Spyder, gráficos aparecem por padrão no painel lateral, pequenos. Para abri-los em
+    janela, vá em Ferramentas, Preferências, Console do IPython, Gráficos, e troque a saída de
+    "Inline" para "Automático". Para ouvir som no Spyder, use <code>sounddevice</code> em vez
+    do <code>Audio</code> do IPython, que só funciona em notebook.</p>
+  </div>
+
+
+  <nav class="nav-aulas">
+    <a href="bloco5.html"><small>Anterior</small>← Bloco 5: para onde isso vai</a>
+  </nav>
+
+</main>
+</div>
+
+<footer class="rodape">
+  <img class="logo-rodape" src="assets/img/logo-lfca.png" alt="LFCA | URCA">
+  <p><strong>Prof. Apiano Morais</strong> · <a href="mailto:apiano.morais@urca.br">apiano.morais@urca.br</a><br>
+  Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
+</footer>
+
+<script src="assets/js/widgets.js?v=202611091502"></script>
+</body>
+</html>

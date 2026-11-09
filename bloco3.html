@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloco 3: o método dos elementos finitos | Da kalimba à viga</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
+<script src="assets/js/comum.js?v=202611091502"></script>
+<script src="assets/js/codigo.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="index.html">Da kalimba à viga <span>· LFCA/URCA</span></a>
+    <nav class="menu">
+      <a href="index.html">Início</a>
+      <span class="grupo">Blocos</span>
+      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
+      <a href="bloco3.html" class="num ativo" title="Bloco 3: o método dos elementos finitos">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="apendices.html">Apêndices</a>
+    </nav>
+  </div>
+</header>
+
+<div class="envoltorio">
+
+<aside class="lateral">
+  <h4>Neste bloco</h4>
+  <ol>
+    <li><a href="#s1">1. Por que precisamos dele</a></li>
+    <li><a href="#s2">2. Forma fraca</a></li>
+    <li><a href="#s3">3. O elemento de viga</a></li>
+    <li><a href="#s4">4. Montagem e autovalores</a></li>
+  </ol>
+</aside>
+
+<main class="conteudo">
+
+  <p class="chapeu">Bloco 3 · 45 minutos</p>
+  <h1>Bloco 3: o método dos elementos finitos</h1>
+  <p class="subtitulo">A fórmula do bloco anterior é exata e frágil. O MEF é a saída geral, e a ideia dele cabe em quatro passos.</p>
+  <!-- ============================================== -->
+  <h2 id="s1">1. Por que precisamos dele</h2>
+
+  <p>A fórmula do bloco 2 é ótima e frágil. Ela vale para uma viga uniforme, reta e com
+  condições de contorno simples. Basta</p>
+
+  <ul>
+    <li>variar a seção ao longo do comprimento, como na marimba;</li>
+    <li>furar a peça;</li>
+    <li>juntar duas barras de materiais diferentes;</li>
+    <li>trocar a viga por uma placa,</li>
+  </ul>
+
+  <p>e não existe mais fórmula fechada. O <strong>método dos elementos finitos</strong> é a
+  saída geral, e é o que roda por trás de qualquer software de simulação estrutural.</p>
+
+  <div class="bloco def">
+    <span class="rotulo">A ideia em uma frase</span>
+    <p>O MEF troca "achar a função \(W(x)\) que resolve a equação" por "achar alguns números
+    que descrevem \(W\) em pedaços". O problema diferencial vira um problema de álgebra
+    linear.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. Forma fraca</h2>
+
+  <p>Multiplique a equação de Euler-Bernoulli por uma função-peso \(v(x)\), que se anula onde
+  a viga é engastada, e integre no comprimento. Integrando por partes <em>duas vezes</em> o
+  termo de quarta ordem:</p>
+
+  <div class="destaque">
+    <span class="anuncio">Forma fraca</span>
+    \[\underbrace{\int_0^LEI\,v^{\prime\prime}W^{\prime\prime}\,dx}_{\text{rigidez}}
+    \;-\;\omega^2\underbrace{\int_0^L\rho A\,v\,W\,dx}_{\text{massa}}\;=\;0.\]
+  </div>
+
+  <p>Duas vantagens aparecem de graça. Sobraram apenas derivadas segundas, de modo que a
+  função aproximada não precisa mais ter quatro derivadas, só duas. E as condições de contorno
+  de força e momento já estão embutidas: elas saem dos termos de fronteira da integração por
+  partes, que se anulam na ponta livre.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s3">3. O elemento de viga</h2>
+
+  <p>Divida a viga em \(n_e\) pedaços de comprimento \(\ell\). Em cada pedaço, descrevemos
+  \(W(x)\) por quatro números: o deslocamento e a rotação em cada um dos dois nós,</p>
+
+  <p>\[\vet{u}_e=\left\{w_1,\ \theta_1,\ w_2,\ \theta_2\right\}^{\mathsf T}.\]</p>
+
+  <p>Dentro do elemento, interpolamos com quatro polinômios cúbicos, as <strong>funções de
+  forma de Hermite</strong> \(N_i(x)\), tais que \(W(x)=\sum_iN_i(x)u_{e,i}\). Cada \(N_i\)
+  vale 1 no grau de liberdade correspondente e 0 nos outros três. Por que cúbicas? Porque
+  quatro coeficientes é o que quatro números determinam, e porque a forma fraca exige
+  derivada segunda, que uma cúbica tem de sobra.</p>
+
+  <p>Levando a interpolação para a forma fraca, as integrais saem analiticamente e produzem
+  duas matrizes \(4\cruz4\):</p>
+
+  <div class="destaque">
+    <span class="anuncio">Matrizes do elemento de viga</span>
+    \[\Ten{K}_e=\frac{EI}{\ell^3}\begin{pmatrix}
+    12&6\ell&-12&6\ell\\
+    6\ell&4\ell^2&-6\ell&2\ell^2\\
+    -12&-6\ell&12&-6\ell\\
+    6\ell&2\ell^2&-6\ell&4\ell^2\end{pmatrix},
+    \qquad
+    \Ten{M}_e=\frac{\rho A\ell}{420}\begin{pmatrix}
+    156&22\ell&54&-13\ell\\
+    22\ell&4\ell^2&13\ell&-3\ell^2\\
+    54&13\ell&156&-22\ell\\
+    -13\ell&-3\ell^2&-22\ell&4\ell^2\end{pmatrix}\]
+  </div>
+
+  <p>Não é preciso decorá-las: elas estão na folha de apoio e no notebook. Vale, isso sim,
+  conferir duas coisas. As duas são simétricas, como a aula de pequenas oscilações manda. E a
+  soma dos termos de massa associados a deslocamento, \(156+54+54+156\) dividido por 420, dá
+  exatamente 1: a matriz de massa conserva a massa total do elemento.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. Montagem, contorno e autovalores</h2>
+
+  <ol>
+    <li><strong>Montagem.</strong> Some cada \(\Ten{K}_e\) e \(\Ten{M}_e\) nas posições
+    correspondentes das matrizes globais. Nós compartilhados por dois elementos recebem
+    contribuição dos dois, e é isso que costura os pedaços;</li>
+    <li><strong>Contorno.</strong> O engaste em \(x=0\) significa \(w_1=\theta_1=0\): basta
+    eliminar as duas primeiras linhas e colunas;</li>
+    <li><strong>Autovalores.</strong> Procurando \(\vet{u}=\vet{\phi}\cos\omega t\),
+    chega-se a</li>
+  </ol>
+
+  <div class="destaque">
+    <span class="anuncio">O problema de autovalores</span>
+    \[\Ten{K}\,\vet{\phi}=\omega^2\,\Ten{M}\,\vet{\phi}.\]
+  </div>
+
+  <p>Cada autovalor \(\omega_n^2\) é uma frequência natural, e cada autovetor \(\vet{\phi}_n\)
+  é a forma do modo.</p>
+
+  <div class="bloco def">
+    <span class="rotulo">A ideia em uma frase</span>
+    <p>Essa equação é o velho \(k=\omega^2m\) do sistema massa-mola, escrito para muitos graus
+    de liberdade ao mesmo tempo. Com um grau de liberdade, ela se reduz literalmente a
+    isso.</p>
+  </div>
+
+
+  <nav class="nav-aulas">
+    <a href="bloco2.html"><small>Anterior</small>← Bloco 2: a viga engastada</a>
+    <a class="prox" href="bloco4.html"><small>Próximo</small>Bloco 4: mão na massa →</a>
+  </nav>
+
+</main>
+</div>
+
+<footer class="rodape">
+  <img class="logo-rodape" src="assets/img/logo-lfca.png" alt="LFCA | URCA">
+  <p><strong>Prof. Apiano Morais</strong> · <a href="mailto:apiano.morais@urca.br">apiano.morais@urca.br</a><br>
+  Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
+</footer>
+
+<script src="assets/js/widgets.js?v=202611091502"></script>
+</body>
+</html>

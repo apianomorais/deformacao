@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloco 1: duas equações | Da kalimba à viga</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
+<script src="assets/js/comum.js?v=202611091502"></script>
+<script src="assets/js/codigo.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="index.html">Da kalimba à viga <span>· LFCA/URCA</span></a>
+    <nav class="menu">
+      <a href="index.html">Início</a>
+      <span class="grupo">Blocos</span>
+      <a href="bloco1.html" class="num ativo" title="Bloco 1: duas equações">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="apendices.html">Apêndices</a>
+    </nav>
+  </div>
+</header>
+
+<div class="envoltorio">
+
+<aside class="lateral">
+  <h4>Neste bloco</h4>
+  <ol>
+    <li><a href="#s1">1. As duas equações</a></li>
+    <li><a href="#s2">2. Relação de dispersão</a></li>
+    <li><a href="#s3">3. Corda e barra, lado a lado</a></li>
+    <li><a href="#s4">4. No computador</a></li>
+  </ol>
+</aside>
+
+<main class="conteudo">
+
+  <p class="chapeu">Bloco 1 · 40 minutos</p>
+  <h1>Bloco 1: duas equações</h1>
+  <p class="subtitulo">Corda e barra obedecem a equações diferentes, e é dessa diferença que vêm o timbre, a lei de escala e tudo o mais que o minicurso vai usar.</p>
+  <!-- ============================================== -->
+  <h2 id="s1">1. As duas equações</h2>
+
+  <p>Numa corda de densidade linear \(\mu\) esticada por uma tração \(T\), um pedacinho de
+  comprimento \(dx\) sente uma força vertical resultante proporcional à <strong>curvatura</strong>
+  da corda. A segunda lei de Newton dá</p>
+
+  <div class="destaque">
+    <span class="anuncio">Equação de onda clássica</span>
+    \[\mu\,\pder{^2u}{t^2}=T\,\pder{^2u}{x^2}
+    \qquad\Longleftrightarrow\qquad
+    \pder{^2u}{t^2}=c^2\,\pder{^2u}{x^2},\qquad c=\sqrt{\frac{T}{\mu}}.\]
+  </div>
+
+  <p>Segunda ordem no tempo e <em>segunda ordem no espaço</em>. A constante \(c\) tem unidade
+  de velocidade. A dedução completa, passo a passo, está no
+  <a href="apendices.html#s1">apêndice A</a>.</p>
+
+  <p>Numa barra não há tração: o que resiste ao movimento é a <strong>rigidez à flexão</strong>.
+  Quando a barra dobra, as fibras de um lado esticam e as do outro encurtam, e isso gera um
+  momento interno</p>
+
+  <p>\[M=EI\,\pder{^2w}{x^2},\]</p>
+
+  <p>com \(E\) o módulo de elasticidade do material e \(I=bh^3/12\) o momento de inércia da
+  seção. O balanço de forças num pedacinho leva a</p>
+
+  <div class="destaque">
+    <span class="anuncio">Equação de Euler-Bernoulli</span>
+    \[\rho A\,\pder{^2w}{t^2}+EI\,\pder{^4w}{x^4}=0.\]
+  </div>
+
+  <p>Agora a derivada espacial é de <strong>quarta ordem</strong>, e é essa diferença que
+  explica tudo o que vem a seguir. A dedução está no
+  <a href="apendices.html#s2">apêndice B</a>.</p>
+
+  <div class="bloco def">
+    <span class="rotulo">A ideia em uma frase</span>
+    <p>Na corda, a força restauradora vem da <em>inclinação</em> da corda esticada; na barra,
+    vem da <em>curvatura</em> do material. Derivar duas vezes a mais é o preço de usar rigidez
+    em vez de tração.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. Relação de dispersão: a diferença que se ouve</h2>
+
+  <p>Teste uma onda viajante \(e^{\,i(kx-\omega t)}\) nas duas equações, com
+  \(k=2\pi/\lambda\) o número de onda. Substituindo:</p>
+
+  <p>\[\begin{aligned}
+  \text{corda:}\quad &-\omega^2=-c^2k^2 &&\Longrightarrow&&\quad \omega=c\,k\\[4pt]
+  \text{barra:}\quad &-\rho A\,\omega^2+EI\,k^4=0 &&\Longrightarrow&&\quad
+  \omega=k^2\sqrt{\frac{EI}{\rho A}}
+  \end{aligned}\]</p>
+
+  <p>Na corda, \(\omega\) é proporcional a \(k\): todas as ondas viajam com a mesma velocidade
+  \(c\), qualquer que seja o comprimento de onda. Diz-se que a corda é <strong>não
+  dispersiva</strong>. Na barra, \(\omega\) cresce com \(k^2\): ondas curtas viajam
+  <em>mais rápido</em> que ondas longas, e um pulso se desmancha enquanto caminha. A barra é
+  <strong>dispersiva</strong>.</p>
+
+  <p>Dessa única diferença saem as duas consequências do curso. Num objeto de comprimento
+  \(L\), os modos têm \(k\sim n\pi/L\), de onde</p>
+
+  <p>\[\text{corda:}\ f_n\propto\frac{n}{L},
+  \qquad\qquad
+  \text{barra:}\ f_n\propto\frac{n^2}{L^2}\ \text{(aproximadamente)},\]</p>
+
+  <p>que são exatamente as leis ouvidas na demonstração da página inicial. E, o que é mais
+  audível, os sobretons deixam de ser múltiplos inteiros.</p>
+
+  <div data-widget="cordabarra"></div>
+
+  <div class="bloco def">
+    <span class="rotulo">A ideia em uma frase</span>
+    <p>As consonâncias musicais existem porque a corda é não dispersiva. Um instrumento de
+    barras, como a kalimba ou o metalofone, produz sobretons que não são múltiplos inteiros,
+    e daí o timbre metálico.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s3">3. Corda e barra, lado a lado</h2>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th></th><th>Corda</th><th>Barra (viga)</th></tr></thead>
+    <tbody>
+      <tr><td>Equação</td><td>\(u_{tt}=c^2u_{xx}\)</td>
+        <td>\(\rho A\,w_{tt}+EI\,w_{xxxx}=0\)</td></tr>
+      <tr><td>Ordem no espaço</td><td>2</td><td>4</td></tr>
+      <tr><td>Restauração vem de</td><td>tração</td><td>rigidez à flexão</td></tr>
+      <tr><td>Dispersão</td><td>\(\omega=ck\), não dispersiva</td>
+        <td>\(\omega\propto k^2\), dispersiva</td></tr>
+      <tr><td>Efeito do comprimento</td><td>\(f\propto1/L\)</td><td>\(f\propto1/L^2\)</td></tr>
+      <tr><td>Sobretons (engastada-livre)</td><td>1 : 2 : 3 : 4</td>
+        <td>1 : 6,27 : 17,55 : 34,4</td></tr>
+      <tr><td>Sobretons (livre-livre)</td><td>1 : 2 : 3 : 4</td>
+        <td>1 : 2,76 : 5,40 : 8,93</td></tr>
+      <tr><td>Som</td><td>afinado</td><td>metálico, ping</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Construtores de marimba resolvem a inarmonicidade no braço: o rebaixo em arco na face
+  inferior da barra abaixa seletivamente o segundo modo, de 2,76 para 4 vezes o fundamental,
+  tornando o som mais afinado. Um sino, que é ainda mais complexo, não tem altura bem
+  definida, e é por isso que a sua nota é objeto de discussão entre campanólogos.</p>
+
+  <div class="bloco alerta">
+    <span class="rotulo">Cuidado</span>
+    <p>Afinadores de celular tentam encaixar o som numa nota musical e se confundem com
+    sobretons inarmônicos. Para a kalimba, use um aplicativo de <em>analisador de
+    espectro</em> (FFT), não um afinador.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. No computador: sintetizar e medir</h2>
+
+  <div class="bloco ex">
+    <span class="rotulo">Sua vez (no computador)</span>
+    <p><strong>Notebook 1.</strong> Você vai sintetizar duas notas somando modos, uma com
+    razões harmônicas e outra com as razões da barra, ouvir a diferença, e depois gravar a
+    kalimba e a corda com o celular para olhar o espectro de cada uma.</p>
+  </div>
+
+  <p>O núcleo da síntese é este, e ele cabe em quinze linhas:</p>
+
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+from IPython.display import Audio
+
+fs = 44100                        # taxa de amostragem [Hz]
+t  = np.arange(0, 2.0, 1/fs)      # 2 segundos
+f1 = 440.0                        # fundamental [Hz]
+
+razoes_corda = np.array([1, 2, 3, 4, 5])
+razoes_barra = np.array([1, 6.267, 17.55, 34.39])   # viga engastada-livre
+
+def sintetiza(f1, razoes, decaimento=3.0):
+    """Soma senos nas razoes dadas, com os modos altos mais fracos."""
+    som = np.zeros_like(t)
+    for i, r in enumerate(razoes):
+        amp = 1.0 / (i + 1)
+        som += amp * np.sin(2*np.pi*f1*r*t) * np.exp(-decaimento*t)
+    return som / np.max(np.abs(som))
+
+Audio(sintetiza(f1, razoes_corda), rate=fs)    # a "corda"</code></pre></div>
+
+  <p>Trocar <code>razoes_corda</code> por <code>razoes_barra</code> é a única diferença entre
+  os dois sons, e a diferença é imediata no ouvido. Vale experimentar também o decaimento:
+  numa kalimba real os modos altos somem bem mais depressa que o fundamental, e incluir isso
+  deixa a síntese mais convincente.</p>
+
+  <p>Para olhar o espectro de uma gravação, a receita é a transformada rápida de Fourier:</p>
+
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+import matplotlib.pyplot as plt
+from scipy.io import wavfile
+
+fs, dados = wavfile.read("kalimba.wav")
+if dados.ndim &gt; 1:
+    dados = dados[:, 0]                 # fica com um canal so
+dados = dados / np.max(np.abs(dados))
+
+espectro = np.abs(np.fft.rfft(dados))
+freqs = np.fft.rfftfreq(len(dados), 1/fs)
+
+plt.figure(figsize=(9, 4))
+plt.plot(freqs, espectro)
+plt.xlim(0, 5000)
+plt.xlabel("frequencia [Hz]")
+plt.ylabel("amplitude")
+plt.title("Espectro medido")
+plt.tight_layout()
+plt.show()
+
+# os picos, em ordem de altura
+picos = np.argsort(espectro)[::-1][:400]
+picos = freqs[picos]
+print(sorted(picos[:12].round(1)))</code></pre></div>
+
+  <div class="bloco alerta">
+    <span class="rotulo">Cuidado</span>
+    <p>A resolução em frequência de uma FFT é \(f_s/N\), isto é, o inverso da duração do
+    trecho gravado. Um trecho de meio segundo dá resolução de 2 Hz, o que é suficiente aqui;
+    um trecho de 50 ms daria 20 Hz, e os picos sairiam borrados. Grave pelo menos um segundo
+    e não corte o decaimento.</p>
+  </div>
+
+
+  <nav class="nav-aulas">
+    <a href="index.html"><small>Anterior</small>← Da kalimba à viga</a>
+    <a class="prox" href="bloco2.html"><small>Próximo</small>Bloco 2: a viga engastada →</a>
+  </nav>
+
+</main>
+</div>
+
+<footer class="rodape">
+  <img class="logo-rodape" src="assets/img/logo-lfca.png" alt="LFCA | URCA">
+  <p><strong>Prof. Apiano Morais</strong> · <a href="mailto:apiano.morais@urca.br">apiano.morais@urca.br</a><br>
+  Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
+</footer>
+
+<script src="assets/js/widgets.js?v=202611091502"></script>
+</body>
+</html>

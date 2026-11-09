@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloco 4: mão na massa | Da kalimba à viga</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
+<script src="assets/js/comum.js?v=202611091502"></script>
+<script src="assets/js/codigo.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="index.html">Da kalimba à viga <span>· LFCA/URCA</span></a>
+    <nav class="menu">
+      <a href="index.html">Início</a>
+      <span class="grupo">Blocos</span>
+      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
+      <a href="bloco4.html" class="num ativo" title="Bloco 4: mão na massa">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="apendices.html">Apêndices</a>
+    </nav>
+  </div>
+</header>
+
+<div class="envoltorio">
+
+<aside class="lateral">
+  <h4>Neste bloco</h4>
+  <ol>
+    <li><a href="#s1">1. Etapa 1: montagem</a></li>
+    <li><a href="#s2">2. Etapa 2: contorno e solução</a></li>
+    <li><a href="#s3">3. Etapa 3: verificação</a></li>
+    <li><a href="#s4">4. Etapa 4: convergência</a></li>
+  </ol>
+</aside>
+
+<main class="conteudo">
+
+  <p class="chapeu">Bloco 4 · 50 minutos</p>
+  <h1>Bloco 4: mão na massa</h1>
+  <p class="subtitulo">Agora é com você: montar as matrizes, impor o engaste, resolver o problema de autovalores e conferir contra a solução analítica.</p>
+  <!-- ============================================== -->
+  <h2 id="s1">1. Etapa 1: montagem</h2>
+
+  <div class="bloco ex">
+    <span class="rotulo">Sua vez (no computador)</span>
+    <p><strong>Notebook 3.</strong> Em quatro etapas, você vai escrever o seu próprio código
+    de elementos finitos e validá-lo contra a solução analítica do bloco 2.</p>
+  </div>
+
+  <p>A primeira etapa é escrever as duas matrizes do elemento e somá-las nas posições certas
+  da matriz global. O único ponto onde se erra é a lista de graus de liberdade: o elemento
+  \(e\) ocupa as posições \(2e\), \(2e+1\), \(2e+2\) e \(2e+3\), e os dois do meio são
+  compartilhados com o elemento vizinho.</p>
+
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+
+def matrizes_elemento(EI, rhoA, l):
+    """Matrizes de rigidez e de massa de um elemento de viga de Hermite."""
+    K = EI/l**3 * np.array([
+        [ 12,    6*l,   -12,    6*l  ],
+        [ 6*l,   4*l*l, -6*l,   2*l*l],
+        [-12,   -6*l,    12,   -6*l  ],
+        [ 6*l,   2*l*l, -6*l,   4*l*l]])
+    M = rhoA*l/420 * np.array([
+        [156,   22*l,   54,   -13*l  ],
+        [22*l,   4*l*l, 13*l,  -3*l*l],
+        [54,    13*l,  156,   -22*l  ],
+        [-13*l, -3*l*l,-22*l,   4*l*l]])
+    return K, M
+
+
+def monta(ne, L, EI, rhoA):
+    """Monta K e M globais de uma viga dividida em ne elementos iguais."""
+    l = L / ne
+    n = 2 * (ne + 1)                      # 2 graus de liberdade por no
+    K = np.zeros((n, n))
+    M = np.zeros((n, n))
+    for e in range(ne):
+        Ke, Me = matrizes_elemento(EI, rhoA, l)
+        gdl = [2*e, 2*e + 1, 2*e + 2, 2*e + 3]
+        K[np.ix_(gdl, gdl)] += Ke
+        M[np.ix_(gdl, gdl)] += Me
+    return K, M</code></pre></div>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. Etapa 2: contorno e solução</h2>
+
+  <p>O engaste é a parte mais simples do código e a mais fácil de esquecer: sem ele, o
+  problema tem dois autovalores nulos, correspondentes a transladar e girar a viga inteira
+  como corpo rígido, e as frequências saem todas erradas.</p>
+
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+from scipy.linalg import eigh
+
+# lamela de aco: 40 mm livres, 1 mm de espessura, 10 mm de largura
+L, h, b = 0.040, 0.001, 0.010
+E, rho = 200e9, 7850
+I, A = b*h**3/12, b*h
+EI, rhoA = E*I, rho*A
+
+ne = 10
+K, M = monta(ne, L, EI, rhoA)
+
+# engaste em x = 0: elimina w_1 e theta_1, que sao os dois primeiros graus
+Kc, Mc = K[2:, 2:], M[2:, 2:]
+
+lam, vec = eigh(Kc, Mc)               # resolve K phi = lambda M phi
+f = np.sqrt(lam) / (2*np.pi)          # frequencias em Hz
+print(np.round(f[:3], 2))             # [ 509.61 3193.8  8944.7 ]</code></pre></div>
+
+  <p>A função <code>eigh</code> do SciPy resolve o problema generalizado diretamente, sem que
+  seja preciso inverter \(\Ten{M}\). Ela exige que as duas matrizes sejam simétricas e que
+  \(\Ten{M}\) seja definida positiva, o que é o caso depois de imposto o engaste.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s3">3. Etapa 3: verificação</h2>
+
+  <p>Validar é comparar com o que já se sabe. Compare \(f_1\), \(f_2\) e \(f_3\) com a fórmula
+  do bloco 2 e plote os modos numéricos por cima dos analíticos.</p>
+
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+
+BL = np.array([1.8751041, 4.6940911, 7.8547574])
+exato = BL**2 / (2*np.pi*L**2) * np.sqrt(EI/rhoA)
+
+for ne in (2, 10, 50):
+    K, M = monta(ne, L, EI, rhoA)
+    lam, _ = eigh(K[2:, 2:], M[2:, 2:])
+    f = np.sqrt(lam[:3]) / (2*np.pi)
+    erro = 100 * (f - exato) / exato
+    print(f"ne={ne:3d}  f={np.round(f,1)}  erro={np.round(erro,3)} %")</code></pre></div>
+
+  <p>A tabela que sai é esta, e é ela que a próxima seção explica:</p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th></th><th>\(f_1\) [Hz]</th><th>\(f_2\) [Hz]</th><th>\(f_3\) [Hz]</th></tr></thead>
+    <tbody>
+      <tr><td>Analítico</td><td>509,61</td><td>3193,69</td><td>8942,42</td></tr>
+      <tr><td>MEF, 2 elementos</td><td>509,86</td><td>3220,79</td><td>10893,30</td></tr>
+      <tr><td>MEF, 10 elementos</td><td>509,61</td><td>3193,80</td><td>8944,70</td></tr>
+      <tr><td>MEF, 50 elementos</td><td>509,61</td><td>3193,69</td><td>8942,45</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. Etapa 4: convergência</h2>
+
+  <p>Com apenas dois elementos, \(f_1\) já sai com erro de 0,05 %, e \(f_3\) erra 22 %. Por
+  quê? Porque cada elemento só consegue representar uma cúbica, e o terceiro modo tem muito
+  mais curvatura que o primeiro: não cabe em duas cúbicas emendadas.</p>
+
+  <div data-widget="convergenciamef"></div>
+
+  <p>Note que as frequências do MEF são sempre <em>maiores</em> que as exatas. Isso não é
+  coincidência: restringir a solução a um conjunto de funções é o mesmo que acrescentar
+  rigidez ao sistema, e um sistema mais rígido vibra mais depressa. Essa propriedade, que vale
+  sempre, é uma das maneiras de saber se o código está certo.</p>
+
+  <div class="bloco def">
+    <span class="rotulo">A ideia em uma frase</span>
+    <p>Quanto mais alto o modo, mais malha ele exige. É a mesma razão pela qual, numa peça
+    furada, a malha precisa ser refinada em volta dos furos: ali a solução tem mais
+    curvatura.</p>
+  </div>
+
+  <div class="bloco ex">
+    <span class="rotulo">Se sobrar tempo</span>
+    <ol>
+      <li>Coloque uma massa concentrada na ponta, somando \(m\) na posição do deslocamento do
+      último nó de \(\Ten{M}\), e veja a frequência cair;</li>
+      <li>Use a condição livre-livre, sem eliminar linha nenhuma, e confirme que aparecem dois
+      autovalores nulos e que as razões dos demais são 1 : 2,76 : 5,40;</li>
+      <li>Varie a seção ao longo do comprimento, dando um \(I\) diferente a cada elemento,
+      algo que a fórmula analítica não consegue fazer. É assim que se projeta o rebaixo de uma
+      lâmina de marimba.</li>
+    </ol>
+  </div>
+
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+import matplotlib.pyplot as plt
+
+nes = np.arange(1, 25)
+erros = []
+for ne in nes:
+    K, M = monta(ne, L, EI, rhoA)
+    lam, _ = eigh(K[2:, 2:], M[2:, 2:])
+    f = np.sqrt(lam) / (2*np.pi)
+    erros.append([abs(f[i] - exato[i])/exato[i] if i &lt; len(f) else np.nan
+                  for i in range(3)])
+erros = np.array(erros)
+
+plt.figure(figsize=(8, 5))
+for i in range(3):
+    plt.loglog(nes, erros[:, i], "o-", label=f"modo {i+1}")
+plt.axhline(0.01, color="0.7", ls="--")
+plt.text(1.1, 0.012, "1 %", color="0.4")
+plt.xlabel("numero de elementos"); plt.ylabel("erro relativo")
+plt.legend(); plt.grid(True, which="both", alpha=0.3)
+plt.tight_layout(); plt.show()</code></pre></div>
+
+
+  <nav class="nav-aulas">
+    <a href="bloco3.html"><small>Anterior</small>← Bloco 3: o método dos elementos finitos</a>
+    <a class="prox" href="bloco5.html"><small>Próximo</small>Bloco 5: para onde isso vai →</a>
+  </nav>
+
+</main>
+</div>
+
+<footer class="rodape">
+  <img class="logo-rodape" src="assets/img/logo-lfca.png" alt="LFCA | URCA">
+  <p><strong>Prof. Apiano Morais</strong> · <a href="mailto:apiano.morais@urca.br">apiano.morais@urca.br</a><br>
+  Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
+</footer>
+
+<script src="assets/js/widgets.js?v=202611091502"></script>
+</body>
+</html>

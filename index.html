@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Da kalimba à viga | Da kalimba à viga</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
+<script src="assets/js/comum.js?v=202611091502"></script>
+<script src="assets/js/codigo.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="index.html">Da kalimba à viga <span>· LFCA/URCA</span></a>
+    <nav class="menu">
+      <a href="index.html" class="ativo">Início</a>
+      <span class="grupo">Blocos</span>
+      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="apendices.html">Apêndices</a>
+    </nav>
+  </div>
+</header>
+
+<div class="envoltorio">
+
+<main class="conteudo">
+
+
+
+
+  <div class="heroi">
+    <span class="placa-logo">
+      <img src="assets/img/logo-lfca.png" alt="LFCA | URCA" style="width: 80%; height: auto;">
+    </span>
+    <h1>Da kalimba à viga</h1>
+    <p>Vibração, frequências naturais e elementos finitos em Python</p>
+    <p class="meta">
+      Minicurso · XI Semana Universitária da URCA e XXIX Semana de Iniciação Científica<br>
+      23 e 24 de novembro de 2026 · Laboratório de Informática Multiusuário 2<br>
+      Prof. Apiano Morais · apiano.morais@urca.br
+    </p>
+  </div>
+
+  <div class="bloco def">
+    <span class="rotulo">De relance</span>
+    <ul>
+      <li><strong>Carga horária:</strong> 4 horas, em dois dias</li>
+      <li><strong>Vagas:</strong> 10</li>
+      <li><strong>Pré-requisitos:</strong> Python básico (variáveis, laços, funções,
+      arrays do NumPy) e mecânica clássica (segunda lei de Newton, oscilador harmônico)</li>
+      <li><strong>Leve:</strong> curiosidade e, se tiver, fone de ouvido</li>
+      <li><strong>Inscrições:</strong>
+      <a href="https://www.even3.com.br/semanauniversitariaeicdaurca-770242">even3.com.br/semanauniversitariaeicdaurca</a></li>
+    </ul>
+  </div>
+
+  <h2 id="pergunta">A pergunta de partida</h2>
+
+  <p>Uma kalimba e um violão têm algo em comum: nos dois, alguma coisa vibra e produz som.
+  O som, porém, é bem diferente. A corda soa cheia e afinada. A lamela da kalimba soa
+  brilhante, metálica, com um ping que não se encaixa tão bem numa nota.</p>
+
+  <p>Isso não é questão de material nem de tamanho. É porque <strong>uma corda e uma barra
+  obedecem a equações diferentes</strong>. Descobrir qual é a diferença, e o que ela
+  provoca, é o assunto das próximas quatro horas.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Demonstração na sala</span>
+    <p><strong>Experimento 1, a corda.</strong> No braço de violão, toque a corda solta.
+    Depois pressione no 12.º traste, que divide o comprimento ao meio, e toque de novo. A
+    nota sobe <strong>uma oitava</strong>: a frequência dobra.</p>
+    <p><strong>Experimento 2, a barra.</strong> Na kalimba, empurre uma lamela para dentro
+    até que o comprimento livre caia pela metade. A nota sobe <strong>duas oitavas</strong>:
+    a frequência fica quatro vezes maior.</p>
+    <p>Mesma redução de comprimento, efeitos diferentes. Faça a sua previsão antes de
+    ouvir.</p>
+  </div>
+
+  <p>Esses dois experimentos já dão as duas leis de escala, e o curso inteiro é a explicação
+  delas:</p>
+
+  <div class="destaque">
+    <span class="anuncio">As duas leis</span>
+    \[\text{corda:}\quad f\propto\frac{1}{L},
+    \qquad\qquad
+    \text{barra:}\quad f\propto\frac{1}{L^2}.\]
+  </div>
+
+  <div class="bloco alerta">
+    <span class="rotulo">Um aviso histórico</span>
+    <p>Conta-se que Pitágoras teria descoberto as razões musicais ouvindo martelos numa
+    ferraria. A história é bonita e está errada: a base experimental da teoria musical grega
+    é o monocórdio, isto é, uma <em>corda</em>. O relato dos martelos, além de muito
+    posterior, é fisicamente falso. Como veremos, se as consonâncias dependessem de barras,
+    a música ocidental teria saído bem diferente.</p>
+  </div>
+
+  <hr class="linha">
+
+  <h2 id="programacao">A programação</h2>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Bloco</th><th>Assunto</th><th>Tempo</th></tr></thead>
+    <tbody>
+      <tr><td>0</td><td>Abertura e ambiente</td><td>15 min</td></tr>
+      <tr><td><a href="bloco1.html">1</a></td>
+        <td>Corda contra barra: de onde vem a diferença</td><td>40 min</td></tr>
+      <tr><td><a href="bloco2.html">2</a></td>
+        <td>A viga engastada: solução analítica</td><td>35 min</td></tr>
+      <tr><td>—</td><td>Intervalo</td><td>15 min</td></tr>
+      <tr><td><a href="bloco3.html">3</a></td>
+        <td>Método dos elementos finitos: a ideia</td><td>45 min</td></tr>
+      <tr><td><a href="bloco4.html">4</a></td>
+        <td>Mão na massa: implementar o MEF</td><td>50 min</td></tr>
+      <tr><td><a href="bloco5.html">5</a></td>
+        <td>Para onde isso vai</td><td>25 min</td></tr>
+      <tr><td>—</td><td>Encerramento</td><td>10 min</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>O que você deve conseguir fazer ao final</h3>
+
+  <ol>
+    <li>Explicar por que uma corda e uma barra soam diferente;</li>
+    <li>Calcular a frequência fundamental de uma viga engastada e dizer de que ela
+    depende;</li>
+    <li>Montar e resolver um problema de autovalores por elementos finitos, em Python;</li>
+    <li>Avaliar se um resultado numérico já convergiu.</li>
+  </ol>
+
+  <hr class="linha">
+
+  <h2 id="apostila">A apostila</h2>
+
+  <p>Este site é a versão navegável da apostila do participante, com os simuladores que o
+  papel não comporta e com o código completo em vez dos trechos propositalmente incompletos.
+  A apostila impressa continua valendo, com os espaços pautados para anotar o que você
+  descobrir.</p>
+
+  <p><a class="botao-grande" href="apostila.pdf" download>Baixar a apostila em PDF</a></p>
+
+  <h2 id="notebooks">Os notebooks</h2>
+
+  <p>O código completo está em quatro notebooks, que rodam no Spyder, no Jupyter ou no
+  Google Colab. Eles usam apenas <code>numpy</code>, <code>scipy</code> e
+  <code>matplotlib</code>, mais <code>IPython.display.Audio</code> para ouvir os sons.</p>
+
+  <div class="cartoes">
+    <a class="cartao" href="notebooks/notebook0_ambiente.ipynb" download>
+      <span class="numero">Notebook 0</span>
+      <h3>Preparando o computador</h3>
+      <p>Confere as bibliotecas, toca um bipe e imprime "ambiente OK". Rode esta primeira
+      célula antes de qualquer coisa.</p>
+    </a>
+    <a class="cartao" href="notebooks/notebook1_corda_barra.ipynb" download>
+      <span class="numero">Notebook 1</span>
+      <h3>Corda contra barra</h3>
+      <p>Sintetiza duas notas, uma com razões harmônicas e outra com as razões da barra, e
+      analisa o espectro de uma gravação.</p>
+    </a>
+    <a class="cartao" href="notebooks/notebook2_viga.ipynb" download>
+      <span class="numero">Notebook 2</span>
+      <h3>A viga engastada</h3>
+      <p>Raízes da equação característica, formas modais com os nós marcados e a comparação
+      com a lamela medida no paquímetro.</p>
+    </a>
+    <a class="cartao" href="notebooks/notebook3_mef.ipynb" download>
+      <span class="numero">Notebook 3</span>
+      <h3>Elementos finitos</h3>
+      <p>Montagem, contorno, autovalores, verificação contra o analítico e o estudo de
+      convergência.</p>
+    </a>
+  </div>
+
+  <div class="bloco ex">
+    <span class="rotulo">Como usar este site</span>
+    <p>As caixas seguem sempre o mesmo padrão, o mesmo da apostila impressa:</p>
+    <ul>
+      <li><strong>Demonstração na sala</strong>, em laranja: algo que vamos fazer com a
+      kalimba, o braço de violão ou uma régua, antes de qualquer equação;</li>
+      <li><strong>A ideia em uma frase</strong>, em azul: o resumo do trecho. Se você
+      guardar só isso, já valeu;</li>
+      <li><strong>Sua vez</strong>, em verde: a atividade no computador;</li>
+      <li><strong>Cuidado</strong>, em vermelho: onde as pessoas costumam escorregar.</li>
+    </ul>
+    <p>Os simuladores desta página rodam no próprio navegador e não substituem os
+    notebooks: eles servem para ver depressa o que uma fórmula faz, antes de escrever o
+    código que a implementa.</p>
+  </div>
+
+  <hr class="linha">
+
+  <h2 id="tres">As três ideias para levar</h2>
+
+  <ol>
+    <li><strong>Dispersão separa corda de barra.</strong> A corda tem \(\omega\propto k\) e
+    sobretons harmônicos; a barra tem \(\omega\propto k^2\) e sobretons inarmônicos. Daí o
+    som, daí as leis \(1/L\) e \(1/L^2\).</li>
+    <li><strong>Frequência natural é um problema de autovalores.</strong> Seja no papel, com
+    a equação característica, seja no computador, com
+    \(\Ten{K}\vet{\phi}=\omega^2\Ten{M}\vet{\phi}\).</li>
+    <li><strong>O método dos elementos finitos é como se resolve quando não há fórmula.</strong>
+    E quase nunca há.</li>
+  </ol>
+
+  <h3>Para continuar</h3>
+
+  <ul>
+    <li>RAO, S. S. <em>Mechanical Vibrations</em>. Pearson. (vibrações)</li>
+    <li>COOK, R. D. et al. <em>Concepts and Applications of Finite Element Analysis</em>.
+    Wiley. (elementos finitos)</li>
+    <li>LEISSA, A. W. <em>Vibration of Plates</em>. NASA SP-160. (placas)</li>
+  </ul>
+
+  <div class="bloco def">
+    <span class="rotulo">Disciplinas vizinhas</span>
+    <p>O tratamento completo de ondas em cordas, membranas e barras está em
+    <a href="https://apianomorais.github.io/mecanica-classica-iii/">Mecânica Clássica III</a>,
+    e o Python usado aqui é o de
+    <a href="https://apianomorais.github.io/informatica-fisica/">Informática para Física</a>.</p>
+  </div>
+
+
+  <nav class="nav-aulas">
+    <a class="prox" href="bloco1.html"><small>Próximo</small>Bloco 1: duas equações →</a>
+  </nav>
+
+</main>
+</div>
+
+<footer class="rodape">
+  <img class="logo-rodape" src="assets/img/logo-lfca.png" alt="LFCA | URCA">
+  <p><strong>Prof. Apiano Morais</strong> · <a href="mailto:apiano.morais@urca.br">apiano.morais@urca.br</a><br>
+  Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
+</footer>
+
+<script src="assets/js/widgets.js?v=202611091502"></script>
+</body>
+</html>

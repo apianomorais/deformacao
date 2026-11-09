@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloco 5: para onde isso vai | Da kalimba à viga</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
+<script src="assets/js/comum.js?v=202611091502"></script>
+<script src="assets/js/codigo.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="index.html">Da kalimba à viga <span>· LFCA/URCA</span></a>
+    <nav class="menu">
+      <a href="index.html">Início</a>
+      <span class="grupo">Blocos</span>
+      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
+      <a href="bloco5.html" class="num ativo" title="Bloco 5: para onde isso vai">5</a>
+      <a href="apendices.html">Apêndices</a>
+    </nav>
+  </div>
+</header>
+
+<div class="envoltorio">
+
+<aside class="lateral">
+  <h4>Neste bloco</h4>
+  <ol>
+    <li><a href="#s1">1. Do 1D ao 3D</a></li>
+    <li><a href="#s2">2. Placas perfuradas</a></li>
+    <li><a href="#s3">3. Fora do laboratório</a></li>
+  </ol>
+</aside>
+
+<main class="conteudo">
+
+  <p class="chapeu">Bloco 5 · 25 minutos</p>
+  <h1>Bloco 5: para onde isso vai</h1>
+  <p class="subtitulo">Do 1D ao 3D, a pesquisa do grupo em placas perfuradas e onde essa mesma conta aparece fora do laboratório.</p>
+  <!-- ============================================== -->
+  <h2 id="s1">1. Do 1D ao 3D</h2>
+
+  <p>A receita não muda: forma fraca, funções de forma, montagem, autovalores. O que muda são
+  os elementos. Em duas dimensões, usamos triângulos ou quadriláteros; em três, tetraedros ou
+  hexaedros. O mesmo problema \(\Ten{K}\vet{\phi}=\omega^2\Ten{M}\vet{\phi}\) aparece com
+  centenas de milhares de graus de liberdade, e aí entram os algoritmos que calculam só os
+  autovalores mais baixos, sem montar a matriz inteira na memória.</p>
+
+  <p>O que também muda é a geração da malha. No caso unidimensional, dividir em pedaços iguais
+  resolve. Numa peça furada, o gerador precisa refinar sozinho em volta dos furos, onde a
+  solução tem mais curvatura, e deixar os elementos grandes onde nada acontece. É a mesma
+  lição da convergência do bloco 4, agora automatizada.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. A pesquisa do grupo: placas perfuradas</h2>
+
+  <p>No nosso laboratório, usamos exatamente esse raciocínio ao contrário. Em vez de calcular
+  a frequência a partir das propriedades, medimos a frequência e extraímos uma propriedade: o
+  <strong>módulo de elasticidade efetivo</strong> de uma placa cheia de furos.</p>
+
+  <p>A ideia é comparar a placa furada com uma placa sólida equivalente, de mesma massa. A
+  razão entre as frequências diz quanto de rigidez os furos tiraram, e o interessante é que
+  ela depende não apenas de <em>quanto</em> material foi removido, mas de <em>como</em> ele
+  foi distribuído: quatro arranjos de furos com a mesma fração de área removida dão
+  frequências diferentes.</p>
+
+  <p>Do ponto de vista de quem faz o minicurso, o ponto é este: a equação de Euler-Bernoulli
+  usada de trás para frente é um ensaio de material. A norma ASTM E1876 formaliza isso, e o
+  nosso trabalho estende a ideia para geometrias em que não há fórmula fechada, que é
+  justamente onde o MEF se torna indispensável.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s3">3. E fora do laboratório</h2>
+
+  <ul>
+    <li><strong>Passarelas e pisos.</strong> Se a frequência natural cair perto de 2 Hz, que é
+    a frequência do caminhar humano, a estrutura balança demais. É por isso que normas limitam
+    a frequência mínima de passarelas, e foi por ignorar isso que a Millennium Bridge, em
+    Londres, teve de ser fechada três dias depois de inaugurada;</li>
+    <li><strong>Eixos de máquinas.</strong> A velocidade crítica de um eixo é a rotação em que
+    a frequência de excitação encontra uma frequência natural. Projetar um eixo é, em boa
+    parte, manter a rotação de trabalho longe dessas velocidades;</li>
+    <li><strong>Ensaio de materiais.</strong> A ASTM E1876 mede módulo de elasticidade
+    batendo numa barra e medindo a frequência, que é a fórmula do bloco 2 usada de trás para
+    frente;</li>
+    <li><strong>Instrumentos musicais.</strong> O rebaixo da lâmina de marimba, a espessura
+    variável de um prato de bateria e o perfil de um sino são todos problemas de ajustar
+    frequências naturais de um corpo com geometria complicada.</li>
+  </ul>
+
+  <div class="bloco def">
+    <span class="rotulo">As três ideias para levar</span>
+    <ol>
+      <li><strong>Dispersão separa corda de barra.</strong> A corda tem \(\omega\propto k\) e
+      sobretons harmônicos; a barra tem \(\omega\propto k^2\) e sobretons inarmônicos. Daí o
+      som, daí as leis \(1/L\) e \(1/L^2\);</li>
+      <li><strong>Frequência natural é um problema de autovalores</strong>, no papel ou no
+      computador;</li>
+      <li><strong>O MEF é como se resolve quando não há fórmula.</strong> E quase nunca
+      há.</li>
+    </ol>
+  </div>
+
+
+  <nav class="nav-aulas">
+    <a href="bloco4.html"><small>Anterior</small>← Bloco 4: mão na massa</a>
+    <a class="prox" href="apendices.html"><small>Próximo</small>Apêndices →</a>
+  </nav>
+
+</main>
+</div>
+
+<footer class="rodape">
+  <img class="logo-rodape" src="assets/img/logo-lfca.png" alt="LFCA | URCA">
+  <p><strong>Prof. Apiano Morais</strong> · <a href="mailto:apiano.morais@urca.br">apiano.morais@urca.br</a><br>
+  Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
+</footer>
+
+<script src="assets/js/widgets.js?v=202611091502"></script>
+</body>
+</html>
