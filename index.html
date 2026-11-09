@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Da kalimba à viga | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
-<script src="assets/js/comum.js?v=202611091631"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611092009">
+<script src="assets/js/comum.js?v=202611092009"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -55,7 +55,6 @@
     <span class="rotulo">De relance</span>
     <ul>
       <li><strong>Carga horária:</strong> 8 horas, quatro por dia</li>
-      <li><strong>Vagas:</strong> 10</li>
       <li><strong>Pré-requisitos:</strong> Python básico (variáveis, laços, funções,
       arrays do NumPy) e mecânica clássica (segunda lei de Newton, oscilador harmônico)</li>
       <li><strong>Leve:</strong> curiosidade, fone de ouvido e, se tiver, paquímetro</li>
@@ -67,17 +66,37 @@
 
   <h2 id="pergunta">A pergunta de partida</h2>
 
-  <p>Uma kalimba e um violão têm algo em comum: nos dois, alguma coisa vibra e produz som.
-  O som, porém, é bem diferente. A corda soa cheia e afinada. A lamela da kalimba soa
-  brilhante, metálica, com um ping que não se encaixa tão bem numa nota.</p>
+  <p>Entre a coisa que vibra e o ouvido que escuta existe um terceiro sistema, e é fácil
+  esquecer dele: o ar. A lamela da kalimba não entrega som ao ouvido; ela empurra o ar
+  vizinho, o ar empurra o ar seguinte, e o que chega ao tímpano é uma onda de pressão que
+  viajou alguns metros. Três coisas, portanto, e não duas: <strong>a fonte que vibra, o ar
+  que transporta e o receptor</strong>.</p>
 
-  <p>Isso não é questão de material nem de tamanho. É porque <strong>uma corda e uma barra
-  obedecem a equações diferentes</strong>. Descobrir qual é a diferença, e o que ela
-  provoca, é o assunto das próximas quatro horas.</p>
+  <p>O curioso é que as três obedecem a equações da mesma família. O ar obedece à equação
+  de onda, exatamente a mesma da corda, com a velocidade \(c=\sqrt{\gamma p/\rho}\) no
+  lugar de \(\sqrt{T/\mu}\), o que dá 343 m/s a 20 °C. A corda obedece a essa mesma
+  equação. A lamela da kalimba, não: ela obedece a uma equação de quarta ordem, e é essa
+  discrepância que o curso persegue.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Por que o timbre sobrevive à viagem</span>
+    <p>O ar é <strong>não dispersivo</strong>: graves e agudos viajam com a mesma
+    velocidade. É por isso que uma orquestra a trinta metros ainda soa como uma orquestra,
+    e não como um amontoado de sons chegando fora de ordem. Se o ar se comportasse como a
+    barra da kalimba, em que as ondas curtas correm mais que as longas, os agudos de um
+    acorde chegariam antes dos graves e a música se desmancharia no caminho.</p>
+    <p>Essa é a primeira lição do curso, e ela vem de graça: a <em>forma</em> da equação
+    diferencial decide se a informação se preserva ou se embaralha. Guardar isso vale mais
+    do que decorar qualquer fórmula das próximas oito horas.</p>
+  </div>
+
+  <p>Posta a cadeia, a pergunta se afia. Se o ar transporta fielmente, então a diferença
+  entre dois sons está inteira na fonte. E as fontes que vamos comparar diferem numa coisa
+  só:</p>
 
   <div class="bloco fisica">
     <span class="rotulo">Demonstração na sala</span>
-    <p><strong>Experimento 1, a corda.</strong> No braço de violão, toque a corda solta.
+    <p><strong>Experimento 1, a corda.</strong> No braço de guitarra, toque a corda solta.
     Depois pressione no 12.º traste, que divide o comprimento ao meio, e toque de novo. A
     nota sobe <strong>uma oitava</strong>: a frequência dobra.</p>
     <p><strong>Experimento 2, a barra.</strong> Na kalimba, empurre uma lamela para dentro
@@ -95,6 +114,16 @@
     \[\text{corda:}\quad f\propto\frac{1}{L},
     \qquad\qquad
     \text{barra:}\quad f\propto\frac{1}{L^2}.\]
+  </div>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">A fonte sozinha quase não se ouve</span>
+    <p>Uma lamela de aço de poucos milímetros move muito pouco ar, porque é pequena diante
+    do comprimento de onda que produz: 440 Hz no ar valem 78 cm. Daí a caixa de ressonância
+    da kalimba e o tampo do violão, cuja função é acoplar a vibração ao ar com uma
+    superfície de tamanho comparável ao comprimento de onda. Sem esse acoplamento, a mesma
+    lamela vibra igual e quase não soa. É um problema de transferência, e não de
+    vibração.</p>
   </div>
 
   <div class="bloco alerta">
@@ -254,6 +283,6 @@
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611091631"></script>
+<script src="assets/js/widgets.js?v=202611092009"></script>
 </body>
 </html>

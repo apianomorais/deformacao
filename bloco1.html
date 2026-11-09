@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bloco 1: a corda e a equação de onda | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
-<script src="assets/js/comum.js?v=202611091631"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611092009">
+<script src="assets/js/comum.js?v=202611092009"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -250,6 +250,24 @@
   sem se desmanchar, sobretons harmônicos. A kalimba não está nessa lista, e esse é o ponto
   do curso inteiro.</p>
 
+  <p>Uma linha dessa tabela merece ser lida de outro modo. A coluna de ar não é mais um
+  instrumento na lista: é o <strong>canal</strong> por onde todos os outros chegam ao
+  ouvido. Quando a lamela da kalimba vibra, ela empurra o ar vizinho, e o que o tímpano
+  recebe é uma onda de pressão que percorreu a sala a 343 m/s. A fonte é dispersiva; o
+  transporte não é.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">O que o ar preserva e o que ele não preserva</span>
+    <p>Por ser não dispersivo, o ar entrega o timbre intacto: a razão entre os sobretons que
+    saiu da fonte é a mesma que chega ao ouvido, independentemente da distância. O que o ar
+    altera é outra coisa: a <em>intensidade</em> de cada componente, porque a absorção do ar
+    cresce com a frequência. Um trovão perto estala; o mesmo trovão a dez quilômetros
+    ronca. Não é que os agudos tenham chegado atrasados, e sim que não chegaram.</p>
+    <p>Essa separação é útil de guardar: a forma da relação \(\omega(k)\) decide se o
+    sinal se embaralha no tempo, e a parte imaginária dela decide o quanto cada componente
+    se apaga. São dois mecanismos diferentes, e é comum confundi-los.</p>
+  </div>
+
   <div class="bloco cuidado">
     <span class="rotulo">A corda real não é perfeitamente harmônica</span>
     <p>Uma corda de piano é grossa e tem rigidez à flexão própria. Essa rigidez acrescenta à
@@ -479,6 +497,6 @@ plt.show()</code></pre>
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611091631"></script>
+<script src="assets/js/widgets.js?v=202611092009"></script>
 </body>
 </html>
