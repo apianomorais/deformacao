@@ -1,0 +1,45 @@
+# Publica o site no GitHub Pages.
+#
+# O mecanismo antigo do Pages (o "pages build and deployment" que o próprio
+# GitHub cria) passa o repositório por uma etapa de compilação que não
+# precisamos: o site é estático e não usa Jekyll. Este fluxo sobe os arquivos
+# como estão e publica, o que é mais rápido e tem menos partes para falhar.
+#
+# Para usá-lo: Settings -> Pages -> Build and deployment -> Source:
+# "GitHub Actions".
+name: Publicar o site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Uma publicação de cada vez, sem cancelar a que já está em andamento.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    environment:
+      name: github-pages
+      url: ${{ steps.publicacao.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      - name: Empacotar o site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Publicar
+        id: publicacao
+        uses: actions/deploy-pages@v4
