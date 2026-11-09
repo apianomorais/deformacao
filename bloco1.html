@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bloco 1: duas equações | Da kalimba à viga</title>
+<title>Bloco 1: a corda e a equação de onda | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
-<script src="assets/js/comum.js?v=202611091502"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
+<script src="assets/js/comum.js?v=202611091631"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -18,11 +18,14 @@
     <nav class="menu">
       <a href="index.html">Início</a>
       <span class="grupo">Blocos</span>
-      <a href="bloco1.html" class="num ativo" title="Bloco 1: duas equações">1</a>
-      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
-      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
-      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
-      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="bloco1.html" class="num ativo" title="Bloco 1: a corda e a equação de onda">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a barra e a quarta ordem">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: a viga engastada">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: o método dos elementos finitos">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: mão na massa">5</a>
+      <a href="bloco6.html" class="num" title="Bloco 6: da viga à placa">6</a>
+      <a href="bloco7.html" class="num" title="Bloco 7: modos torsionais e Chladni">7</a>
+      <a href="bloco8.html" class="num" title="Bloco 8: placas perfuradas">8</a>
       <a href="apendices.html">Apêndices</a>
     </nav>
   </div>
@@ -33,24 +36,110 @@
 <aside class="lateral">
   <h4>Neste bloco</h4>
   <ol>
-    <li><a href="#s1">1. As duas equações</a></li>
-    <li><a href="#s2">2. Relação de dispersão</a></li>
-    <li><a href="#s3">3. Corda e barra, lado a lado</a></li>
-    <li><a href="#s4">4. No computador</a></li>
+    <li><a href="#s1">1. Dois mil anos de corda</a></li>
+    <li><a href="#s2">2. A dedução da equação de onda</a></li>
+    <li><a href="#s3">3. Modos, sobretons e consonância</a></li>
+    <li><a href="#s4">4. Onde mais aparece</a></li>
+    <li><a href="#s5">5. Com o braço de guitarra na mão</a></li>
+    <li><a href="#s6">6. No Spyder: sintetizar e ouvir</a></li>
   </ol>
 </aside>
 
 <main class="conteudo">
 
-  <p class="chapeu">Bloco 1 · 40 minutos</p>
-  <h1>Bloco 1: duas equações</h1>
-  <p class="subtitulo">Corda e barra obedecem a equações diferentes, e é dessa diferença que vêm o timbre, a lei de escala e tudo o mais que o minicurso vai usar.</p>
+  <p class="chapeu">Bloco 1 · 1 hora</p>
+  <h1>Bloco 1: a corda e a equação de onda</h1>
+  <p class="subtitulo">Três séculos de disputa sobre o que vibra numa corda, a dedução da equação de onda e a razão de os seus sobretons saírem harmônicos.</p>
   <!-- ============================================== -->
-  <h2 id="s1">1. As duas equações</h2>
+  <h2 id="s1">1. Dois mil anos de corda</h2>
 
-  <p>Numa corda de densidade linear \(\mu\) esticada por uma tração \(T\), um pedacinho de
-  comprimento \(dx\) sente uma força vertical resultante proporcional à <strong>curvatura</strong>
-  da corda. A segunda lei de Newton dá</p>
+  <p>A corda é o instrumento mais antigo da física matemática, e a disputa sobre ela durou
+  mais de dois mil anos. Vale percorrer essa história antes de escrever qualquer equação,
+  porque cada etapa dela corresponde a um pedaço do que vamos fazer no computador.</p>
+
+  <p>A primeira observação quantitativa é da escola pitagórica, no século VI a.C.: duas
+  cordas iguais, esticadas igualmente, soam em consonância quando os seus comprimentos
+  estão na razão de números inteiros pequenos. Metade do comprimento dá a oitava, dois
+  terços dão a quinta, três quartos dão a quarta. O monocórdio, uma caixa com uma corda e
+  um cavalete móvel, foi o aparelho com que isso se mediu, e é o primeiro instrumento
+  científico de que se tem notícia.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">O que os pitagóricos não podiam saber</span>
+    <p>A razão entre comprimentos só controla a frequência porque a corda é
+    <strong>não dispersiva</strong>, propriedade que ninguém tinha como enunciar antes de
+    d'Alembert. Numa barra, como vamos ver no bloco seguinte, cortar pela metade não dá a
+    oitava: dá dois quartos de oitava a mais. A música ocidental inteira está construída
+    sobre uma propriedade de equações diferenciais.</p>
+  </div>
+
+  <p>Vincenzo Galilei, pai de Galileu e alaudista profissional, mostrou em 1589 que a
+  tração não entra da mesma maneira que o comprimento: para dobrar a frequência não basta
+  dobrar o peso pendurado, é preciso quadruplicá-lo. Foi a primeira lei física descoberta
+  por experimento deliberado com variação controlada de um parâmetro, e saiu de um
+  instrumento musical.</p>
+
+  <p>Marin Mersenne, em 1636, reuniu tudo na <em>Harmonie universelle</em> nas três leis
+  que levam o seu nome:</p>
+
+  <div class="destaque">
+    <span class="anuncio">Leis de Mersenne</span>
+    \[f_1 \propto \frac{1}{L},\qquad f_1\propto\sqrt{T},\qquad
+    f_1\propto\frac{1}{\sqrt{\mu}},\qquad\text{ou seja}\qquad
+    f_1=\frac{1}{2L}\sqrt{\frac{T}{\mu}}.\]
+  </div>
+
+  <p>Repare no que Mersenne tinha: a fórmula correta da frequência fundamental, um século
+  antes de existir a equação diferencial que a explica. A física experimental chegou
+  primeiro, e a teoria veio justificar o que já se media.</p>
+
+  <p>A dedução só apareceu em 1713, com Brook Taylor, e ainda assim pela metade: ele supôs
+  que a corda vibrava numa forma de seno e calculou a frequência dessa forma. A pergunta
+  que ficou foi outra, e é a interessante: e se a corda começar numa forma qualquer?</p>
+
+  <div class="bloco">
+    <span class="rotulo">A disputa, em quatro nomes</span>
+    <ul>
+      <li><strong>d'Alembert, 1747.</strong> Escreve a equação de onda e dá a solução geral
+      \(u=f(x-ct)+g(x+ct)\): duas formas que viajam sem mudar, uma para cada lado.</li>
+      <li><strong>Euler, 1748.</strong> Aceita a solução, mas discorda do que é uma função:
+      para ele a corda podia começar com um bico, como de fato começa quando é dedilhada, e
+      bicos não eram "funções" no sentido da época.</li>
+      <li><strong>Daniel Bernoulli, 1753.</strong> Propõe que toda vibração é uma soma de
+      modos senoidais, com pesos ajustáveis. Fisicamente certo, e rejeitado pelos outros
+      dois: parecia absurdo que uma soma de senos pudesse ter um bico.</li>
+      <li><strong>Fourier, 1822.</strong> Mostra que pode. A série de Fourier é a resposta
+      à briga da corda vibrante, e nasceu de um problema de condução de calor.</li>
+    </ul>
+  </div>
+
+  <p>A física que vamos fazer hoje passa pelos quatro. A equação é de d'Alembert, a
+  liberdade na condição inicial é de Euler, a soma de modos é de Daniel Bernoulli, e o
+  cálculo dos pesos é de Fourier. Quando, no bloco 5, o computador devolver uma lista de
+  autovalores e autovetores, serão modos de Bernoulli e pesos de Fourier, obtidos por um
+  método que nenhum dos quatro imaginou.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. A dedução da equação de onda</h2>
+
+  <p>Considere uma corda de densidade linear \(\mu\) (massa por comprimento) esticada por
+  uma tração \(T\), e um pedaço dela entre \(x\) e \(x+dx\). A hipótese central é que o
+  deslocamento transversal \(u(x,t)\) é pequeno, de modo que a inclinação
+  \(\partial u/\partial x\) é pequena e a tração não muda ao longo da corda.</p>
+
+  <p>As forças que agem no pedaço são as trações nas duas pontas, tangentes à corda. A
+  componente vertical da tração na ponta direita é \(T\sen\theta(x+dx)\) e, na esquerda,
+  \(-T\sen\theta(x)\). Com inclinações pequenas,</p>
+
+  <p>\[\sen\theta\approx\tg\theta=\pder{u}{x},\]</p>
+
+  <p>e a resultante vertical fica</p>
+
+  <p>\[dF_y=T\left[\pder{u}{x}\bigg|_{x+dx}-\pder{u}{x}\bigg|_{x}\right]
+  =T\,\pder{^2u}{x^2}\,dx.\]</p>
+
+  <p>A massa do pedaço é \(\mu\,dx\) e a sua aceleração vertical é
+  \(\partial^2u/\partial t^2\). A segunda lei de Newton dá então, cancelando \(dx\):</p>
 
   <div class="destaque">
     <span class="anuncio">Equação de onda clássica</span>
@@ -59,184 +148,326 @@
     \pder{^2u}{t^2}=c^2\,\pder{^2u}{x^2},\qquad c=\sqrt{\frac{T}{\mu}}.\]
   </div>
 
-  <p>Segunda ordem no tempo e <em>segunda ordem no espaço</em>. A constante \(c\) tem unidade
-  de velocidade. A dedução completa, passo a passo, está no
+  <p>Segunda ordem no tempo e segunda ordem no espaço, e a constante \(c\) tem unidade de
+  velocidade. A dedução cuidadosa, com as três aproximações explicitadas uma a uma, está no
   <a href="apendices.html#s1">apêndice A</a>.</p>
 
-  <p>Numa barra não há tração: o que resiste ao movimento é a <strong>rigidez à flexão</strong>.
-  Quando a barra dobra, as fibras de um lado esticam e as do outro encurtam, e isso gera um
-  momento interno</p>
+  <div class="bloco cuidado">
+    <span class="rotulo">O que foi aproximado</span>
+    <p>Três coisas, e todas falham quando a amplitude cresce: \(\sen\theta\approx\tg\theta\)
+    exige inclinação pequena; a tração constante exige que o alongamento da corda seja
+    desprezível; e a massa por comprimento constante exige que a corda não escorregue. Numa
+    corda de violão dedilhada com força, a frequência sobe um pouco no início da nota, e é
+    exatamente a segunda hipótese falhando.</p>
+  </div>
 
-  <p>\[M=EI\,\pder{^2w}{x^2},\]</p>
-
-  <p>com \(E\) o módulo de elasticidade do material e \(I=bh^3/12\) o momento de inércia da
-  seção. O balanço de forças num pedacinho leva a</p>
+  <p>A solução geral é a de d'Alembert. Troque de variáveis para \(\xi=x-ct\) e
+  \(\eta=x+ct\): a equação vira \(\partial^2u/\partial\xi\partial\eta=0\), cuja solução é
+  qualquer função de \(\xi\) mais qualquer função de \(\eta\):</p>
 
   <div class="destaque">
-    <span class="anuncio">Equação de Euler-Bernoulli</span>
-    \[\rho A\,\pder{^2w}{t^2}+EI\,\pder{^4w}{x^4}=0.\]
+    <span class="anuncio">Solução de d'Alembert</span>
+    \[u(x,t)=f(x-ct)+g(x+ct).\]
   </div>
 
-  <p>Agora a derivada espacial é de <strong>quarta ordem</strong>, e é essa diferença que
-  explica tudo o que vem a seguir. A dedução está no
-  <a href="apendices.html#s2">apêndice B</a>.</p>
+  <p>Duas formas rígidas, uma viajando para a direita e outra para a esquerda, ambas com
+  velocidade \(c\), nenhuma mudando de forma pelo caminho. É esse "nenhuma mudando de forma"
+  que vai se perder na barra.</p>
 
-  <div class="bloco def">
-    <span class="rotulo">A ideia em uma frase</span>
-    <p>Na corda, a força restauradora vem da <em>inclinação</em> da corda esticada; na barra,
-    vem da <em>curvatura</em> do material. Derivar duas vezes a mais é o preço de usar rigidez
-    em vez de tração.</p>
+  <!-- ============================================== -->
+  <h2 id="s3">3. Modos, sobretons e consonância</h2>
+
+  <p>Numa corda presa nas duas pontas, \(u(0,t)=u(L,t)=0\). Procure soluções em que todos os
+  pontos oscilam juntos, \(u(x,t)=X(x)\cos(\omega t+\delta)\). Substituindo na equação de
+  onda:</p>
+
+  <p>\[X''+k^2X=0,\qquad k=\frac{\omega}{c},\]</p>
+
+  <p>cuja solução com \(X(0)=0\) é \(X=A\sen kx\). A segunda condição, \(X(L)=0\), exige
+  \(\sen kL=0\), isto é \(kL=n\pi\):</p>
+
+  <div class="destaque">
+    <span class="anuncio">Modos da corda presa</span>
+    \[u_n(x,t)=A_n\sen\left(\frac{n\pi x}{L}\right)\cos(\omega_nt+\delta_n),
+    \qquad f_n=\frac{n}{2L}\sqrt{\frac{T}{\mu}}=n\,f_1.\]
+  </div>
+
+  <p>As frequências são múltiplos inteiros da fundamental. Esse é o fato central de toda a
+  acústica musical, e vale a pena ver de onde ele vem: da relação linear entre \(\omega\) e
+  \(k\). Se \(\omega=ck\) e os \(k\) permitidos são múltiplos de \(\pi/L\), então os
+  \(\omega\) são múltiplos de \(c\pi/L\). Não há escolha.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Por que isso produz música</span>
+    <p>Duas notas soam consonantes quando os seus harmônicos coincidem. Dó e sol, na razão
+    3:2, compartilham um harmônico a cada três do primeiro e dois do segundo. Se os
+    sobretons de um instrumento não fossem múltiplos inteiros, não haveria coincidência
+    nenhuma, e a ideia de consonância perderia a base física. É o que acontece com a
+    kalimba, e é por isso que ela soa como soa.</p>
+  </div>
+
+  <p>A corda dedilhada num ponto \(x_0\) tem a forma inicial de um triângulo, e os pesos de
+  cada modo saem da série de Fourier,</p>
+
+  <p>\[A_n=\frac{2}{L}\int_0^Lu(x,0)\,\sen\frac{n\pi x}{L}\,dx
+  =\frac{2h L^2}{\pi^2n^2x_0(L-x_0)}\,\sen\frac{n\pi x_0}{L},\]</p>
+
+  <p>com \(h\) a altura do bico. Dois fatos saem dessa fórmula. O primeiro: as amplitudes
+  caem como \(1/n^2\), de modo que os sobretons agudos são fracos. O segundo: o fator
+  \(\sen(n\pi x_0/L)\) se anula sempre que \(x_0\) cai num nó do modo \(n\). Dedilhar
+  exatamente no meio mata todos os harmônicos pares, e o som fica anasalado e oco.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Onde o violonista dedilha, e por quê</span>
+    <p>Perto do cavalete, tipicamente em \(x_0\approx L/8\), nenhum harmônico baixo é morto
+    e os agudos recebem peso: o som fica brilhante. Perto do meio, os pares somem e sobra um
+    som abafado. O instrumentista descobriu isso de ouvido, séculos antes de alguém calcular
+    a integral.</p>
   </div>
 
   <!-- ============================================== -->
-  <h2 id="s2">2. Relação de dispersão: a diferença que se ouve</h2>
+  <h2 id="s4">4. Onde mais aparece a mesma equação</h2>
 
-  <p>Teste uma onda viajante \(e^{\,i(kx-\omega t)}\) nas duas equações, com
-  \(k=2\pi/\lambda\) o número de onda. Substituindo:</p>
-
-  <p>\[\begin{aligned}
-  \text{corda:}\quad &-\omega^2=-c^2k^2 &&\Longrightarrow&&\quad \omega=c\,k\\[4pt]
-  \text{barra:}\quad &-\rho A\,\omega^2+EI\,k^4=0 &&\Longrightarrow&&\quad
-  \omega=k^2\sqrt{\frac{EI}{\rho A}}
-  \end{aligned}\]</p>
-
-  <p>Na corda, \(\omega\) é proporcional a \(k\): todas as ondas viajam com a mesma velocidade
-  \(c\), qualquer que seja o comprimento de onda. Diz-se que a corda é <strong>não
-  dispersiva</strong>. Na barra, \(\omega\) cresce com \(k^2\): ondas curtas viajam
-  <em>mais rápido</em> que ondas longas, e um pulso se desmancha enquanto caminha. A barra é
-  <strong>dispersiva</strong>.</p>
-
-  <p>Dessa única diferença saem as duas consequências do curso. Num objeto de comprimento
-  \(L\), os modos têm \(k\sim n\pi/L\), de onde</p>
-
-  <p>\[\text{corda:}\ f_n\propto\frac{n}{L},
-  \qquad\qquad
-  \text{barra:}\ f_n\propto\frac{n^2}{L^2}\ \text{(aproximadamente)},\]</p>
-
-  <p>que são exatamente as leis ouvidas na demonstração da página inicial. E, o que é mais
-  audível, os sobretons deixam de ser múltiplos inteiros.</p>
-
-  <div data-widget="cordabarra"></div>
-
-  <div class="bloco def">
-    <span class="rotulo">A ideia em uma frase</span>
-    <p>As consonâncias musicais existem porque a corda é não dispersiva. Um instrumento de
-    barras, como a kalimba ou o metalofone, produz sobretons que não são múltiplos inteiros,
-    e daí o timbre metálico.</p>
-  </div>
-
-  <!-- ============================================== -->
-  <h2 id="s3">3. Corda e barra, lado a lado</h2>
+  <p>A equação de onda não é propriedade da acústica. Ela aparece sempre que duas coisas se
+  encontram: uma inércia e uma força restauradora proporcional à curvatura. Vale listar
+  onde, porque cada caso tem a mesma matemática e vocabulário diferente.</p>
 
   <div class="tabela-rolavel">
   <table>
-    <thead><tr><th></th><th>Corda</th><th>Barra (viga)</th></tr></thead>
+    <thead><tr><th>Sistema</th><th>O que oscila</th><th>Velocidade \(c\)</th><th>Onde aparece</th></tr></thead>
     <tbody>
-      <tr><td>Equação</td><td>\(u_{tt}=c^2u_{xx}\)</td>
-        <td>\(\rho A\,w_{tt}+EI\,w_{xxxx}=0\)</td></tr>
-      <tr><td>Ordem no espaço</td><td>2</td><td>4</td></tr>
-      <tr><td>Restauração vem de</td><td>tração</td><td>rigidez à flexão</td></tr>
-      <tr><td>Dispersão</td><td>\(\omega=ck\), não dispersiva</td>
-        <td>\(\omega\propto k^2\), dispersiva</td></tr>
-      <tr><td>Efeito do comprimento</td><td>\(f\propto1/L\)</td><td>\(f\propto1/L^2\)</td></tr>
-      <tr><td>Sobretons (engastada-livre)</td><td>1 : 2 : 3 : 4</td>
-        <td>1 : 6,27 : 17,55 : 34,4</td></tr>
-      <tr><td>Sobretons (livre-livre)</td><td>1 : 2 : 3 : 4</td>
-        <td>1 : 2,76 : 5,40 : 8,93</td></tr>
-      <tr><td>Som</td><td>afinado</td><td>metálico, ping</td></tr>
+      <tr><td>Corda esticada</td><td>deslocamento transversal</td><td>\(\sqrt{T/\mu}\)</td><td>instrumentos de corda</td></tr>
+      <tr><td>Barra em tração-compressão</td><td>deslocamento longitudinal</td><td>\(\sqrt{Y/\rho}\)</td><td>ultrassom, ensaios não destrutivos</td></tr>
+      <tr><td>Coluna de ar</td><td>pressão</td><td>\(\sqrt{\gamma p/\rho}\)</td><td>tubos de órgão, flautas</td></tr>
+      <tr><td>Linha de transmissão</td><td>tensão elétrica</td><td>\(1/\sqrt{LC}\)</td><td>cabos, telegrafia</td></tr>
+      <tr><td>Membrana esticada</td><td>deslocamento transversal</td><td>\(\sqrt{\sigma/\rho_s}\)</td><td>tambores, alto-falantes</td></tr>
+      <tr><td>Onda sísmica S</td><td>cisalhamento do solo</td><td>\(\sqrt{G/\rho}\)</td><td>sismologia</td></tr>
     </tbody>
   </table>
   </div>
 
-  <p>Construtores de marimba resolvem a inarmonicidade no braço: o rebaixo em arco na face
-  inferior da barra abaixa seletivamente o segundo modo, de 2,76 para 4 vezes o fundamental,
-  tornando o som mais afinado. Um sino, que é ainda mais complexo, não tem altura bem
-  definida, e é por isso que a sua nota é objeto de discussão entre campanólogos.</p>
+  <p>Em todos, a mesma conclusão: velocidade independente da frequência, pulsos que viajam
+  sem se desmanchar, sobretons harmônicos. A kalimba não está nessa lista, e esse é o ponto
+  do curso inteiro.</p>
 
-  <div class="bloco alerta">
-    <span class="rotulo">Cuidado</span>
-    <p>Afinadores de celular tentam encaixar o som numa nota musical e se confundem com
-    sobretons inarmônicos. Para a kalimba, use um aplicativo de <em>analisador de
-    espectro</em> (FFT), não um afinador.</p>
+  <div class="bloco cuidado">
+    <span class="rotulo">A corda real não é perfeitamente harmônica</span>
+    <p>Uma corda de piano é grossa e tem rigidez à flexão própria. Essa rigidez acrescenta à
+    equação de onda um termo de quarta ordem, exatamente o da barra, e as frequências sobem
+    para</p>
+    <p>\[f_n\approx n f_1\sqrt{1+Bn^2},\qquad B=\frac{\pi^2YI}{TL^2}.\]</p>
+    <p>O desvio é pequeno (\(B\sim10^{-4}\)) e audível: é a <strong>inarmonicidade</strong>
+    do piano, que obriga o afinador a esticar as oitavas, deixando os agudos
+    deliberadamente altos e os graves baixos. Esse termo de quarta ordem é o assunto do
+    próximo bloco.</p>
   </div>
 
   <!-- ============================================== -->
-  <h2 id="s4">4. No computador: sintetizar e medir</h2>
+  <h2 id="s5">5. Com o braço de guitarra na mão</h2>
 
-  <div class="bloco ex">
-    <span class="rotulo">Sua vez (no computador)</span>
-    <p><strong>Notebook 1.</strong> Você vai sintetizar duas notas somando modos, uma com
-    razões harmônicas e outra com as razões da barra, ouvir a diferença, e depois gravar a
-    kalimba e a corda com o celular para olhar o espectro de cada uma.</p>
+  <p>Com o braço de guitarra em cima da mesa, as três leis de Mersenne saem medidas em
+  dez minutos, e a quarta conclusão, a dos sobretons harmônicos, sai de ouvido.</p>
+
+  <div class="bloco def">
+    <span class="rotulo">Medida 1: a lei do comprimento</span>
+    <p>Toque a corda solta e depois pressionada na décima segunda casa, que divide a corda
+    exatamente ao meio. A segunda nota é a oitava da primeira: o dobro da frequência para
+    metade do comprimento, isto é, \(f\propto1/L\). Repita na sétima casa, que deixa dois
+    terços da corda: sai a quinta, razão 3:2. E na quinta casa, três quartos: sai a quarta,
+    razão 4:3.</p>
+    <p>Esses são os intervalos de Pitágoras, e o traste está exatamente onde está porque
+    alguém resolveu \(f_n=n\,f_1\) sem saber que estava resolvendo.</p>
   </div>
 
-  <p>O núcleo da síntese é este, e ele cabe em quinze linhas:</p>
+  <div class="bloco def">
+    <span class="rotulo">Medida 2: a lei da tração</span>
+    <p>Afine uma corda uma oitava abaixo e meça a volta da tarraxa. Para dobrar a frequência
+    é preciso <strong>quadruplicar</strong> a tração, porque \(f\propto\sqrt{T}\). É a lei
+    que Vincenzo Galilei descobriu em 1589 pendurando pesos, e é por isso que afinar uma
+    corda grave exige muito mais torque do que a diferença de altura sugere.</p>
+  </div>
 
-<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
-from IPython.display import Audio
+  <div class="bloco def">
+    <span class="rotulo">Medida 3: a lei da densidade</span>
+    <p>A corda mi grave e a mi aguda têm o mesmo comprimento e tração parecida, e soam a
+    duas oitavas de distância: 82,4 Hz contra 329,6 Hz, razão 4. Como \(L\) é o mesmo, a
+    diferença está em \(\mu\): \(f\propto1/\sqrt{\mu}\) exige que a corda grave tenha
+    dezesseis vezes mais massa por metro. É por isso que ela é entorchada, com um fio
+    enrolado em volta da alma: acrescenta massa sem acrescentar rigidez.</p>
+  </div>
 
-fs = 44100                        # taxa de amostragem [Hz]
-t  = np.arange(0, 2.0, 1/fs)      # 2 segundos
-f1 = 440.0                        # fundamental [Hz]
+  <div class="bloco def">
+    <span class="rotulo">Medida 4: os harmônicos, de ouvido</span>
+    <p>Encoste o dedo levemente sobre a corda, sem pressionar, exatamente na décima segunda
+    casa, e toque. Sai um harmônico límpido: o modo \(n=2\), que tem um nó ali. Repita no
+    sétimo traste (\(n=3\)) e no quinto (\(n=4\)). As três notas estão nas razões 2, 3 e 4
+    com a corda solta.</p>
+    <p>O que o dedo faz é matar todos os modos que <em>não</em> têm nó naquele ponto. O modo
+    fundamental tem ventre no meio e morre; o segundo tem nó e sobrevive. É a série de
+    Fourier sendo filtrada com um dedo.</p>
+  </div>
 
-razoes_corda = np.array([1, 2, 3, 4, 5])
-razoes_barra = np.array([1, 6.267, 17.55, 34.39])   # viga engastada-livre
+  <p>Grave cada uma dessas notas com o celular, passe o arquivo para o computador e rode o
+  programa abaixo. Ele devolve os picos do espectro e as razões entre eles.</p>
 
-def sintetiza(f1, razoes, decaimento=3.0):
-    """Soma senos nas razoes dadas, com os modos altos mais fracos."""
-    som = np.zeros_like(t)
-    for i, r in enumerate(razoes):
-        amp = 1.0 / (i + 1)
-        som += amp * np.sin(2*np.pi*f1*r*t) * np.exp(-decaimento*t)
-    return som / np.max(np.abs(som))
+  <div class="codigo">
+    <span class="arquivo">espectro.py</span>
+<pre><code># -*- coding: utf-8 -*-
+"""Acha as frequências de uma nota gravada: picos do espectro de um .wav.
 
-Audio(sintetiza(f1, razoes_corda), rate=fs)    # a "corda"</code></pre></div>
-
-  <p>Trocar <code>razoes_corda</code> por <code>razoes_barra</code> é a única diferença entre
-  os dois sons, e a diferença é imediata no ouvido. Vale experimentar também o decaimento:
-  numa kalimba real os modos altos somem bem mais depressa que o fundamental, e incluir isso
-  deixa a síntese mais convincente.</p>
-
-  <p>Para olhar o espectro de uma gravação, a receita é a transformada rápida de Fourier:</p>
-
-<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+Grave a nota com o celular ou com o próprio computador, salve como .wav na
+mesma pasta deste arquivo e rode com F5.
+"""
+import numpy as np
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
+from scipy.signal import find_peaks
 
-fs, dados = wavfile.read("kalimba.wav")
-if dados.ndim &gt; 1:
-    dados = dados[:, 0]                 # fica com um canal so
-dados = dados / np.max(np.abs(dados))
+ARQUIVO = 'nota.wav'
+F_MIN, F_MAX = 60.0, 6000.0      # faixa de interesse, Hz
+ALTURA = 0.02                    # altura mínima do pico, fração do máximo
 
-espectro = np.abs(np.fft.rfft(dados))
-freqs = np.fft.rfftfreq(len(dados), 1/fs)
 
-plt.figure(figsize=(9, 4))
-plt.plot(freqs, espectro)
-plt.xlim(0, 5000)
-plt.xlabel("frequencia [Hz]")
-plt.ylabel("amplitude")
-plt.title("Espectro medido")
-plt.tight_layout()
-plt.show()
+def espectro(arquivo):
+    """(frequências, amplitude normalizada) de um arquivo .wav."""
+    fs, y = wavfile.read(arquivo)
+    y = y.astype(float)
+    if y.ndim &gt; 1:               # estéreo: média dos canais
+        y = y.mean(axis=1)
+    y -= y.mean()
+    n = len(y)
+    janela = np.hanning(n)       # evita o vazamento espectral das bordas
+    A = np.abs(np.fft.rfft(y * janela, n=4 * n))
+    f = np.fft.rfftfreq(4 * n, 1 / fs)
+    return f, A / A.max()
 
-# os picos, em ordem de altura
-picos = np.argsort(espectro)[::-1][:400]
-picos = freqs[picos]
-print(sorted(picos[:12].round(1)))</code></pre></div>
 
-  <div class="bloco alerta">
-    <span class="rotulo">Cuidado</span>
-    <p>A resolução em frequência de uma FFT é \(f_s/N\), isto é, o inverso da duração do
-    trecho gravado. Um trecho de meio segundo dá resolução de 2 Hz, o que é suficiente aqui;
-    um trecho de 50 ms daria 20 Hz, e os picos sairiam borrados. Grave pelo menos um segundo
-    e não corte o decaimento.</p>
+def picos(f, A, f_min=F_MIN, f_max=F_MAX, altura=ALTURA, quantos=8):
+    """Os maiores picos dentro da faixa, em ordem de frequência."""
+    faixa = (f &gt;= f_min) &amp; (f &lt;= f_max)
+    idx, _ = find_peaks(A[faixa], height=altura, distance=50)
+    ff, aa = f[faixa][idx], A[faixa][idx]
+    ordem = np.argsort(aa)[::-1][:quantos]
+    return np.sort(ff[ordem])
+
+
+if __name__ == '__main__':
+    f, A = espectro(ARQUIVO)
+    p = picos(f, A)
+
+    print('picos encontrados (Hz) e razão com o primeiro:')
+    for v in p:
+        print('  %8.1f   %6.3f' % (v, v / p[0]))
+    print()
+    print('corda  (harmônicos):  1  2  3  4  5')
+    print('barra  livre-livre:   1  2,757  5,404  8,933')
+    print('barra  engastada:     1  6,267  17,55')
+
+    plt.figure(figsize=(9, 4))
+    plt.plot(f, A, lw=0.8)
+    plt.plot(p, np.interp(p, f, A), 'o', ms=5)
+    for v in p:
+        plt.annotate('%.0f' % v, (v, np.interp(v, f, A)),
+                     textcoords='offset points', xytext=(0, 6),
+                     ha='center', fontsize=8)
+    plt.xlim(0, min(F_MAX, 1.3 * p[-1]))
+    plt.xlabel('frequência [Hz]')
+    plt.ylabel('amplitude (normalizada)')
+    plt.title(ARQUIVO)
+    plt.tight_layout()
+    plt.show()
+</code></pre>
   </div>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">Três cuidados na gravação</span>
+    <p>Grave em ambiente silencioso e a meio metro do instrumento: perto demais, a gravação
+    satura e o espectro enche de picos falsos. Deixe a nota soar pelo menos dois segundos,
+    porque a resolução em frequência é o inverso da duração. E grave <em>uma</em> corda de
+    cada vez: duas cordas soando dão dois conjuntos de picos sobrepostos, e aí não há
+    programa que separe.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s6">6. No Spyder: sintetizar e ouvir</h2>
+
+  <p>Abra o Spyder, cole este programa num arquivo novo e rode com <kbd>F5</kbd>. Ele
+  sintetiza duas notas: uma com sobretons harmônicos, como a corda, e outra com os
+  sobretons da barra, que ainda não deduzimos. Ouça as duas antes de seguir.</p>
+
+  <div class="codigo">
+    <span class="arquivo">corda.py</span>
+<pre><code>import numpy as np
+import matplotlib.pyplot as plt
+
+fs = 44100                      # taxa de amostragem, Hz
+dur = 2.0                       # duração de cada nota, s
+f1 = 220.0                      # fundamental, Hz
+t = np.arange(0, dur, 1 / fs)
+
+# a corda: sobretons em 1, 2, 3, 4, ... com amplitude caindo como 1/n^2
+harm = np.arange(1, 9)
+amp = 1.0 / harm ** 2
+
+# a barra livre-livre: as razões saem da equação característica do bloco 2
+barra = np.array([1.000, 2.757, 5.404, 8.933])
+amp_b = 1.0 / np.arange(1, 5) ** 2
+
+def nota(razoes, amplitudes, f1, t, tau=0.8):
+    """Soma de senos com envoltória exponencial, normalizada."""
+    y = np.zeros_like(t)
+    for r, a in zip(razoes, amplitudes):
+        y += a * np.sin(2 * np.pi * f1 * r * t)
+    return y / np.abs(y).max() * np.exp(-t / tau)
+
+y_corda = nota(harm, amp, f1, t)
+y_barra = nota(barra, amp_b, f1, t)
+
+# --- ouvir -------------------------------------------------------
+# No Spyder o IPython.display.Audio não toca: use o sounddevice.
+try:
+    import sounddevice as sd
+    sd.play(y_corda, fs); sd.wait()
+    sd.play(y_barra, fs); sd.wait()
+except Exception as erro:
+    from scipy.io import wavfile
+    wavfile.write('corda.wav', fs, (y_corda * 32767).astype(np.int16))
+    wavfile.write('barra.wav', fs, (y_barra * 32767).astype(np.int16))
+    print('sem áudio aqui (%s): gravei corda.wav e barra.wav' % erro)
+
+# --- ver ---------------------------------------------------------
+fig, (a1, a2) = plt.subplots(2, 1, figsize=(9, 5))
+for eixo, y, titulo in ((a1, y_corda, 'corda: sobretons harmônicos'),
+                        (a2, y_barra, 'barra: sobretons inarmônicos')):
+    espectro = np.abs(np.fft.rfft(y * np.hanning(len(y))))
+    freq = np.fft.rfftfreq(len(y), 1 / fs)
+    eixo.plot(freq, espectro / espectro.max(), lw=1)
+    eixo.set_xlim(0, 2200)
+    eixo.set_title(titulo)
+    eixo.set_ylabel('amplitude')
+a2.set_xlabel('frequência [Hz]')
+fig.tight_layout()
+plt.show()</code></pre>
+  </div>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">Dois ajustes no Spyder, uma vez só</span>
+    <p>Os gráficos saem por padrão no painel lateral, pequenos. Para abri-los em janela, vá
+    em <em>Ferramentas, Preferências, Console do IPython, Gráficos</em> e troque a saída de
+    <em>Inline</em> para <em>Automático</em>. Para o som, instale o
+    <code>sounddevice</code> no console do próprio Spyder com
+    <code>pip install sounddevice</code>; sem ele o programa grava os dois arquivos
+    <code>.wav</code> e você os abre no sistema.</p>
+  </div>
+
+  <p>O que se ouve é o assunto do próximo bloco: a primeira nota tem altura definida e a
+  segunda, não exatamente. A diferença não está na física do som, e sim na equação
+  diferencial de onde saíram as razões 1, 2,757, 5,404 que o programa usou sem explicar.</p>
 
 
   <nav class="nav-aulas">
     <a href="index.html"><small>Anterior</small>← Da kalimba à viga</a>
-    <a class="prox" href="bloco2.html"><small>Próximo</small>Bloco 2: a viga engastada →</a>
+    <a class="prox" href="bloco2.html"><small>Próximo</small>Bloco 2: a barra e a quarta ordem →</a>
   </nav>
 
 </main>
@@ -248,6 +479,6 @@ print(sorted(picos[:12].round(1)))</code></pre></div>
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611091502"></script>
+<script src="assets/js/widgets.js?v=202611091631"></script>
 </body>
 </html>

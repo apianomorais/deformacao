@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloco 8: placas perfuradas | Da kalimba à viga</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
+<script src="assets/js/comum.js?v=202611091631"></script>
+<script src="assets/js/codigo.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="index.html">Da kalimba à viga <span>· LFCA/URCA</span></a>
+    <nav class="menu">
+      <a href="index.html">Início</a>
+      <span class="grupo">Blocos</span>
+      <a href="bloco1.html" class="num" title="Bloco 1: a corda e a equação de onda">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a barra e a quarta ordem">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: a viga engastada">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: o método dos elementos finitos">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: mão na massa">5</a>
+      <a href="bloco6.html" class="num" title="Bloco 6: da viga à placa">6</a>
+      <a href="bloco7.html" class="num" title="Bloco 7: modos torsionais e Chladni">7</a>
+      <a href="bloco8.html" class="num ativo" title="Bloco 8: placas perfuradas">8</a>
+      <a href="apendices.html">Apêndices</a>
+    </nav>
+  </div>
+</header>
+
+<div class="envoltorio">
+
+<aside class="lateral">
+  <h4>Neste bloco</h4>
+  <ol>
+    <li><a href="#s1">1. Um material que não é material</a></li>
+    <li><a href="#s2">2. Como se fabrica a amostra</a></li>
+    <li><a href="#s3">3. O modelo de duas regiões</a></li>
+    <li><a href="#s4">4. No Spyder: o ajuste completo</a></li>
+    <li><a href="#s5">5. Do 1D ao 3D</a></li>
+    <li><a href="#s6">6. E fora do laboratório</a></li>
+  </ol>
+</aside>
+
+<main class="conteudo">
+
+  <p class="chapeu">Bloco 8 · 1 hora</p>
+  <h1>Bloco 8: placas perfuradas</h1>
+  <p class="subtitulo">A pesquisa do grupo: extrair as propriedades efetivas de uma região perfurada a partir das frequências de flexão e de torção da placa inteira.</p>
+  <!-- ============================================== -->
+  <h2 id="s1">1. Um material que não é material</h2>
+
+  <p>Fure uma chapa de aço com centenas de buracos regulares e pergunte qual é o módulo de
+  elasticidade do que sobrou. A pergunta não tem resposta óbvia, porque o que sobrou não é um
+  material: é uma estrutura. Entre dois furos o aço continua com \(Y=200\) GPa; o que mudou
+  foi a maneira como a chapa, como um todo, responde a ser dobrada.</p>
+
+  <p>A saída é a <strong>homogenização</strong>: substituir a região perfurada, que tem
+  geometria complicada, por um material fictício homogêneo que se comporta igual nas escalas
+  que interessam. Esse material tem propriedades <em>efetivas</em>,</p>
+
+  <p>\[E^*=e\,Y,\qquad G^*=g\,G,\qquad \rho^*=\eta\,\rho,\]</p>
+
+  <p>com \(e\), \(g\) e \(\eta\) entre zero e um. A fração de material que sobra,
+  \(\eta\), é puramente geométrica e se conhece de antemão; os dois primeiros é que se quer
+  medir.</p>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">Por que não basta uma regra de mistura</span>
+    <p>A tentação é dizer que, se sobrou 70 % do material, o módulo cai para 70 %. Está
+    errado, e por uma margem grande: a rigidez de uma chapa perfurada cai bem mais depressa
+    que a massa, porque o material que sobra fica concentrado em ligamentos finos que dobram
+    com facilidade. Para \(\eta=0{,}7\) é comum encontrar \(e\approx0{,}45\). Além disso
+    \(e\) e \(g\) caem de maneiras <em>diferentes</em>, o que significa que o coeficiente de
+    Poisson efetivo não é o do material original.</p>
+  </div>
+
+  <p>É aí que entra tudo o que foi feito até agora. A região perfurada responde à flexão com
+  \(E^*\) e à torção com \(G^*\), e as duas coisas são independentes. Medindo
+  <strong>uma frequência de flexão e uma de torção</strong> da mesma peça, obtêm-se duas
+  equações para as duas incógnitas. A frequência de torção, que até o bloco 7 era uma
+  curiosidade, vira instrumento de medida.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. Como se fabrica a amostra</h2>
+
+  <p>O primeiro programa da campanha gera os padrões de furos. Ele recebe o arranjo, a forma
+  e dois entre três parâmetros, e devolve a posição de cada furo, mais o arquivo DXF que vai
+  para a máquina de corte.</p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Escolha</th><th>Opções</th><th>O que muda</th></tr></thead>
+    <tbody>
+      <tr><td>Arranjo</td><td>quadrado, triangular, aleatório, perturbado</td><td>a simetria do meio efetivo</td></tr>
+      <tr><td>Forma do furo</td><td>círculo, quadrado, triângulo</td><td>a concentração de tensão nos ligamentos</td></tr>
+      <tr><td>Fração \(\eta\)</td><td>de 0,5 a 0,95</td><td>quanto material sobra</td></tr>
+      <tr><td>Diâmetro \(d\)</td><td>4 a 10 mm</td><td>a separação de escalas</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Três convenções organizam o trabalho, e vale entendê-las porque elas decidem se a
+  comparação entre casos é honesta.</p>
+
+  <ul>
+    <li><strong>Mesma área.</strong> O diâmetro \(d\) é o do <em>círculo de mesma área</em>.
+    Um quadrado e um triângulo de parâmetro \(d\) têm exatamente a área daquele círculo, de
+    modo que comparar formas não é comparar quantidades de material removido.</li>
+    <li><strong>Mesmos centros.</strong> No arranjo periódico, um centro só é aceito se
+    qualquer das três formas couber ali. Círculo, quadrado e triângulo ficam então nas mesmas
+    posições, com o mesmo número de furos e o mesmo \(\eta\): o que muda entre os casos é
+    só a forma.</li>
+    <li><strong>Ligamento mínimo.</strong> Nenhum par de furos pode ficar mais perto que
+    \(t_{\min}\), tipicamente 1 mm, senão a peça não se fabrica. O programa recusa a
+    geometria em vez de gerar um arquivo impossível de cortar.</li>
+  </ul>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Separação de escalas</span>
+    <p>A homogenização só faz sentido se o furo for pequeno diante do comprimento de onda do
+    modo. O critério prático é haver pelo menos cinco passos de rede na largura da placa:
+    com \(b=75\) mm e margem lateral de 6 mm, isso limita o passo a cerca de 12 mm. Abaixo
+    disso o programa avisa, porque o resultado deixa de ser uma propriedade do meio e passa a
+    ser uma propriedade daquele arranjo específico de buracos.</p>
+  </div>
+
+  <p>A placa fica com três regiões ao longo do comprimento: 40 mm presos na morsa, uma faixa
+  sólida de 30 mm a partir do engaste, e o resto perfurado até 6 mm da ponta. A faixa sólida
+  não é decoração: é ali que a curvatura do primeiro modo é máxima, e furar essa região
+  estragaria o engaste em vez de medir o meio.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s3">3. O modelo de duas regiões</h2>
+
+  <p>Medir a frequência da placa inteira dá uma informação <strong>global</strong>. O que se
+  quer é a propriedade <strong>local</strong> da região perfurada, e as duas não são a mesma
+  coisa, porque a placa tem partes sólidas que também contribuem para a rigidez.</p>
+
+  <p>A solução é montar um modelo com duas regiões e ajustar as propriedades da região
+  interna até que as frequências batam. Três cuidados fazem esse ajuste funcionar.</p>
+
+  <div class="bloco def">
+    <span class="rotulo">As três decisões do método</span>
+    <ol>
+      <li><strong>Ajustar razões, não frequências.</strong> Comparam-se
+      \(f_{\text{perfurada}}/f_{\text{sólida}}\) no experimento e no modelo. Assim se
+      cancelam as diferenças entre o modelo de placa e a peça real: engaste imperfeito,
+      espessura fora do nominal, módulo do lote de aço.</li>
+      <li><strong>A caixa é o envelope das células</strong>, e não a dos centros dos furos:
+      o retângulo dos centros é alargado de meio espaçamento em cada lado,
+      \(\delta=\sqrt{A_{\text{célula}}}/2\). Numa rede periódica, o \(\eta\) dentro dessa
+      caixa coincide com o nominal.</li>
+      <li><strong>Uma incógnita por modo.</strong> A primeira flexão determina \(e\); a
+      primeira torção determina \(g\). Como cada uma depende sobretudo de uma delas, o
+      sistema se resolve alternando: ajusta-se \(e\) com \(g\) fixo, depois \(g\) com \(e\)
+      fixo, e em duas ou três voltas os dois param de mudar.</li>
+    </ol>
+  </div>
+
+  <p>Dentro da caixa, o material efetivo tem simetria cúbica, e não isotropia: as duas
+  direções do plano são equivalentes entre si, e a resposta ao cisalhamento é independente.
+  As rigidezes ficam</p>
+
+  <p>\[D_{11}=D_{22}=\frac{E^*h^3}{12\left(1-\nu^{*2}\right)},
+  \qquad D_{12}=\nu^*D_{11},
+  \qquad D_{66}=\frac{G^*h^3}{12},\]</p>
+
+  <p>e o coeficiente de Poisson efetivo sai no fim, de graça, da combinação das duas
+  medidas:</p>
+
+  <p>\[\nu^*=\frac{E^*}{2G^*}-1=(1+\nu)\,\frac{e}{g}-1.\]</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">O que esse \(\nu^*\) revela</span>
+    <p>Num material isótropo comum, \(e\) e \(g\) cairiam na mesma proporção e \(\nu^*\)
+    seria igual a \(\nu\). Quando o ajuste devolve \(\nu^*\) diferente do material de base,
+    isso é a medida direta de que a perfuração introduziu anisotropia: o arranjo de furos
+    resiste de modo diferente à flexão e ao cisalhamento. Arranjos triangulares, por terem
+    simetria de ordem seis, tendem a ficar mais próximos da isotropia que os quadrados.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. No Spyder: o ajuste completo</h2>
+
+  <p>O programa do grupo resolve a placa em 3D, com tetraedros quadráticos, malha curva nos
+  furos e solver esparso: são centenas de milhares de graus de liberdade e minutos de
+  cálculo por caso. O programa abaixo faz o mesmo ajuste com o modelo de placa de Kirchhoff
+  e Rayleigh-Ritz, em cem linhas, só com <code>numpy</code> e <code>scipy</code>, e roda em
+  pouco mais de um segundo.</p>
+
+  <div class="codigo">
+    <span class="arquivo">placa_perfurada.py</span>
+<pre><code># -*- coding: utf-8 -*-
+"""Propriedades efetivas de uma região perfurada, pelo ajuste de duas regiões.
+
+Modelo: placa de Kirchhoff em balanço, resolvida por Rayleigh-Ritz, com duas
+regiões. Fora do retângulo perfurado, material sólido; dentro, um material
+homogêneo efetivo com E* = e E, G* = g G e massa por área eta*rho*h.
+
+Compara RAZÕES de frequência (perfurada / sólida), e não frequências
+absolutas: assim se cancelam as diferenças de modelo e de engaste.
+"""
+import numpy as np
+from numpy.polynomial import Legendre, Polynomial
+from scipy.linalg import eigh
+from scipy.optimize import brentq
+
+EXPO = {'S': 1, 'C': 2, 'F': 0}
+
+
+def familia(c0, c1, n):
+    fator = Polynomial([0, 1]) ** EXPO[c0] * Polynomial([1, -1]) ** EXPO[c1]
+    t = Polynomial([-1, 2])
+    return [fator * Polynomial(Legendre.basis(k).convert(kind=Polynomial).coef)(t)
+            for k in range(n)]
+
+
+def nos_de_gauss(cortes, ng):
+    """Gauss em [0,1], subdividido nos pontos de `cortes`: a integração não
+    pode atravessar a borda da região perfurada, onde o material salta."""
+    g, w = np.polynomial.legendre.leggauss(ng)
+    s = [0.5 * (b - a) * g + 0.5 * (a + b) for a, b in zip(cortes[:-1], cortes[1:])]
+    p = [0.5 * (b - a) * w for a, b in zip(cortes[:-1], cortes[1:])]
+    return np.concatenate(s), np.concatenate(p)
+
+
+def rigidezes(E, nu, h, e=1.0, g=1.0):
+    """(D11, D12, D66) da região. e = E*/E e g = G*/G; e = g = 1 dá o sólido."""
+    if e == 1.0 and g == 1.0:
+        D = E * h ** 3 / (12 * (1 - nu ** 2))
+        return D, nu * D, (1 - nu) / 2 * D
+    D = e * E * h ** 3 / (12 * (1 - nu ** 2))
+    G = g * E / (2 * (1 + nu))
+    return D, nu * D, G * h ** 3 / 12
+
+
+def modos(a, b, h, E, nu, rho, caixa=None, e=1.0, g=1.0, eta=1.0,
+          n=10, ng=12, quantos=4):
+    """Frequências em Hz e o tipo de cada modo ('flexao' ou 'torcao')."""
+    fx, fy = familia('C', 'F', n), familia('F', 'F', n)
+    cx = [0.0, 1.0] if caixa is None else sorted({0.0, caixa[0] / a, caixa[1] / a, 1.0})
+    cy = [0.0, 1.0] if caixa is None else sorted({0.0, caixa[2] / b, caixa[3] / b, 1.0})
+    sx, wx = nos_de_gauss(cx, ng)
+    sy, wy = nos_de_gauss(cy, ng)
+
+    def amostra(fs, s):
+        return (np.array([f(s) for f in fs]),
+                np.array([f.deriv(1)(s) for f in fs]),
+                np.array([f.deriv(2)(s) for f in fs]))
+
+    X, X1, X2 = amostra(fx, sx)
+    Y, Y1, Y2 = amostra(fy, sy)
+    K = np.zeros((n, n, n, n))
+    M = np.zeros((n, n, n, n))
+    regioes = [(np.ones_like(sx), np.ones_like(sy), rigidezes(E, nu, h), rho * h)]
+    if caixa is not None:
+        # a segunda região entra como CORREÇÃO sobre o sólido, só onde há furo
+        dx = ((sx &gt; caixa[0] / a) &amp; (sx &lt; caixa[1] / a)).astype(float)
+        dy = ((sy &gt; caixa[2] / b) &amp; (sy &lt; caixa[3] / b)).astype(float)
+        d = rigidezes(E, nu, h, e, g)
+        s = rigidezes(E, nu, h)
+        regioes.append((dx, dy, tuple(di - si for di, si in zip(d, s)),
+                        (eta - 1.0) * rho * h))
+    for mx, my, (D11, D12, D66), mu in regioes:
+        I = lambda A, B, w, m: np.einsum('ik,jk,k,k-&gt;ij', A, B, w, m)
+        x00, x22 = I(X, X, wx, mx), I(X2, X2, wx, mx)
+        x02, x11 = I(X2, X, wx, mx), I(X1, X1, wx, mx)
+        y00, y22 = I(Y, Y, wy, my), I(Y2, Y2, wy, my)
+        y02, y11 = I(Y2, Y, wy, my), I(Y1, Y1, wy, my)
+        r = a / b
+        K += (D11 * np.einsum('ik,jl-&gt;ijkl', x22, y00)
+              + D11 * r ** 4 * np.einsum('ik,jl-&gt;ijkl', x00, y22)
+              + D12 * r ** 2 * (np.einsum('ik,lj-&gt;ijkl', x02, y02)
+                                + np.einsum('ki,jl-&gt;ijkl', x02, y02))
+              + 4 * D66 * r ** 2 * np.einsum('ik,jl-&gt;ijkl', x11, y11))
+        M += mu * a ** 4 * np.einsum('ik,jl-&gt;ijkl', x00, y00)
+    N = n * n
+    lam, v = eigh(K.reshape(N, N), M.reshape(N, N))
+    f = np.sqrt(np.clip(lam, 0, None)) / (2 * np.pi)
+    # flexão é simétrica em y; torção é antissimétrica
+    t = np.linspace(0, 1, 41)
+    Vx = np.array([p(t) for p in fx])
+    Vy = np.array([p(t) for p in fy])
+    tipos = []
+    for j in range(quantos):
+        W = Vx.T @ v[:, j].reshape(n, n) @ Vy
+        par = np.linalg.norm(W - W[:, ::-1])
+        tipos.append('flexao' if par &lt; np.linalg.norm(W + W[:, ::-1]) else 'torcao')
+    return f[:quantos], tipos
+
+
+def ajustar(a, b, h, E, nu, rho, caixa, eta, razao_flexao, razao_torcao,
+            n=10, voltas=3):
+    """Acha e = E*/E e g = G*/G que reproduzem as duas razões medidas."""
+    f_sol, t_sol = modos(a, b, h, E, nu, rho, n=n)
+    i_f = t_sol.index('flexao')
+    i_t = t_sol.index('torcao')
+
+    def razoes(e, g):
+        f, _ = modos(a, b, h, E, nu, rho, caixa, e, g, eta, n=n)
+        return f[i_f] / f_sol[i_f], f[i_t] / f_sol[i_t]
+
+    e, g = 0.8, 0.7
+    for _ in range(voltas):
+        e = brentq(lambda x: razoes(x, g)[0] - razao_flexao, 0.05, 1.5, xtol=1e-6)
+        g = brentq(lambda x: razoes(e, x)[1] - razao_torcao, 0.05, 1.5, xtol=1e-6)
+    return e, g
+
+
+if __name__ == '__main__':
+    E, nu, rho = 200e9, 0.29, 7850.0        # aço
+    a, b, h = 0.300, 0.075, 0.003           # placa de bancada, em metros
+    caixa = (0.030, 0.294, 0.006, 0.069)    # envelope das células perfuradas
+
+    f, t = modos(a, b, h, E, nu, rho, n=12)
+    print('placa sólida:')
+    for fi, ti in zip(f, t):
+        print('  %9.3f Hz  %s' % (fi, ti))
+    print('  FEM 3D do grupo: 27,5254  172,1512  220,7353  482,8535 Hz')
+
+    # teste do método: fabricar um caso com e e g conhecidos e recuperá-los
+    e0, g0, eta0 = 0.42, 0.55, 0.70
+    fp, tp = modos(a, b, h, E, nu, rho, caixa, e0, g0, eta0, n=12)
+    rf = fp[tp.index('flexao')] / f[t.index('flexao')]
+    rt = fp[tp.index('torcao')] / f[t.index('torcao')]
+    print('\nperfurada sintética: razões %.5f (flexão) e %.5f (torção)' % (rf, rt))
+    e, g = ajustar(a, b, h, E, nu, rho, caixa, eta0, rf, rt, n=10)
+    print('ajustado:  e = %.4f (valor usado %.2f)' % (e, e0))
+    print('           g = %.4f (valor usado %.2f)' % (g, g0))
+</code></pre>
+  </div>
+
+  <p>Duas coisas acontecem quando você roda. A primeira é a conferência da placa sólida
+  contra o cálculo tridimensional do grupo:</p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Modo</th><th>Ritz de placa (este programa)</th><th>FEM 3D, tetraedros</th><th>Diferença</th></tr></thead>
+    <tbody>
+      <tr><td>1.ª flexão</td><td>27,58 Hz</td><td>27,53 Hz</td><td>+0,19 %</td></tr>
+      <tr><td>2.ª flexão</td><td>172,53 Hz</td><td>172,15 Hz</td><td>+0,22 %</td></tr>
+      <tr><td>1.ª torção</td><td>223,74 Hz</td><td>220,74 Hz</td><td>+1,36 %</td></tr>
+      <tr><td>3.ª flexão</td><td>484,32 Hz</td><td>482,85 Hz</td><td>+0,30 %</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Cem linhas de álgebra contra um solver tridimensional completo, e a diferença fica
+  abaixo de 1,4 %. As diferenças que sobram têm explicação: o Ritz sempre superestima, por
+  ser um limite superior, e o engaste ideal é mais rígido que a morsa real do modelo 3D.</p>
+
+  <p>A segunda é o teste do próprio método. O programa fabrica uma placa perfurada
+  sintética com \(e=0{,}42\) e \(g=0{,}55\) conhecidos, extrai dela só as duas razões de
+  frequência, joga fora o resto, e tenta recuperar os dois números pelo ajuste. Devolve
+  \(e=0{,}4196\) e \(g=0{,}5499\).</p>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">Esse teste não é opcional</span>
+    <p>Um ajuste que não é testado contra um caso de resposta conhecida não mede nada: mede
+    apenas a capacidade do otimizador de achar algum número. O teste sintético acima separa
+    dois tipos de erro que se confundem com facilidade: o erro do <em>método</em> (que este
+    teste pega) e o erro do <em>modelo</em> (que só a comparação com o experimento pega). Se
+    o sintético não fecha, não adianta olhar os dados reais.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s5">5. Do 1D ao 3D</h2>
+
+  <p>A receita não muda: forma fraca, funções de forma, montagem, autovalores. O que muda são
+  os elementos. Em duas dimensões, usamos triângulos ou quadriláteros; em três, tetraedros ou
+  hexaedros. O mesmo problema \(\Ten{K}\vet{\phi}=\omega^2\Ten{M}\vet{\phi}\) aparece com
+  centenas de milhares de graus de liberdade, e aí entram os algoritmos que calculam só os
+  autovalores mais baixos, sem montar a matriz inteira na memória.</p>
+
+  <p>O que também muda é a geração da malha. No caso unidimensional, dividir em pedaços iguais
+  resolve. Numa peça furada, o gerador precisa refinar sozinho em volta dos furos, onde a
+  solução tem mais curvatura, e deixar os elementos grandes onde nada acontece. É a mesma
+  lição da convergência do bloco 4, agora automatizada.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s6">6. E fora do laboratório</h2>
+
+  <ul>
+    <li><strong>Passarelas e pisos.</strong> Se a frequência natural cair perto de 2 Hz, que é
+    a frequência do caminhar humano, a estrutura balança demais. É por isso que normas limitam
+    a frequência mínima de passarelas, e foi por ignorar isso que a Millennium Bridge, em
+    Londres, teve de ser fechada três dias depois de inaugurada;</li>
+    <li><strong>Eixos de máquinas.</strong> A velocidade crítica de um eixo é a rotação em que
+    a frequência de excitação encontra uma frequência natural. Projetar um eixo é, em boa
+    parte, manter a rotação de trabalho longe dessas velocidades;</li>
+    <li><strong>Ensaio de materiais.</strong> A ASTM E1876 mede módulo de elasticidade
+    batendo numa barra e medindo a frequência, que é a fórmula do bloco 2 usada de trás para
+    frente;</li>
+    <li><strong>Instrumentos musicais.</strong> O rebaixo da lâmina de marimba, a espessura
+    variável de um prato de bateria e o perfil de um sino são todos problemas de ajustar
+    frequências naturais de um corpo com geometria complicada.</li>
+  </ul>
+
+  <div class="bloco def">
+    <span class="rotulo">As três ideias para levar</span>
+    <ol>
+      <li><strong>Dispersão separa corda de barra.</strong> A corda tem \(\omega\propto k\) e
+      sobretons harmônicos; a barra tem \(\omega\propto k^2\) e sobretons inarmônicos. Daí o
+      som, daí as leis \(1/L\) e \(1/L^2\);</li>
+      <li><strong>Frequência natural é um problema de autovalores</strong>, no papel ou no
+      computador;</li>
+      <li><strong>O MEF é como se resolve quando não há fórmula.</strong> E quase nunca
+      há.</li>
+    </ol>
+  </div>
+
+
+  <nav class="nav-aulas">
+    <a href="bloco7.html"><small>Anterior</small>← Bloco 7: modos torsionais e Chladni</a>
+    <a class="prox" href="apendices.html"><small>Próximo</small>Apêndices →</a>
+  </nav>
+
+</main>
+</div>
+
+<footer class="rodape">
+  <img class="logo-rodape" src="assets/img/logo-lfca.png" alt="LFCA | URCA">
+  <p><strong>Prof. Apiano Morais</strong> · <a href="mailto:apiano.morais@urca.br">apiano.morais@urca.br</a><br>
+  Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
+</footer>
+
+<script src="assets/js/widgets.js?v=202611091631"></script>
+</body>
+</html>

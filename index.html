@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Da kalimba à viga | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
-<script src="assets/js/comum.js?v=202611091502"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
+<script src="assets/js/comum.js?v=202611091631"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -18,11 +18,14 @@
     <nav class="menu">
       <a href="index.html" class="ativo">Início</a>
       <span class="grupo">Blocos</span>
-      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
-      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
-      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
-      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
-      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="bloco1.html" class="num" title="Bloco 1: a corda e a equação de onda">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a barra e a quarta ordem">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: a viga engastada">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: o método dos elementos finitos">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: mão na massa">5</a>
+      <a href="bloco6.html" class="num" title="Bloco 6: da viga à placa">6</a>
+      <a href="bloco7.html" class="num" title="Bloco 7: modos torsionais e Chladni">7</a>
+      <a href="bloco8.html" class="num" title="Bloco 8: placas perfuradas">8</a>
       <a href="apendices.html">Apêndices</a>
     </nav>
   </div>
@@ -51,11 +54,12 @@
   <div class="bloco def">
     <span class="rotulo">De relance</span>
     <ul>
-      <li><strong>Carga horária:</strong> 4 horas, em dois dias</li>
+      <li><strong>Carga horária:</strong> 8 horas, quatro por dia</li>
       <li><strong>Vagas:</strong> 10</li>
       <li><strong>Pré-requisitos:</strong> Python básico (variáveis, laços, funções,
       arrays do NumPy) e mecânica clássica (segunda lei de Newton, oscilador harmônico)</li>
-      <li><strong>Leve:</strong> curiosidade e, se tiver, fone de ouvido</li>
+      <li><strong>Leve:</strong> curiosidade, fone de ouvido e, se tiver, paquímetro</li>
+      <li><strong>Em sala:</strong> uma kalimba e um braço de guitarra, para medir as leis em vez de só deduzi-las</li>
       <li><strong>Inscrições:</strong>
       <a href="https://www.even3.com.br/semanauniversitariaeicdaurca-770242">even3.com.br/semanauniversitariaeicdaurca</a></li>
     </ul>
@@ -106,23 +110,34 @@
 
   <h2 id="programacao">A programação</h2>
 
+  <p>São oito horas em dois dias de quatro. O primeiro dia é unidimensional, da corda ao
+  método dos elementos finitos; o segundo sobe para a placa, para os modos torsionais e
+  para a pesquisa que o grupo faz hoje.</p>
+
   <div class="tabela-rolavel">
   <table>
-    <thead><tr><th>Bloco</th><th>Assunto</th><th>Tempo</th></tr></thead>
+    <thead><tr><th>Dia</th><th>Bloco</th><th>Assunto</th><th>Tempo</th></tr></thead>
     <tbody>
-      <tr><td>0</td><td>Abertura e ambiente</td><td>15 min</td></tr>
+      <tr><td rowspan="6">23/11</td><td>—</td><td>Abertura e preparo do Spyder</td><td>15 min</td></tr>
       <tr><td><a href="bloco1.html">1</a></td>
-        <td>Corda contra barra: de onde vem a diferença</td><td>40 min</td></tr>
+        <td>A corda e a equação de onda, com o braço de guitarra na mão</td><td>1 h</td></tr>
       <tr><td><a href="bloco2.html">2</a></td>
-        <td>A viga engastada: solução analítica</td><td>35 min</td></tr>
+        <td>A barra e a quarta ordem: dispersão e sobretons</td><td>1 h</td></tr>
       <tr><td>—</td><td>Intervalo</td><td>15 min</td></tr>
       <tr><td><a href="bloco3.html">3</a></td>
-        <td>Método dos elementos finitos: a ideia</td><td>45 min</td></tr>
+        <td>A viga engastada, e medir o módulo do aço na kalimba</td><td>1 h</td></tr>
       <tr><td><a href="bloco4.html">4</a></td>
-        <td>Mão na massa: implementar o MEF</td><td>50 min</td></tr>
-      <tr><td><a href="bloco5.html">5</a></td>
-        <td>Para onde isso vai</td><td>25 min</td></tr>
-      <tr><td>—</td><td>Encerramento</td><td>10 min</td></tr>
+        <td>O método dos elementos finitos: a ideia</td><td>1 h</td></tr>
+      <tr><td rowspan="6">24/11</td><td><a href="bloco5.html">5</a></td>
+        <td>Mão na massa: implementar o MEF e conferir</td><td>1 h</td></tr>
+      <tr><td><a href="bloco6.html">6</a></td>
+        <td>Da viga à placa: Kirchhoff-Love do começo ao fim</td><td>1 h</td></tr>
+      <tr><td>—</td><td>Intervalo</td><td>15 min</td></tr>
+      <tr><td><a href="bloco7.html">7</a></td>
+        <td>Modos torsionais, Chladni e Rayleigh-Ritz</td><td>1 h</td></tr>
+      <tr><td><a href="bloco8.html">8</a></td>
+        <td>Placas perfuradas: a pesquisa do grupo</td><td>1 h</td></tr>
+      <tr><td>—</td><td>Encerramento</td><td>15 min</td></tr>
     </tbody>
   </table>
   </div>
@@ -130,11 +145,17 @@
   <h3>O que você deve conseguir fazer ao final</h3>
 
   <ol>
-    <li>Explicar por que uma corda e uma barra soam diferente;</li>
+    <li>Explicar por que uma corda e uma barra soam diferente, e medir isso num
+    instrumento de verdade;</li>
     <li>Calcular a frequência fundamental de uma viga engastada e dizer de que ela
     depende;</li>
     <li>Montar e resolver um problema de autovalores por elementos finitos, em Python;</li>
-    <li>Avaliar se um resultado numérico já convergiu.</li>
+    <li>Deduzir a equação da placa de Kirchhoff-Love e dizer o que distingue um modo de
+    flexão de um de torção;</li>
+    <li>Extrair propriedades elásticas efetivas de uma região perfurada a partir de duas
+    frequências medidas;</li>
+    <li>Avaliar se um resultado numérico já convergiu, e testar um método contra um caso
+    de resposta conhecida.</li>
   </ol>
 
   <hr class="linha">
@@ -148,75 +169,46 @@
 
   <p><a class="botao-grande" href="apostila.pdf" download>Baixar a apostila em PDF</a></p>
 
-  <h2 id="notebooks">Os notebooks</h2>
+  <h2 id="codigo">O código</h2>
 
-  <p>O código completo está em quatro notebooks, que rodam no Spyder, no Jupyter ou no
-  Google Colab. Eles usam apenas <code>numpy</code>, <code>scipy</code> e
-  <code>matplotlib</code>, mais <code>IPython.display.Audio</code> para ouvir os sons.</p>
+  <p>Todo o código do curso está nas páginas dos blocos, em caixas com botão de copiar.
+  Cada caixa é um programa completo e independente: copiar, colar num arquivo novo do
+  Spyder e rodar com <kbd>F5</kbd>. Não há dependência entre elas, e nenhuma precisa de
+  mais do que <code>numpy</code>, <code>scipy</code> e <code>matplotlib</code>.</p>
 
-  <div class="cartoes">
-    <a class="cartao" href="notebooks/notebook0_ambiente.ipynb" download>
-      <span class="numero">Notebook 0</span>
-      <h3>Preparando o computador</h3>
-      <p>Confere as bibliotecas, toca um bipe e imprime "ambiente OK". Rode esta primeira
-      célula antes de qualquer coisa.</p>
-    </a>
-    <a class="cartao" href="notebooks/notebook1_corda_barra.ipynb" download>
-      <span class="numero">Notebook 1</span>
-      <h3>Corda contra barra</h3>
-      <p>Sintetiza duas notas, uma com razões harmônicas e outra com as razões da barra, e
-      analisa o espectro de uma gravação.</p>
-    </a>
-    <a class="cartao" href="notebooks/notebook2_viga.ipynb" download>
-      <span class="numero">Notebook 2</span>
-      <h3>A viga engastada</h3>
-      <p>Raízes da equação característica, formas modais com os nós marcados e a comparação
-      com a lamela medida no paquímetro.</p>
-    </a>
-    <a class="cartao" href="notebooks/notebook3_mef.ipynb" download>
-      <span class="numero">Notebook 3</span>
-      <h3>Elementos finitos</h3>
-      <p>Montagem, contorno, autovalores, verificação contra o analítico e o estudo de
-      convergência.</p>
-    </a>
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Programa</th><th>Onde está</th><th>O que faz</th></tr></thead>
+    <tbody>
+      <tr><td><code>ambiente.py</code></td><td><a href="apendices.html#s5">apêndice E</a></td>
+        <td>confere as bibliotecas e imprime "ambiente OK"</td></tr>
+      <tr><td><code>corda.py</code></td><td><a href="bloco1.html#s6">bloco 1</a></td>
+        <td>sintetiza as duas notas e desenha os espectros</td></tr>
+      <tr><td><code>espectro.py</code></td><td><a href="bloco1.html#s5">bloco 1</a></td>
+        <td>acha os picos de uma nota gravada em <code>.wav</code></td></tr>
+      <tr><td><code>dispersao.py</code></td><td><a href="bloco2.html#s5">bloco 2</a></td>
+        <td>compara as duas dispersões e desmancha um pulso</td></tr>
+      <tr><td><code>viga.py</code></td><td><a href="bloco3.html#s7">bloco 3</a></td>
+        <td>raízes da equação característica e formas modais</td></tr>
+      <tr><td><code>mef_viga.py</code></td><td><a href="bloco5.html">bloco 5</a></td>
+        <td>elementos finitos de viga, do zero, com convergência</td></tr>
+      <tr><td><code>placa_ritz.py</code></td><td><a href="bloco7.html#s5">bloco 7</a></td>
+        <td>Rayleigh-Ritz para a placa, qualquer condição de contorno</td></tr>
+      <tr><td><code>placa_perfurada.py</code></td><td><a href="bloco8.html#s4">bloco 8</a></td>
+        <td>o ajuste de duas regiões que extrai \(E^*\) e \(G^*\)</td></tr>
+    </tbody>
+  </table>
   </div>
 
   <div class="bloco">
-    <span class="rotulo">Como rodar</span>
-    <p><strong>Sem instalar nada.</strong> Os quatro notebooks abrem direto no Google Colab,
-    que roda no navegador e já traz as bibliotecas:
-    <a href="https://colab.research.google.com/github/apianomorais/deformacao/blob/main/notebooks/notebook0_ambiente.ipynb">notebook 0</a> ·
-    <a href="https://colab.research.google.com/github/apianomorais/deformacao/blob/main/notebooks/notebook1_corda_barra.ipynb">notebook 1</a> ·
-    <a href="https://colab.research.google.com/github/apianomorais/deformacao/blob/main/notebooks/notebook2_viga.ipynb">notebook 2</a> ·
-    <a href="https://colab.research.google.com/github/apianomorais/deformacao/blob/main/notebooks/notebook3_mef.ipynb">notebook 3</a>.
-    Basta uma conta Google. Para guardar as suas alterações, use <em>Arquivo, salvar uma cópia
-    no Drive</em>.</p>
-    <p><strong>No seu computador.</strong> Clique no cartão para baixar o arquivo
-    <code>.ipynb</code> e abra com <code>jupyter notebook</code> ou pelo Anaconda Navigator. O
-    Spyder não abre <code>.ipynb</code> na instalação padrão: nele, copie os blocos de código
-    das páginas pelo botão de copiar e cole no editor.</p>
-    <p><strong>Antes de tudo.</strong> Rode o notebook 0. Ele imprime as versões das
-    bibliotecas, confere um autovalor conhecido e toca um lá de 440 Hz. Se isso funcionar, o
-    resto do curso funciona.</p>
+    <span class="rotulo">Por que não há notebooks</span>
+    <p>O curso roda no Spyder, que é o ambiente do laboratório, e o Spyder trabalha com
+    arquivos <code>.py</code>, não com <code>.ipynb</code>. Em compensação ele tem as
+    células de execução: um comentário <code># %%</code> divide o arquivo em blocos, e
+    <kbd>Ctrl</kbd>+<kbd>Enter</kbd> roda só o bloco onde está o cursor, guardando as
+    variáveis no console. É o mesmo modo de trabalhar de um notebook, com a vantagem de o
+    arquivo continuar sendo um programa de verdade.</p>
   </div>
-
-  <div class="bloco ex">
-    <span class="rotulo">Como usar este site</span>
-    <p>As caixas seguem sempre o mesmo padrão, o mesmo da apostila impressa:</p>
-    <ul>
-      <li><strong>Demonstração na sala</strong>, em laranja: algo que vamos fazer com a
-      kalimba, o braço de violão ou uma régua, antes de qualquer equação;</li>
-      <li><strong>A ideia em uma frase</strong>, em azul: o resumo do trecho. Se você
-      guardar só isso, já valeu;</li>
-      <li><strong>Sua vez</strong>, em verde: a atividade no computador;</li>
-      <li><strong>Cuidado</strong>, em vermelho: onde as pessoas costumam escorregar.</li>
-    </ul>
-    <p>Os simuladores desta página rodam no próprio navegador e não substituem os
-    notebooks: eles servem para ver depressa o que uma fórmula faz, antes de escrever o
-    código que a implementa.</p>
-  </div>
-
-  <hr class="linha">
 
   <h2 id="tres">As três ideias para levar</h2>
 
@@ -262,6 +254,6 @@
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611091502"></script>
+<script src="assets/js/widgets.js?v=202611091631"></script>
 </body>
 </html>

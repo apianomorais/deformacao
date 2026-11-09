@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bloco 5: para onde isso vai | Da kalimba à viga</title>
+<title>Bloco 5: mão na massa | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
-<script src="assets/js/comum.js?v=202611091502"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
+<script src="assets/js/comum.js?v=202611091631"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -18,11 +18,14 @@
     <nav class="menu">
       <a href="index.html">Início</a>
       <span class="grupo">Blocos</span>
-      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
-      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
-      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
-      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
-      <a href="bloco5.html" class="num ativo" title="Bloco 5: para onde isso vai">5</a>
+      <a href="bloco1.html" class="num" title="Bloco 1: a corda e a equação de onda">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a barra e a quarta ordem">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: a viga engastada">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: o método dos elementos finitos">4</a>
+      <a href="bloco5.html" class="num ativo" title="Bloco 5: mão na massa">5</a>
+      <a href="bloco6.html" class="num" title="Bloco 6: da viga à placa">6</a>
+      <a href="bloco7.html" class="num" title="Bloco 7: modos torsionais e Chladni">7</a>
+      <a href="bloco8.html" class="num" title="Bloco 8: placas perfuradas">8</a>
       <a href="apendices.html">Apêndices</a>
     </nav>
   </div>
@@ -33,85 +36,184 @@
 <aside class="lateral">
   <h4>Neste bloco</h4>
   <ol>
-    <li><a href="#s1">1. Do 1D ao 3D</a></li>
-    <li><a href="#s2">2. Placas perfuradas</a></li>
-    <li><a href="#s3">3. Fora do laboratório</a></li>
+    <li><a href="#s1">1. Etapa 1: montagem</a></li>
+    <li><a href="#s2">2. Etapa 2: contorno e solução</a></li>
+    <li><a href="#s3">3. Etapa 3: verificação</a></li>
+    <li><a href="#s4">4. Etapa 4: convergência</a></li>
   </ol>
 </aside>
 
 <main class="conteudo">
 
-  <p class="chapeu">Bloco 5 · 25 minutos</p>
-  <h1>Bloco 5: para onde isso vai</h1>
-  <p class="subtitulo">Do 1D ao 3D, a pesquisa do grupo em placas perfuradas e onde essa mesma conta aparece fora do laboratório.</p>
+  <p class="chapeu">Bloco 5 · 1 hora</p>
+  <h1>Bloco 5: mão na massa</h1>
+  <p class="subtitulo">Agora é com você: montar as matrizes, impor o engaste, resolver o problema de autovalores e conferir contra a solução analítica.</p>
   <!-- ============================================== -->
-  <h2 id="s1">1. Do 1D ao 3D</h2>
+  <h2 id="s1">1. Etapa 1: montagem</h2>
 
-  <p>A receita não muda: forma fraca, funções de forma, montagem, autovalores. O que muda são
-  os elementos. Em duas dimensões, usamos triângulos ou quadriláteros; em três, tetraedros ou
-  hexaedros. O mesmo problema \(\Ten{K}\vet{\phi}=\omega^2\Ten{M}\vet{\phi}\) aparece com
-  centenas de milhares de graus de liberdade, e aí entram os algoritmos que calculam só os
-  autovalores mais baixos, sem montar a matriz inteira na memória.</p>
+  <div class="bloco ex">
+    <span class="rotulo">Sua vez (no computador)</span>
+    <p><strong>Notebook 3.</strong> Em quatro etapas, você vai escrever o seu próprio código
+    de elementos finitos e validá-lo contra a solução analítica do bloco 2.</p>
+  </div>
 
-  <p>O que também muda é a geração da malha. No caso unidimensional, dividir em pedaços iguais
-  resolve. Numa peça furada, o gerador precisa refinar sozinho em volta dos furos, onde a
-  solução tem mais curvatura, e deixar os elementos grandes onde nada acontece. É a mesma
-  lição da convergência do bloco 4, agora automatizada.</p>
+  <p>A primeira etapa é escrever as duas matrizes do elemento e somá-las nas posições certas
+  da matriz global. O único ponto onde se erra é a lista de graus de liberdade: o elemento
+  \(e\) ocupa as posições \(2e\), \(2e+1\), \(2e+2\) e \(2e+3\), e os dois do meio são
+  compartilhados com o elemento vizinho.</p>
+
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+
+def matrizes_elemento(EI, rhoA, l):
+    """Matrizes de rigidez e de massa de um elemento de viga de Hermite."""
+    K = EI/l**3 * np.array([
+        [ 12,    6*l,   -12,    6*l  ],
+        [ 6*l,   4*l*l, -6*l,   2*l*l],
+        [-12,   -6*l,    12,   -6*l  ],
+        [ 6*l,   2*l*l, -6*l,   4*l*l]])
+    M = rhoA*l/420 * np.array([
+        [156,   22*l,   54,   -13*l  ],
+        [22*l,   4*l*l, 13*l,  -3*l*l],
+        [54,    13*l,  156,   -22*l  ],
+        [-13*l, -3*l*l,-22*l,   4*l*l]])
+    return K, M
+
+
+def monta(ne, L, EI, rhoA):
+    """Monta K e M globais de uma viga dividida em ne elementos iguais."""
+    l = L / ne
+    n = 2 * (ne + 1)                      # 2 graus de liberdade por no
+    K = np.zeros((n, n))
+    M = np.zeros((n, n))
+    for e in range(ne):
+        Ke, Me = matrizes_elemento(EI, rhoA, l)
+        gdl = [2*e, 2*e + 1, 2*e + 2, 2*e + 3]
+        K[np.ix_(gdl, gdl)] += Ke
+        M[np.ix_(gdl, gdl)] += Me
+    return K, M</code></pre></div>
 
   <!-- ============================================== -->
-  <h2 id="s2">2. A pesquisa do grupo: placas perfuradas</h2>
+  <h2 id="s2">2. Etapa 2: contorno e solução</h2>
 
-  <p>No nosso laboratório, usamos exatamente esse raciocínio ao contrário. Em vez de calcular
-  a frequência a partir das propriedades, medimos a frequência e extraímos uma propriedade: o
-  <strong>módulo de elasticidade efetivo</strong> de uma placa cheia de furos.</p>
+  <p>O engaste é a parte mais simples do código e a mais fácil de esquecer: sem ele, o
+  problema tem dois autovalores nulos, correspondentes a transladar e girar a viga inteira
+  como corpo rígido, e as frequências saem todas erradas.</p>
 
-  <p>A ideia é comparar a placa furada com uma placa sólida equivalente, de mesma massa. A
-  razão entre as frequências diz quanto de rigidez os furos tiraram, e o interessante é que
-  ela depende não apenas de <em>quanto</em> material foi removido, mas de <em>como</em> ele
-  foi distribuído: quatro arranjos de furos com a mesma fração de área removida dão
-  frequências diferentes.</p>
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+from scipy.linalg import eigh
 
-  <p>Do ponto de vista de quem faz o minicurso, o ponto é este: a equação de Euler-Bernoulli
-  usada de trás para frente é um ensaio de material. A norma ASTM E1876 formaliza isso, e o
-  nosso trabalho estende a ideia para geometrias em que não há fórmula fechada, que é
-  justamente onde o MEF se torna indispensável.</p>
+# lamela de aco: 40 mm livres, 1 mm de espessura, 10 mm de largura
+L, h, b = 0.040, 0.001, 0.010
+E, rho = 200e9, 7850
+I, A = b*h**3/12, b*h
+EI, rhoA = E*I, rho*A
+
+ne = 10
+K, M = monta(ne, L, EI, rhoA)
+
+# engaste em x = 0: elimina w_1 e theta_1, que sao os dois primeiros graus
+Kc, Mc = K[2:, 2:], M[2:, 2:]
+
+lam, vec = eigh(Kc, Mc)               # resolve K phi = lambda M phi
+f = np.sqrt(lam) / (2*np.pi)          # frequencias em Hz
+print(np.round(f[:3], 2))             # [ 509.61 3193.8  8944.7 ]</code></pre></div>
+
+  <p>A função <code>eigh</code> do SciPy resolve o problema generalizado diretamente, sem que
+  seja preciso inverter \(\Ten{M}\). Ela exige que as duas matrizes sejam simétricas e que
+  \(\Ten{M}\) seja definida positiva, o que é o caso depois de imposto o engaste.</p>
 
   <!-- ============================================== -->
-  <h2 id="s3">3. E fora do laboratório</h2>
+  <h2 id="s3">3. Etapa 3: verificação</h2>
 
-  <ul>
-    <li><strong>Passarelas e pisos.</strong> Se a frequência natural cair perto de 2 Hz, que é
-    a frequência do caminhar humano, a estrutura balança demais. É por isso que normas limitam
-    a frequência mínima de passarelas, e foi por ignorar isso que a Millennium Bridge, em
-    Londres, teve de ser fechada três dias depois de inaugurada;</li>
-    <li><strong>Eixos de máquinas.</strong> A velocidade crítica de um eixo é a rotação em que
-    a frequência de excitação encontra uma frequência natural. Projetar um eixo é, em boa
-    parte, manter a rotação de trabalho longe dessas velocidades;</li>
-    <li><strong>Ensaio de materiais.</strong> A ASTM E1876 mede módulo de elasticidade
-    batendo numa barra e medindo a frequência, que é a fórmula do bloco 2 usada de trás para
-    frente;</li>
-    <li><strong>Instrumentos musicais.</strong> O rebaixo da lâmina de marimba, a espessura
-    variável de um prato de bateria e o perfil de um sino são todos problemas de ajustar
-    frequências naturais de um corpo com geometria complicada.</li>
-  </ul>
+  <p>Validar é comparar com o que já se sabe. Compare \(f_1\), \(f_2\) e \(f_3\) com a fórmula
+  do bloco 2 e plote os modos numéricos por cima dos analíticos.</p>
+
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+
+BL = np.array([1.8751041, 4.6940911, 7.8547574])
+exato = BL**2 / (2*np.pi*L**2) * np.sqrt(EI/rhoA)
+
+for ne in (2, 10, 50):
+    K, M = monta(ne, L, EI, rhoA)
+    lam, _ = eigh(K[2:, 2:], M[2:, 2:])
+    f = np.sqrt(lam[:3]) / (2*np.pi)
+    erro = 100 * (f - exato) / exato
+    print(f"ne={ne:3d}  f={np.round(f,1)}  erro={np.round(erro,3)} %")</code></pre></div>
+
+  <p>A tabela que sai é esta, e é ela que a próxima seção explica:</p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th></th><th>\(f_1\) [Hz]</th><th>\(f_2\) [Hz]</th><th>\(f_3\) [Hz]</th></tr></thead>
+    <tbody>
+      <tr><td>Analítico</td><td>509,61</td><td>3193,69</td><td>8942,42</td></tr>
+      <tr><td>MEF, 2 elementos</td><td>509,86</td><td>3220,79</td><td>10893,30</td></tr>
+      <tr><td>MEF, 10 elementos</td><td>509,61</td><td>3193,80</td><td>8944,70</td></tr>
+      <tr><td>MEF, 50 elementos</td><td>509,61</td><td>3193,69</td><td>8942,45</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. Etapa 4: convergência</h2>
+
+  <p>Com apenas dois elementos, \(f_1\) já sai com erro de 0,05 %, e \(f_3\) erra 22 %. Por
+  quê? Porque cada elemento só consegue representar uma cúbica, e o terceiro modo tem muito
+  mais curvatura que o primeiro: não cabe em duas cúbicas emendadas.</p>
+
+  <div data-widget="convergenciamef"></div>
+
+  <p>Note que as frequências do MEF são sempre <em>maiores</em> que as exatas. Isso não é
+  coincidência: restringir a solução a um conjunto de funções é o mesmo que acrescentar
+  rigidez ao sistema, e um sistema mais rígido vibra mais depressa. Essa propriedade, que vale
+  sempre, é uma das maneiras de saber se o código está certo.</p>
 
   <div class="bloco def">
-    <span class="rotulo">As três ideias para levar</span>
+    <span class="rotulo">A ideia em uma frase</span>
+    <p>Quanto mais alto o modo, mais malha ele exige. É a mesma razão pela qual, numa peça
+    furada, a malha precisa ser refinada em volta dos furos: ali a solução tem mais
+    curvatura.</p>
+  </div>
+
+  <div class="bloco ex">
+    <span class="rotulo">Se sobrar tempo</span>
     <ol>
-      <li><strong>Dispersão separa corda de barra.</strong> A corda tem \(\omega\propto k\) e
-      sobretons harmônicos; a barra tem \(\omega\propto k^2\) e sobretons inarmônicos. Daí o
-      som, daí as leis \(1/L\) e \(1/L^2\);</li>
-      <li><strong>Frequência natural é um problema de autovalores</strong>, no papel ou no
-      computador;</li>
-      <li><strong>O MEF é como se resolve quando não há fórmula.</strong> E quase nunca
-      há.</li>
+      <li>Coloque uma massa concentrada na ponta, somando \(m\) na posição do deslocamento do
+      último nó de \(\Ten{M}\), e veja a frequência cair;</li>
+      <li>Use a condição livre-livre, sem eliminar linha nenhuma, e confirme que aparecem dois
+      autovalores nulos e que as razões dos demais são 1 : 2,76 : 5,40;</li>
+      <li>Varie a seção ao longo do comprimento, dando um \(I\) diferente a cada elemento,
+      algo que a fórmula analítica não consegue fazer. É assim que se projeta o rebaixo de uma
+      lâmina de marimba.</li>
     </ol>
   </div>
 
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+import matplotlib.pyplot as plt
+
+nes = np.arange(1, 25)
+erros = []
+for ne in nes:
+    K, M = monta(ne, L, EI, rhoA)
+    lam, _ = eigh(K[2:, 2:], M[2:, 2:])
+    f = np.sqrt(lam) / (2*np.pi)
+    erros.append([abs(f[i] - exato[i])/exato[i] if i &lt; len(f) else np.nan
+                  for i in range(3)])
+erros = np.array(erros)
+
+plt.figure(figsize=(8, 5))
+for i in range(3):
+    plt.loglog(nes, erros[:, i], "o-", label=f"modo {i+1}")
+plt.axhline(0.01, color="0.7", ls="--")
+plt.text(1.1, 0.012, "1 %", color="0.4")
+plt.xlabel("numero de elementos"); plt.ylabel("erro relativo")
+plt.legend(); plt.grid(True, which="both", alpha=0.3)
+plt.tight_layout(); plt.show()</code></pre></div>
+
 
   <nav class="nav-aulas">
-    <a href="bloco4.html"><small>Anterior</small>← Bloco 4: mão na massa</a>
-    <a class="prox" href="apendices.html"><small>Próximo</small>Apêndices →</a>
+    <a href="bloco4.html"><small>Anterior</small>← Bloco 4: o método dos elementos finitos</a>
+    <a class="prox" href="bloco6.html"><small>Próximo</small>Bloco 6: da viga à placa →</a>
   </nav>
 
 </main>
@@ -123,6 +225,6 @@
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611091502"></script>
+<script src="assets/js/widgets.js?v=202611091631"></script>
 </body>
 </html>

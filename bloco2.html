@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bloco 2: a viga engastada | Da kalimba à viga</title>
+<title>Bloco 2: a barra e a quarta ordem | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
-<script src="assets/js/comum.js?v=202611091502"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
+<script src="assets/js/comum.js?v=202611091631"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -18,11 +18,14 @@
     <nav class="menu">
       <a href="index.html">Início</a>
       <span class="grupo">Blocos</span>
-      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
-      <a href="bloco2.html" class="num ativo" title="Bloco 2: a viga engastada">2</a>
-      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
-      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
-      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="bloco1.html" class="num" title="Bloco 1: a corda e a equação de onda">1</a>
+      <a href="bloco2.html" class="num ativo" title="Bloco 2: a barra e a quarta ordem">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: a viga engastada">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: o método dos elementos finitos">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: mão na massa">5</a>
+      <a href="bloco6.html" class="num" title="Bloco 6: da viga à placa">6</a>
+      <a href="bloco7.html" class="num" title="Bloco 7: modos torsionais e Chladni">7</a>
+      <a href="bloco8.html" class="num" title="Bloco 8: placas perfuradas">8</a>
       <a href="apendices.html">Apêndices</a>
     </nav>
   </div>
@@ -33,230 +36,292 @@
 <aside class="lateral">
   <h4>Neste bloco</h4>
   <ol>
-    <li><a href="#s1">1. Separação de variáveis</a></li>
-    <li><a href="#s2">2. A equação característica</a></li>
-    <li><a href="#s3">3. A fórmula das frequências</a></li>
-    <li><a href="#s4">4. Projetar a kalimba</a></li>
-    <li><a href="#s5">5. No computador</a></li>
+    <li><a href="#s1">1. De Galileu a Chladni</a></li>
+    <li><a href="#s2">2. A dedução por energia</a></li>
+    <li><a href="#s3">3. Dispersão: a diferença que se ouve</a></li>
+    <li><a href="#s4">4. Onde a quarta ordem aparece</a></li>
+    <li><a href="#s5">5. No Spyder: dispersão e pulsos</a></li>
   </ol>
 </aside>
 
 <main class="conteudo">
 
-  <p class="chapeu">Bloco 2 · 35 minutos</p>
-  <h1>Bloco 2: a viga engastada</h1>
-  <p class="subtitulo">A lamela da kalimba é uma viga presa numa ponta e livre na outra. Este bloco resolve esse problema por completo, no papel.</p>
+  <p class="chapeu">Bloco 2 · 1 hora</p>
+  <h1>Bloco 2: a barra e a quarta ordem</h1>
+  <p class="subtitulo">A barra não obedece à equação de onda. A diferença está numa derivada a mais, e é dela que vêm o timbre da kalimba e a lei de escala das lâminas.</p>
   <!-- ============================================== -->
-  <h2 id="s1">1. Separação de variáveis</h2>
+  <h2 id="s1">1. De Galileu a Chladni</h2>
 
-  <p>A lamela da kalimba é uma <strong>viga engastada</strong>: presa numa ponta, livre na
-  outra. É o mesmo problema de um trampolim, de uma asa de avião e do corpo de prova do nosso
-  laboratório. Vamos resolvê-lo por completo.</p>
+  <p>A história da barra começa com um erro famoso. No <em>Discorsi</em> de 1638, Galileu
+  pergunta qual é a carga que quebra uma viga engastada numa parede, e monta a conta
+  supondo que todas as fibras da seção resistem igualmente, com a rotação se dando em torno
+  da face de baixo. O resultado é a lei de escala certa e o valor errado por um fator três:
+  Galileu não tinha a ideia de linha neutra, nem a de que a tensão varia ao longo da
+  seção.</p>
 
-  <p>Procuramos soluções em que todos os pontos oscilem na mesma frequência, cada um com a sua
-  amplitude:</p>
+  <p>Corrigir isso levou um século. Mariotte, nos anos 1680, percebe que parte da seção é
+  comprimida. Parent, em 1713, localiza a linha neutra no centroide. E Jacob Bernoulli, em
+  1694, dá o passo que interessa aqui: propõe que o momento fletor é proporcional à
+  <strong>curvatura</strong> da linha média, e não à inclinação nem ao deslocamento.</p>
 
-  <p>\[w(x,t)=W(x)\cos\omega t.\]</p>
-
-  <p>Substituindo na equação de Euler-Bernoulli do bloco 1,</p>
-
-  <p>\[\der{^4W}{x^4}=\beta^4W,\qquad \beta^4=\frac{\rho A\,\omega^2}{EI}.\]</p>
-
-  <p>A solução geral combina quatro funções:</p>
-
-  <p>\[W(x)=C_1\cos\beta x+C_2\sen\beta x+C_3\cosh\beta x+C_4\senh\beta x.\]</p>
-
-  <p>Note a diferença para a corda: lá apareceriam apenas seno e cosseno. As funções
-  hiperbólicas são a marca da quarta ordem, e são elas que fazem a conta deixar de ter
-  solução em forma fechada.</p>
-
-  <!-- ============================================== -->
-  <h2 id="s2">2. As condições de contorno e a equação característica</h2>
-
-  <p>São quatro condições, duas em cada ponta:</p>
-
-  <ul>
-    <li><strong>No engaste</strong> (\(x=0\)): não desloca nem gira,
-    \(W(0)=W^{\prime}(0)=0\);</li>
-    <li><strong>Na ponta livre</strong> (\(x=L\)): não há momento nem força cortante,
-    \(W^{\prime\prime}(L)=W^{\prime\prime\prime}(L)=0\).</li>
-  </ul>
-
-  <p>Impondo as quatro, sobra um sistema homogêneo nos quatro coeficientes, que só tem solução
-  diferente da trivial se o determinante for nulo. O resultado é</p>
-
-  <div class="destaque">
-    <span class="anuncio">Equação característica</span>
-    \[\cos\left(\beta L\right)\cosh\left(\beta L\right)+1=0.\]
+  <div class="bloco fisica">
+    <span class="rotulo">A elástica</span>
+    <p>Daniel Bernoulli escreveu a Euler, em 1742, sugerindo que a forma de uma lâmina
+    encurvada é a que minimiza \(\int\kappa^2\,ds\), a integral do quadrado da curvatura.
+    Euler atacou o problema em 1744, no primeiro livro de cálculo variacional da história, e
+    classificou todas as formas possíveis. A curva ficou conhecida como <em>elástica</em>, e
+    o funcional \(\int\kappa^2\,ds\) é a energia de deformação que vamos usar hoje. O método
+    dos elementos finitos, que aparece no bloco 4, minimiza numericamente esse mesmo
+    funcional.</p>
   </div>
 
-  <p>Essa equação não se resolve no papel: as raízes saem numericamente, e são elas que fixam
-  as frequências.</p>
+  <p>O lado acústico veio de Ernst Chladni, que em 1787 publicou as
+  <em>Entdeckungen über die Theorie des Klanges</em> e mediu, com cuidado notável, as
+  frequências de barras livres. Encontrou razões que não eram inteiras: para uma barra
+  solta nas duas pontas, algo próximo de 1 : 2,76 : 5,40. Chladni não tinha a equação, e
+  tinha os números, que batem em quatro casas com o que vamos calcular daqui a pouco.</p>
+
+  <p>A forma final da equação é de Navier, em 1826, e o tratamento completo das vibrações é
+  de Rayleigh, na <em>Theory of Sound</em> de 1877. Vale guardar as datas: a corda foi
+  resolvida em 1747 e a barra, para efeitos práticos, só nos anos 1820. A derivada a mais
+  custou oitenta anos.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. A dedução por energia</h2>
+
+  <p>Vamos deduzir a equação da barra por energia, e não por balanço de forças. O caminho é
+  um pouco mais longo e tem duas vantagens: não exige convenção de sinal para momento e
+  cortante, e é exatamente o caminho que o bloco 6 vai percorrer para a placa. Quem
+  preferir o balanço de forças encontra-o no
+  <a href="apendices.html#s2">apêndice B</a>.</p>
+
+  <p><strong>Cinemática.</strong> A hipótese de Euler-Bernoulli diz que seções planas
+  perpendiculares à linha média continuam planas e perpendiculares à linha média deformada.
+  Com \(w(x,t)\) o deslocamento transversal e \(z\) medido a partir da linha neutra, um
+  ponto à altura \(z\) se desloca horizontalmente de</p>
+
+  <p>\[u(x,z,t)=-z\,\pder{w}{x},\]</p>
+
+  <p>porque a seção gira de \(\partial w/\partial x\). A deformação longitudinal é
+  então</p>
+
+  <p>\[\varepsilon_x=\pder{u}{x}=-z\,\pder{^2w}{x^2}=z\,\kappa,
+  \qquad \kappa\equiv-\pder{^2w}{x^2},\]</p>
+
+  <p>linear na altura e proporcional à curvatura. É o conteúdo da proposta de Jacob
+  Bernoulli, escrito em símbolos.</p>
+
+  <p><strong>Energia de deformação.</strong> Com \(\sigma_x=Y\varepsilon_x\), a densidade de
+  energia elástica é \(\tfrac12\sigma_x\varepsilon_x\). Integrando na seção,</p>
+
+  <p>\[dU=\frac12\int_A Y\varepsilon_x^2\,dA\;dx
+  =\frac12\,Y\left(\pder{^2w}{x^2}\right)^2\int_Az^2\,dA\;dx
+  =\frac12\,YI\left(\pder{^2w}{x^2}\right)^2dx,\]</p>
+
+  <p>em que \(I=\int_Az^2dA\) é o momento de inércia da seção, \(bh^3/12\) para um
+  retângulo. A energia cinética, desprezando a rotação da seção, é
+  \(\tfrac12\rho A\,\dot w^2\) por unidade de comprimento. Logo</p>
+
+  <p>\[U=\frac{YI}{2}\int_0^L\left(\pder{^2w}{x^2}\right)^2dx,
+  \qquad
+  T=\frac{\rho A}{2}\int_0^L\dot w^2\,dx.\]</p>
+
+  <p><strong>Princípio de Hamilton.</strong> O movimento real torna estacionário
+  \(\int_{t_1}^{t_2}(T-U)\,dt\). Variando,</p>
+
+  <p>\[\delta\!\int(T-U)\,dt=\int\!\!\int\left[-\rho A\,\ddot w\,\delta w
+  -YI\,w''\,\delta w''\right]dx\,dt,\]</p>
+
+  <p>e duas integrações por partes no termo de \(U\) passam as duas derivadas de
+  \(\delta w''\) para \(w''\):</p>
+
+  <p>\[-\int YI\,w''\delta w''\,dx
+  =-\Big[YIw''\,\delta w'\Big]_0^L+\Big[(YIw'')'\,\delta w\Big]_0^L
+  -\int (YIw'')''\,\delta w\,dx.\]</p>
+
+  <p>Como \(\delta w\) é arbitrária dentro da barra, o que multiplica \(\delta w\) na
+  integral tem de se anular:</p>
+
+  <div class="destaque">
+    <span class="anuncio">Equação de Euler-Bernoulli</span>
+    \[\rho A\,\pder{^2w}{t^2}+YI\,\pder{^4w}{x^4}=q(x,t).\]
+  </div>
+
+  <p>E os termos de contorno dão, de graça, as condições que cada extremidade pode
+  satisfazer: ou se prescreve \(w\), ou se anula o cortante \((YIw'')'\); ou se prescreve
+  \(w'\), ou se anula o momento \(YIw''\). Essa estrutura de pares conjugados, uma condição
+  geométrica ou a força correspondente, reaparece inteira na placa.</p>
 
   <div class="tabela-rolavel">
   <table>
-    <thead><tr><th>\(n\)</th><th>\(\beta_nL\)</th><th>\((\beta_nL)^2\)</th>
-      <th>\(f_n/f_1\)</th></tr></thead>
+    <thead><tr><th>Extremidade</th><th>Essenciais (geométricas)</th><th>Naturais (de força)</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>1,8751</td><td>3,516</td><td>1</td></tr>
-      <tr><td>2</td><td>4,6941</td><td>22,03</td><td>6,27</td></tr>
-      <tr><td>3</td><td>7,8548</td><td>61,70</td><td>17,55</td></tr>
-      <tr><td>4</td><td>10,996</td><td>120,9</td><td>34,4</td></tr>
+      <tr><td>Engastada</td><td>\(w=0\), \(w'=0\)</td><td>—</td></tr>
+      <tr><td>Apoiada</td><td>\(w=0\)</td><td>\(w^{\prime\prime}=0\)</td></tr>
+      <tr><td>Livre</td><td>—</td><td>\(w^{\prime\prime}=0\), \(w^{\prime\prime\prime}=0\)</td></tr>
+      <tr><td>Deslizante</td><td>\(w^\prime=0\)</td><td>\(w^{\prime\prime\prime}=0\)</td></tr>
     </tbody>
   </table>
   </div>
 
-  <p>Vale reparar que as raízes, a partir da segunda, ficam muito perto de
-  \(\left(n-\tfrac12\right)\pi\): 4,712, 7,854, 10,996. A razão é que \(\cosh\beta L\) cresce
-  tão depressa que a equação vira, na prática, \(\cos\beta L=0\).</p>
-
   <!-- ============================================== -->
-  <h2 id="s3">3. A fórmula das frequências</h2>
+  <h2 id="s3">3. Dispersão: a diferença que se ouve</h2>
 
-  <p>Isolando \(\omega\) na definição de \(\beta\), com \(I=bh^3/12\) e \(A=bh\):</p>
+  <p>Compare as duas equações lado a lado e teste nas duas uma onda viajante
+  \(e^{\,i(kx-\omega t)}\), com \(k=2\pi/\lambda\):</p>
+
+  <p>\[\begin{aligned}
+  \text{corda:}\quad &-\omega^2=-c^2k^2 &&\Longrightarrow&&\quad \omega=c\,k\\[4pt]
+  \text{barra:}\quad &-\rho A\,\omega^2+YI\,k^4=0 &&\Longrightarrow&&\quad
+  \omega=k^2\sqrt{\frac{YI}{\rho A}}
+  \end{aligned}\]</p>
 
   <div class="destaque">
-    <span class="anuncio">A fórmula do curso</span>
-    \[f_n=\frac{\left(\beta_nL\right)^2}{2\pi L^2}\sqrt{\frac{EI}{\rho A}}
-    =\frac{\left(\beta_nL\right)^2}{2\pi L^2}\,\frac{h}{\sqrt{12}}\sqrt{\frac{E}{\rho}}.\]
+    <span class="anuncio">Dispersão da flexão</span>
+    \[\omega=\sqrt{\frac{YI}{\rho A}}\;k^2,
+    \qquad v_{\text{fase}}=\frac{\omega}{k}\propto k,
+    \qquad v_{\text{grupo}}=\der{\omega}{k}=2\,v_{\text{fase}}.\]
   </div>
 
-  <p>Vale parar aqui e ler o que ela diz, porque quatro leituras saem de graça:</p>
+  <p>Na corda, \(\omega\) é proporcional a \(k\): todas as ondas viajam com a mesma
+  velocidade, qualquer que seja o comprimento de onda, e um pulso mantém a forma. A corda é
+  <strong>não dispersiva</strong>. Na barra, \(\omega\) cresce com \(k^2\): ondas curtas
+  viajam mais rápido, e um pulso se desmancha enquanto caminha. A barra é
+  <strong>dispersiva</strong>, e a energia viaja com o dobro da velocidade das cristas.</p>
 
-  <ul>
-    <li>\(f_n\propto1/L^2\), que é a lei ouvida na kalimba;</li>
-    <li>\(f_n\propto h\): barra mais grossa, som mais agudo;</li>
-    <li>\(f_n\) <strong>não depende da largura \(b\)</strong>. Uma barra mais larga é mais
-    rígida e também mais pesada, e os dois efeitos se cancelam exatamente;</li>
-    <li>o material entra só por \(\sqrt{E/\rho}\). Por isso aço e alumínio, que têm
-    \(E/\rho\) quase igual, dão quase a mesma frequência, apesar de um ser três vezes mais
-    denso que o outro.</li>
-  </ul>
+  <div data-widget="cordabarra"></div>
 
-  <div data-widget="vigaengastada"></div>
+  <p>Dessa única diferença saem as duas consequências que o curso inteiro usa. Num objeto de
+  comprimento \(L\), os modos têm \(k\sim n\pi/L\), de onde</p>
+
+  <p>\[\text{corda:}\ f_n\propto\frac{n}{L},
+  \qquad\qquad
+  \text{barra:}\ f_n\propto\frac{n^2}{L^2}.\]</p>
+
+  <p>A lei de escala muda: cortar a lâmina pela metade multiplica a frequência por quatro, e
+  não por dois. E os sobretons deixam de ser múltiplos inteiros, porque as raízes da
+  equação característica não são múltiplos de \(\pi\), como veremos no bloco 3.</p>
+
+  <div class="bloco ex">
+    <span class="rotulo">Os números de Chladni, recalculados</span>
+    <p>Para a barra livre nas duas pontas, a equação característica é
+    \(\cos\beta L\cosh\beta L=1\), cujas raízes são 4,7300, 7,8532, 10,9956 e 14,1372. Como
+    \(f\propto(\beta L)^2\), as razões ficam</p>
+    <p>\[1\;:\;2{,}757\;:\;5{,}404\;:\;8{,}933.\]</p>
+    <p>Chladni mediu 1 : 2,76 : 5,40 em 1787, com uma barra, um arco de violino e areia
+    fina. Os nós do modo fundamental ficam a 22,4 % de cada ponta, que é onde se seguram as
+    barras do metalofone.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. Onde a quarta ordem aparece</h2>
+
+  <p>A equação de quarta ordem governa praticamente tudo o que é fino e rígido. A lista
+  abaixo não é de curiosidades: é o mesmo problema de autovalor em escalas que vão do
+  nanômetro ao quilômetro.</p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Objeto</th><th>Escala</th><th>Condição de contorno</th><th>O que se quer</th></tr></thead>
+    <tbody>
+      <tr><td>Lâmina de kalimba</td><td>3 a 10 cm</td><td>engastada-livre</td><td>afinar a fundamental</td></tr>
+      <tr><td>Barra de marimba</td><td>20 a 60 cm</td><td>livre-livre</td><td>escavar o ventre para pôr o 1.º sobretom em 4:1</td></tr>
+      <tr><td>Diapasão</td><td>8 cm</td><td>dois braços engastados</td><td>som puro: o sobretom em 6,27 some depois do ataque</td></tr>
+      <tr><td>Alavanca de AFM</td><td>100 µm</td><td>engastada-livre</td><td>medir força por desvio de frequência</td></tr>
+      <tr><td>Ressonador MEMS</td><td>10 µm</td><td>engastada ou biapoiada</td><td>relógio em circuito integrado</td></tr>
+      <tr><td>Pá de turbina eólica</td><td>60 m</td><td>engastada-livre</td><td>evitar a ressonância com a rotação</td></tr>
+      <tr><td>Passarela de pedestres</td><td>50 m</td><td>biapoiada</td><td>fugir da faixa de 2 Hz do passo humano</td></tr>
+    </tbody>
+  </table>
+  </div>
 
   <div class="bloco fisica">
-    <span class="rotulo">Demonstração na sala</span>
-    <p>Meça uma lamela da kalimba com o paquímetro: comprimento livre, espessura e largura.
-    Calcule \(f_1\) pela fórmula acima e compare com o que o analisador de espectro mostra.
-    Depois meça uma régua de aço presa na beirada da mesa, que é a mesma física com outra
-    escala.</p>
+    <span class="rotulo">Por que a marimba soa afinada e o metalofone não</span>
+    <p>Uma barra uniforme tem o primeiro sobretom em 2,757 vezes a fundamental, que não é
+    intervalo musical nenhum: fica entre a oitava (2) e a décima segunda (3). O fabricante
+    de marimbas escava um arco na face inferior da barra, o que reduz a rigidez no meio e
+    abaixa seletivamente os modos cujo ventre está ali. Com o arco certo, o primeiro
+    sobretom desce para exatamente 4 vezes a fundamental, duas oitavas acima, e a barra
+    passa a soar afinada. O xilofone, de madeira, é escavado para 3:1. O metalofone barato
+    não é escavado, e soa como uma barra: metálico e de altura vaga.</p>
   </div>
 
-  <div class="bloco ex">
-    <span class="rotulo">Exemplo numérico</span>
-    <p>Uma lamela de aço com comprimento livre \(L=40\) mm e espessura \(h=1\) mm, com
-    \(E=200\) GPa e \(\rho=7850\) kg/m³, de modo que \(\sqrt{E/\rho}=5047\) m/s:</p>
-    <p>\[f_1=\frac{3{,}516}{2\pi\left(0{,}040\right)^2}\cdot\frac{0{,}001}{\sqrt{12}}
-    \cdot5047=510\ \text{Hz},\]</p>
-    <p>algo perto de um dó agudo. O segundo modo fica em \(6{,}27\cruz510=3{,}2\) kHz, bem
-    longe de qualquer relação musical com o primeiro.</p>
-  </div>
-
-  <div class="bloco alerta">
-    <span class="rotulo">Cuidado</span>
-    <p>Se o valor medido ficar <em>abaixo</em> do calculado, isso é esperado. O engaste real
-    não é perfeito: a lamela cede um pouco na base, o que equivale a um comprimento livre
-    maior, e frequência menor. Esse é exatamente o problema que enfrentamos no laboratório ao
-    medir módulo de elasticidade por vibração, e é a principal fonte de erro sistemático do
-    método.</p>
+  <div class="bloco fisica">
+    <span class="rotulo">O diapasão e o seu clangor</span>
+    <p>Cada braço de um diapasão é uma viga engastada na base. O primeiro sobretom está em
+    6,27 vezes a fundamental, bem acima, e é ele que produz o "tlim" metálico no instante em
+    que o diapasão é batido. Esse modo se amortece depressa, porque faz a base balançar e
+    perde energia pelo cabo; em um segundo sobra só a fundamental, e é por isso que um
+    diapasão serve para afinar.</p>
   </div>
 
   <!-- ============================================== -->
-  <h2 id="s4">4. Do outro lado: projetar a kalimba</h2>
+  <h2 id="s5">5. No Spyder: dispersão e pulsos</h2>
 
-  <p>O construtor de kalimba usa a mesma fórmula de trás para frente: ele conhece a nota que
-  quer e procura o comprimento livre que a produz. Isolando \(L\),</p>
+  <p>O programa abaixo desenha, lado a lado, a dispersão da corda e a da barra, e acompanha
+  um pulso inicial nos dois meios. Rode no Spyder com <kbd>F5</kbd> e veja o pulso da barra
+  se desfazer enquanto o da corda caminha inteiro.</p>
 
-  <p>\[L=\sqrt{\frac{\left(\beta_1L\right)^2}{2\pi f_1}\,\frac{h}{\sqrt{12}}
-  \sqrt{\frac{E}{\rho}}}.\]</p>
-
-  <div data-widget="kalimba"></div>
-
-  <p>Duas coisas que o simulador deixa claras e que valem no instrumento real. Os
-  comprimentos caem com a raiz da frequência, e não com o inverso dela: para subir uma oitava
-  é preciso encurtar a lamela em 30 %, não pela metade. E trocar aço por alumínio quase não
-  muda nada, o que explica por que kalimbas de fabricantes diferentes, com ligas diferentes,
-  têm lamelas de comprimentos parecidos.</p>
-
-  <!-- ============================================== -->
-  <h2 id="s5">5. No computador: raízes e modos</h2>
-
-  <div class="bloco ex">
-    <span class="rotulo">Sua vez (no computador)</span>
-    <p><strong>Notebook 2.</strong> Ache as raízes da equação característica com
-    <code>scipy.optimize.brentq</code>, plote os três primeiros modos e localize os nós, e
-    depois compare o \(f_1\) calculado da sua lamela com o espectro medido.</p>
-  </div>
-
-<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
-from scipy.optimize import brentq
-
-def caracteristica(bL):
-    """cos(bL) cosh(bL) + 1 = 0, a equacao da viga engastada-livre."""
-    return np.cos(bL) * np.cosh(bL) + 1.0
-
-# As raizes ficam perto de (n - 1/2) pi a partir da segunda; procuramos
-# uma em cada intervalo em volta desses pontos.
-chutes = [(1.0, 2.5), (4.0, 5.5), (7.0, 8.5), (10.0, 11.5)]
-raizes = [brentq(caracteristica, a, b) for a, b in chutes]
-
-print("beta_n L :", np.round(raizes, 4))
-print("f_n/f_1  :", np.round((np.array(raizes)/raizes[0])**2, 3))</code></pre></div>
-
-  <p>Rodando, saem 1,8751, 4,6941, 7,8548 e 10,9955, e as razões 1, 6,267, 17,55 e 34,39. Com
-  as raízes em mãos, a frequência é uma linha:</p>
-
-<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
-
-def frequencias_viga(L, h, b, E, rho, raizes):
-    """Frequencias naturais [Hz] de uma viga engastada-livre de secao retangular."""
-    I = b * h**3 / 12
-    A = b * h
-    return np.array([(bL**2) / (2*np.pi*L**2) * np.sqrt(E*I / (rho*A))
-                     for bL in raizes])
-
-# lamela de aco: 40 mm livres, 1 mm de espessura, 10 mm de largura
-f = frequencias_viga(0.040, 0.001, 0.010, 200e9, 7850, raizes)
-print(np.round(f, 1))        # [ 509.6 3193.7 8942.4 17523.6]</code></pre></div>
-
-  <p>E as formas modais, que o notebook desenha com os nós marcados:</p>
-
-<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+  <div class="codigo">
+    <span class="arquivo">dispersao.py</span>
+<pre><code>import numpy as np
 import matplotlib.pyplot as plt
 
-def forma(x, bL):
-    """Forma modal da viga engastada-livre, x em unidades de L."""
-    s = (np.cos(bL) + np.cosh(bL)) / (np.sin(bL) + np.sinh(bL))
-    return (np.cosh(bL*x) - np.cos(bL*x)
-            - s * (np.sinh(bL*x) - np.sin(bL*x)))
+# %% dispersão: omega(k) nas duas equações
+k = np.linspace(0, 40, 400)
+c = 1.0                          # velocidade da corda
+alfa = 1.0 / 400.0               # sqrt(YI / rho A) da barra
 
-x = np.linspace(0, 1, 400)
-plt.figure(figsize=(9, 4))
-for n, bL in enumerate(raizes[:3], start=1):
-    y = forma(x, bL)
-    y = y / np.max(np.abs(y))
-    plt.plot(x, y, label=f"modo {n}")
-    troca = np.where(np.sign(y[:-1]) != np.sign(y[1:]))[0]   # nos
-    plt.plot(x[troca], y[troca], "o", color="firebrick")
+fig, (a1, a2) = plt.subplots(1, 2, figsize=(10, 4))
+a1.plot(k, c * k, label=r'corda: $\omega = ck$')
+a1.plot(k, alfa * k ** 2, label=r'barra: $\omega = \alpha k^2$')
+a1.set_xlabel('$k$'); a1.set_ylabel(r'$\omega$')
+a1.legend(); a1.set_title('relação de dispersão')
 
-plt.axhline(0, color="0.8", lw=1)
-plt.xlabel("x / L"); plt.ylabel("amplitude normalizada")
-plt.legend(); plt.tight_layout(); plt.show()</code></pre></div>
+# %% um pulso gaussiano evoluindo nos dois meios
+L, N = 200.0, 2048
+x = np.linspace(0, L, N, endpoint=False)
+u0 = np.exp(-((x - L / 2) ** 2) / 8.0)
+kk = 2 * np.pi * np.fft.rfftfreq(N, d=L / N)
+U0 = np.fft.rfft(u0)
 
-  <div class="bloco alerta">
-    <span class="rotulo">Cuidado</span>
-    <p>Ao avaliar \(\cosh\beta L\) para \(\beta L\) grande, os números crescem depressa:
-    \(\cosh(11)\approx3\cruz10^4\) e \(\cosh(30)\approx5\cruz10^{12}\). Para as quatro
-    primeiras raízes não há problema, mas se você for procurar a décima, use a forma
-    equivalente \(\cos\beta L+1/\cosh\beta L=0\), que é numericamente bem mais bem
-    comportada.</p>
+def evolui(U0, omega, t):
+    """Cada componente de Fourier gira com a sua própria frequência."""
+    return np.fft.irfft(U0 * np.exp(-1j * omega * t), n=N)
+
+t = 12.0
+for eixo_y, (nome, omega) in enumerate((('corda', c * kk),
+                                        ('barra', alfa * kk ** 2))):
+    a2.plot(x, evolui(U0, omega, t) - 1.5 * eixo_y, label=nome)
+a2.set_xlim(0, L); a2.set_yticks([])
+a2.set_xlabel('$x$'); a2.set_title('o mesmo pulso depois de t = %g' % t)
+a2.legend()
+fig.tight_layout()
+plt.show()
+
+# %% a lei de escala: metade do comprimento
+print('corda: cortar pela metade multiplica f por', 2 ** 1)
+print('barra: cortar pela metade multiplica f por', 2 ** 2)</code></pre>
+  </div>
+
+  <p>As células marcadas com <code>#&nbsp;%%</code> são blocos de execução do Spyder: com o
+  cursor dentro de uma delas, <kbd>Ctrl</kbd>+<kbd>Enter</kbd> roda só aquele trecho e
+  guarda as variáveis. É o modo natural de trabalhar no Spyder, e vamos usá-lo o curso
+  inteiro.</p>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">A conta do pulso é exata, e a da barra engana o olho</span>
+    <p>O método acima resolve a equação exatamente, porque cada componente de Fourier é uma
+    solução exata e a equação é linear. O que o olho vê como "o pulso se desmanchando" não é
+    erro numérico nem dissipação: a energia continua toda ali, redistribuída entre
+    componentes que andam com velocidades diferentes. Se você rodar o tempo para trás, o
+    pulso volta a se formar.</p>
   </div>
 
 
   <nav class="nav-aulas">
-    <a href="bloco1.html"><small>Anterior</small>← Bloco 1: duas equações</a>
-    <a class="prox" href="bloco3.html"><small>Próximo</small>Bloco 3: o método dos elementos finitos →</a>
+    <a href="bloco1.html"><small>Anterior</small>← Bloco 1: a corda e a equação de onda</a>
+    <a class="prox" href="bloco3.html"><small>Próximo</small>Bloco 3: a viga engastada →</a>
   </nav>
 
 </main>
@@ -268,6 +333,6 @@ plt.legend(); plt.tight_layout(); plt.show()</code></pre></div>
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611091502"></script>
+<script src="assets/js/widgets.js?v=202611091631"></script>
 </body>
 </html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloco 7: modos torsionais e Chladni | Da kalimba à viga</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
+<script src="assets/js/comum.js?v=202611091631"></script>
+<script src="assets/js/codigo.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="index.html">Da kalimba à viga <span>· LFCA/URCA</span></a>
+    <nav class="menu">
+      <a href="index.html">Início</a>
+      <span class="grupo">Blocos</span>
+      <a href="bloco1.html" class="num" title="Bloco 1: a corda e a equação de onda">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a barra e a quarta ordem">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: a viga engastada">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: o método dos elementos finitos">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: mão na massa">5</a>
+      <a href="bloco6.html" class="num" title="Bloco 6: da viga à placa">6</a>
+      <a href="bloco7.html" class="num ativo" title="Bloco 7: modos torsionais e Chladni">7</a>
+      <a href="bloco8.html" class="num" title="Bloco 8: placas perfuradas">8</a>
+      <a href="apendices.html">Apêndices</a>
+    </nav>
+  </div>
+</header>
+
+<div class="envoltorio">
+
+<aside class="lateral">
+  <h4>Neste bloco</h4>
+  <ol>
+    <li><a href="#s1">1. A solução de Navier</a></li>
+    <li><a href="#s2">2. Chladni e a degenerescência</a></li>
+    <li><a href="#s3">3. A solução de Lévy</a></li>
+    <li><a href="#s4">4. Flexão mede Y, torção mede G</a></li>
+    <li><a href="#s5">5. No Spyder: Rayleigh-Ritz</a></li>
+  </ol>
+</aside>
+
+<main class="conteudo">
+
+  <p class="chapeu">Bloco 7 · 1 hora</p>
+  <h1>Bloco 7: modos torsionais e Chladni</h1>
+  <p class="subtitulo">A placa apoiada resolvida exatamente, a degenerescência que produz as figuras de Chladni, e por que a torção mede o módulo de cisalhamento.</p>
+  <!-- ============================================== -->
+  <h2 id="s1">1. A solução de Navier</h2>
+
+  <p>Existe um caso em que a equação de Germain-Lagrange se resolve exatamente e em três
+  linhas, e é o da placa apoiada nos quatro lados. Tente</p>
+
+  <p>\[W_{mn}(x,y)=\sen\frac{m\pi x}{a}\,\sen\frac{n\pi y}{b},
+  \qquad m,n=1,2,3,\dots\]</p>
+
+  <p>Essa função se anula em todo o contorno, e as suas segundas derivadas também se anulam
+  nas bordas correspondentes: as quatro condições de apoio estão satisfeitas exatamente, sem
+  ajuste nenhum. Levando ao problema de autovalor \(\nabla^4W=\beta^4W\), com
+  \(\beta^4=\rho h\omega^2/D\), basta derivar:</p>
+
+  <div class="destaque">
+    <span class="anuncio">Solução de Navier</span>
+    \[\omega_{mn}=\pi^2\left[\left(\frac{m}{a}\right)^2+\left(\frac{n}{b}\right)^2\right]
+    \sqrt{\frac{D}{\rho h}},
+    \qquad
+    \lambda_{mn}\equiv\omega_{mn}a^2\sqrt{\frac{\rho h}{D}}
+    =\pi^2\left[m^2+n^2\left(\frac ab\right)^2\right].\]
+  </div>
+
+  <p>Como o conjunto dos senos é completo, esses são <strong>todos</strong> os modos: não
+  falta nenhum. O parâmetro \(\lambda\) é adimensional e concentra toda a geometria; é com
+  ele que se tabelam placas.</p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Modo \((m,n)\)</th><th>\(m^2+n^2\)</th><th>\(\lambda_{mn}\)</th><th>\(f_{mn}/f_{11}\)</th></tr></thead>
+    <tbody>
+      <tr><td>(1,1)</td><td>2</td><td>19,739</td><td>1,000</td></tr>
+      <tr><td>(1,2) e (2,1)</td><td>5</td><td>49,348</td><td>2,500</td></tr>
+      <tr><td>(2,2)</td><td>8</td><td>78,957</td><td>4,000</td></tr>
+      <tr><td>(1,3) e (3,1)</td><td>10</td><td>98,696</td><td>5,000</td></tr>
+      <tr><td>(2,3) e (3,2)</td><td>13</td><td>128,30</td><td>6,500</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Compare com a corda, cujos sobretons eram 1, 2, 3, 4. Aqui são 1; 2,5; 4; 5; 6,5: a
+  placa apoiada não é harmônica, embora os seus modos sejam senos. A razão é que a frequência
+  depende da <strong>soma dos quadrados</strong> de dois inteiros, e não de um inteiro.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Por que tambores não tocam melodia</span>
+    <p>O mesmo argumento, numa membrana circular, dá razões 1 : 1,593 : 2,136 : 2,296, que
+    não são intervalos musicais. Um tambor produz altura vaga por isso, e a tímpano da
+    orquestra só tem altura definida porque a membrana carrega ar junto, o que desloca os
+    modos e aproxima alguns deles de razões inteiras.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. Degenerescência e as figuras de Chladni</h2>
+
+  <p>Olhe de novo para a tabela. Os modos \((1,2)\) e \((2,1)\) têm exatamente a mesma
+  frequência numa placa quadrada, e isso não é coincidência numérica: é simetria. Girar a
+  placa de 90° leva um modo no outro sem mudar nada de físico, logo as frequências têm de
+  coincidir. Diz-se que o autovalor é <strong>degenerado</strong>.</p>
+
+  <p>A consequência é que qualquer combinação \(c_1W_{12}+c_2W_{21}\) também é modo, com a
+  mesma frequência. E combinações diferentes têm linhas nodais diferentes:</p>
+
+  <ul>
+    <li>\(W_{12}\) sozinho: uma linha nodal horizontal no meio;</li>
+    <li>\(W_{21}\) sozinho: uma linha nodal vertical no meio;</li>
+    <li>\(W_{12}-W_{21}\): uma linha nodal na diagonal \(y=x\);</li>
+    <li>\(W_{12}+W_{21}\): uma linha nodal na outra diagonal.</li>
+  </ul>
+
+  <p>Experimentalmente, quem escolhe a combinação é onde se prende a placa e onde se
+  excita: o modo que aparece é o que tem um nó no ponto preso. É por isso que a mesma placa,
+  na mesma frequência, mostra figuras diferentes conforme o ponto de apoio, e foi isso que
+  Chladni catalogou sem ter como explicar.</p>
+
+  <div data-widget="chladni"></div>
+
+  <div class="bloco fisica">
+    <span class="rotulo">A lei empírica de Chladni</span>
+    <p>Chladni observou que as frequências de uma placa circular livre seguiam
+    \(f\propto(m+2n)^2\), com \(m\) círculos nodais e \(n\) diâmetros nodais. É uma
+    aproximação grosseira e historicamente importante: foi a primeira tentativa de pôr ordem
+    nas figuras, e durou até existir a teoria.</p>
+  </div>
+
+  <p>A placa quadrada <em>livre</em> nos quatro lados, que é a do experimento de Chladni, não
+  tem solução exata. Walther Ritz a resolveu em 1909, com o método que leva o seu nome, e
+  obteve \(\lambda_1=14{,}10\) para o primeiro modo elástico com \(\nu=0{,}225\). O programa
+  da seção 5 devolve 14,12 em menos de um segundo.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s3">3. A solução de Lévy</h2>
+
+  <p>Entre a placa totalmente apoiada, que se resolve exatamente, e a totalmente livre, que
+  não se resolve, existe um caso intermediário devido a Maurice Lévy, em 1899. Basta que
+  <strong>um par de bordas opostas</strong> seja apoiado.</p>
+
+  <p>Suponha \(x=0\) e \(x=a\) apoiadas, e as bordas \(y=\text{const.}\) quaisquer. Com
+  \(\alpha_m=m\pi/a\), tente</p>
+
+  <p>\[W(x,y)=Y_m(y)\,\sen\alpha_mx,\]</p>
+
+  <p>que já satisfaz exatamente as condições em \(x\). Substituindo em
+  \(\nabla^4W=\beta^4W\), a derivada parcial some e sobra uma equação diferencial
+  ordinária:</p>
+
+  <p>\[Y^{(4)}-2\alpha_m^2\,Y^{\prime\prime}+\left(\alpha_m^4-\beta^4\right)Y=0,\]</p>
+
+  <p>cuja equação característica \(r^4-2\alpha_m^2r^2+\alpha_m^4-\beta^4=0\) dá
+  \(r^2=\alpha_m^2\pm\beta^2\). Definindo
+  \(\kappa_1=\sqrt{\beta^2+\alpha_m^2}\) e \(\kappa_2=\sqrt{\left|\beta^2-\alpha_m^2\right|}\),
+  a solução geral combina duas exponenciais hiperbólicas e duas trigonométricas. Impondo
+  duas condições em cada borda \(y\), sobra um sistema homogêneo \(4\cruz4\), e a equação de
+  frequências é o anulamento do determinante.</p>
+
+  <div class="bloco ex">
+    <span class="rotulo">Bordas engastadas: SCSC</span>
+    <p>Com a origem de \(y\) no centro, os modos se separam em simétricos e antissimétricos.
+    Para os simétricos, \(Y=C_1\cosh\kappa_1y+C_3\cos\kappa_2y\), e impor
+    \(Y(b/2)=Y^\prime(b/2)=0\) dá</p>
+    <p>\[\kappa_2\tg\frac{\kappa_2b}{2}+\kappa_1\tgh\frac{\kappa_1b}{2}=0.\]</p>
+    <p>Para os antissimétricos, \(Y=C_2\senh\kappa_1y+C_4\sen\kappa_2y\), e a condição
+    fica \(\kappa_1\tg\frac{\kappa_2b}{2}-\kappa_2\tgh\frac{\kappa_1b}{2}=0\). A menor raiz
+    da primeira, para a placa quadrada com \(m=1\), dá \(\lambda=28{,}951\).</p>
+  </div>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Borda \(y=0\)</th><th>Borda \(y=b\)</th><th>Notação</th><th>\(\lambda_1\)</th></tr></thead>
+    <tbody>
+      <tr><td>apoiada</td><td>apoiada</td><td>SSSS</td><td>19,739</td></tr>
+      <tr><td>engastada</td><td>apoiada</td><td>SCSS</td><td>23,646</td></tr>
+      <tr><td>engastada</td><td>engastada</td><td>SCSC</td><td>28,951</td></tr>
+      <tr><td>livre</td><td>livre</td><td>SFSF</td><td>9,631</td></tr>
+      <tr><td>apoiada</td><td>livre</td><td>SSSF</td><td>11,685</td></tr>
+      <tr><td>engastada</td><td>livre</td><td>SCSF</td><td>12,687</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>A ordem é a esperada: engastar enrijece, soltar amolece, e a placa com duas bordas
+  livres vibra a metade da frequência da apoiada. Placas sem um par de bordas opostas
+  apoiadas (CCCC, CFFF, FFFF) não admitem Lévy, e para elas só restam os métodos
+  aproximados.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. Flexão mede Y, torção mede G</h2>
+
+  <p>Agora o ponto que faz a ligação com a pesquisa do grupo. Reescreva a energia de
+  deformação abrindo o quadrado:</p>
+
+  <p>\[U=\frac{D}{2}\int_\Omega\left[\left(\pder{^2w}{x^2}\right)^2
+  +\left(\pder{^2w}{y^2}\right)^2
+  +2\nu\,\pder{^2w}{x^2}\pder{^2w}{y^2}
+  +2(1-\nu)\left(\frac{\partial^2w}{\partial x\,\partial y}\right)^2\right]dA.\]</p>
+
+  <p>Os três primeiros termos envolvem as curvaturas de flexão; o último, só a curvatura de
+  torção. E o coeficiente dele tem uma identidade notável:</p>
+
+  <div class="destaque">
+    <span class="anuncio">O termo de torção depende só de G</span>
+    \[\frac{D(1-\nu)}{2}
+    =\frac{Yh^3(1-\nu)}{24\left(1-\nu^2\right)}
+    =\frac{Yh^3}{24(1+\nu)}
+    =\frac{G\,h^3}{12},
+    \qquad G=\frac{Y}{2(1+\nu)}.\]
+  </div>
+
+  <p>O módulo de elasticidade e o coeficiente de Poisson desaparecem, e sobra o módulo de
+  cisalhamento sozinho. Um modo que se deforma sobretudo por torção tem a sua frequência
+  governada por \(G\); um modo de flexão pura, por \(D\), isto é, por \(Y/(1-\nu^2)\).
+  <strong>Medindo um modo de cada tipo, medem-se duas constantes elásticas
+  independentes.</strong> É exatamente o que o bloco 8 vai fazer.</p>
+
+  <div class="bloco ex">
+    <span class="rotulo">A placa em balanço: flexão e torção lado a lado</span>
+    <p>Numa placa engastada numa borda curta e livre nas outras três, os modos se separam
+    por simetria em relação à linha de centro. Os <strong>simétricos</strong> são flexão: a
+    placa inteira sobe e desce. Os <strong>antissimétricos</strong> são torção: um lado sobe
+    enquanto o outro desce. Para a placa quadrada com \(\nu=0{,}3\):</p>
+    <p>\[\lambda=3{,}472\ (\text{flexão 1}),\quad
+    8{,}507\ (\text{torção 1}),\quad
+    21{,}29\ (\text{flexão 2}),\quad 27{,}20,\quad 30{,}96.\]</p>
+    <p>Para a placa de aço de 300 × 75 × 3 mm que o grupo usa em bancada, o mesmo cálculo dá
+    27,6 Hz para a primeira flexão e 223,7 Hz para a primeira torção.</p>
+  </div>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Conferindo a torção por outro caminho</span>
+    <p>Uma barra longa e estreita em torção obedece a Saint-Venant, com constante de torção
+    \(J\approx bh^3/3\) e inércia polar \(\rho b^3h/12\) por unidade de comprimento. A
+    primeira frequência de torção de uma barra engastada numa ponta fica</p>
+    <p>\[f_1=\frac{1}{2a}\,\frac{h}{b}\sqrt{\frac{G}{\rho}}
+    =\frac{1}{2\cruz0{,}3}\cruz\frac{0{,}003}{0{,}075}
+    \sqrt{\frac{77{,}5\cruz10^9}{7850}}=209\ \text{Hz},\]</p>
+    <p>contra 223,7 Hz da placa. A diferença de 7 % é o empenamento impedido no engaste, que
+    a teoria de Saint-Venant ignora e a de placa inclui. Duas teorias independentes dando o
+    mesmo número a 7 % é a melhor confirmação que se pode pedir antes de ir ao
+    computador.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s5">5. No Spyder: Rayleigh-Ritz em quarenta linhas</h2>
+
+  <p>O programa abaixo resolve a placa de Kirchhoff para qualquer combinação de bordas
+  apoiadas, engastadas e livres, em qualquer razão de lados, usando só <code>numpy</code> e
+  <code>scipy</code>. São quarenta linhas, e ele reproduz a tabela de Lévy da seção 3 e os
+  valores da placa em balanço da seção 4.</p>
+
+  <p>A ideia é o quociente de Rayleigh. Para qualquer forma admissível \(v\),</p>
+
+  <p>\[\omega^2\;\leq\;R[v]=\frac{a(v,v)}{m(v,v)},
+  \qquad a(v,v)=2U,\qquad m(v,v)=\int_\Omega\rho h\,v^2\,dA,\]</p>
+
+  <p>com igualdade só no modo fundamental. Aproximando \(w\approx\sum_jc_j\phi_j\) e exigindo
+  que \(R\) seja estacionário em relação aos \(c_j\), cai-se num problema de autovalor
+  generalizado \(\left(\Ten{K}-\omega^2\Ten{M}\right)\vet{c}=0\), com
+  \(K_{ij}=a(\phi_i,\phi_j)\) e \(M_{ij}=m(\phi_i,\phi_j)\). É o mesmo problema do bloco 4,
+  com funções de base diferentes.</p>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">As funções de base só precisam das condições essenciais</span>
+    <p>Cada \(\phi_j\) tem de satisfazer \(w=0\) numa borda apoiada e \(w=w_{,n}=0\) numa
+    engastada. As condições de borda livre, \(M_{nn}=0\) e \(V_n=0\), são
+    <strong>naturais</strong>: saem sozinhas do princípio variacional e não precisam ser
+    impostas. É por isso que a borda livre, que é a mais difícil nos métodos exatos, é a mais
+    fácil aqui: basta não fazer nada.</p>
+  </div>
+
+  <div class="codigo">
+    <span class="arquivo">placa_ritz.py</span>
+<pre><code># -*- coding: utf-8 -*-
+"""Rayleigh-Ritz para a placa fina de Kirchhoff. Só numpy e scipy."""
+import numpy as np
+from numpy.polynomial import Legendre, Polynomial
+from scipy.linalg import eigh
+
+# expoente do fator que impõe a condição essencial em cada borda:
+# apoiada (S) anula w; engastada (C) anula w e a sua derivada; livre (F) não
+# impõe nada, porque as condições de borda livre são naturais.
+EXPO = {'S': 1, 'C': 2, 'F': 0}
+
+def familia(c0, c1, n):
+    """n funções de base que já satisfazem as condições essenciais."""
+    fator = Polynomial([0, 1]) ** EXPO[c0] * Polynomial([1, -1]) ** EXPO[c1]
+    t = Polynomial([-1, 2])                 # leva [0, 1] em [-1, 1]
+    return [fator * Polynomial(Legendre.basis(k).convert(kind=Polynomial).coef)(t)
+            for k in range(n)]
+
+def ritz(bcx, bcy, n=8, nu=0.3, razao=1.0, ng=40, quantos=6):
+    """Parâmetro de frequência lambda = omega a^2 sqrt(rho h / D).
+
+    bcx: condições nas bordas x = 0 e x = a; bcy: em y = 0 e y = b.
+    razao = a / b."""
+    s, w = np.polynomial.legendre.leggauss(ng)
+    s, w = 0.5 * (s + 1), 0.5 * w           # nós de Gauss em [0, 1]
+    def amostra(fs):
+        return (np.array([f(s) for f in fs]),
+                np.array([f.deriv(1)(s) for f in fs]),
+                np.array([f.deriv(2)(s) for f in fs]))
+    X, X1, X2 = amostra(familia(bcx[0], bcx[1], n))
+    Y, Y1, Y2 = amostra(familia(bcy[0], bcy[1], n))
+    I = lambda A, B: np.einsum('ik,jk,k-&gt;ij', A, B, w)
+    x00, x22, x02, x11 = I(X, X), I(X2, X2), I(X2, X), I(X1, X1)
+    y00, y22, y02, y11 = I(Y, Y), I(Y2, Y2), I(Y2, Y), I(Y1, Y1)
+    r = razao
+    # energia de deformação e energia cinética, em forma de matriz
+    K = (np.einsum('ik,jl-&gt;ijkl', x22, y00)
+         + r ** 4 * np.einsum('ik,jl-&gt;ijkl', x00, y22)
+         + nu * r ** 2 * (np.einsum('ik,lj-&gt;ijkl', x02, y02)
+                          + np.einsum('ki,jl-&gt;ijkl', x02, y02))
+         + 2 * (1 - nu) * r ** 2 * np.einsum('ik,jl-&gt;ijkl', x11, y11))
+    M = np.einsum('ik,jl-&gt;ijkl', x00, y00)
+    N = n * n
+    lam = eigh(K.reshape(N, N), M.reshape(N, N), eigvals_only=True)
+    return np.sqrt(np.clip(lam, 0, None))[:quantos]
+
+if __name__ == '__main__':
+    print('placa quadrada, lambda = omega a^2 sqrt(rho h / D)')
+    for bcx, bcy, nome, ref in (('SS', 'SS', 'SSSS', 19.739),
+                                ('SS', 'CS', 'SCSS', 23.646),
+                                ('SS', 'CC', 'SCSC', 28.951),
+                                ('SS', 'FF', 'SFSF', 9.631),
+                                ('CC', 'CC', 'CCCC', 35.99),
+                                ('CF', 'FF', 'CFFF', 3.472)):
+        v = ritz(bcx, bcy, n=8)
+        print('%-6s %9.4f   referência %8.3f' % (nome, v[0], ref))
+</code></pre>
+  </div>
+
+  <p>Rodando, saem os seis casos da tabela, todos com quatro dígitos corretos. Vale trocar
+  <code>n=8</code> por 4, 6, 10 e ver o que acontece: as frequências <em>descem</em>
+  monotonamente, nunca sobem. Isso não é acaso, é o princípio de mínimo: toda forma
+  admissível superestima a frequência, e enriquecer a base só pode melhorar.</p>
+
+  <div data-widget="placamodos"></div>
+
+
+  <nav class="nav-aulas">
+    <a href="bloco6.html"><small>Anterior</small>← Bloco 6: da viga à placa</a>
+    <a class="prox" href="bloco8.html"><small>Próximo</small>Bloco 8: placas perfuradas →</a>
+  </nav>
+
+</main>
+</div>
+
+<footer class="rodape">
+  <img class="logo-rodape" src="assets/img/logo-lfca.png" alt="LFCA | URCA">
+  <p><strong>Prof. Apiano Morais</strong> · <a href="mailto:apiano.morais@urca.br">apiano.morais@urca.br</a><br>
+  Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
+</footer>
+
+<script src="assets/js/widgets.js?v=202611091631"></script>
+</body>
+</html>

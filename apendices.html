@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apêndices | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
-<script src="assets/js/comum.js?v=202611091502"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
+<script src="assets/js/comum.js?v=202611091631"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -18,11 +18,14 @@
     <nav class="menu">
       <a href="index.html">Início</a>
       <span class="grupo">Blocos</span>
-      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
-      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
-      <a href="bloco3.html" class="num" title="Bloco 3: o método dos elementos finitos">3</a>
-      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
-      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="bloco1.html" class="num" title="Bloco 1: a corda e a equação de onda">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a barra e a quarta ordem">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: a viga engastada">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: o método dos elementos finitos">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: mão na massa">5</a>
+      <a href="bloco6.html" class="num" title="Bloco 6: da viga à placa">6</a>
+      <a href="bloco7.html" class="num" title="Bloco 7: modos torsionais e Chladni">7</a>
+      <a href="bloco8.html" class="num" title="Bloco 8: placas perfuradas">8</a>
       <a href="apendices.html" class="ativo">Apêndices</a>
     </nav>
   </div>
@@ -35,8 +38,9 @@
   <ol>
     <li><a href="#s1">1. A: a equação de onda</a></li>
     <li><a href="#s2">2. B: Euler-Bernoulli</a></li>
-    <li><a href="#s3">3. C: folha de apoio</a></li>
-    <li><a href="#s4">4. D: preparando o computador</a></li>
+    <li><a href="#s3">3. C: a placa por forças</a></li>
+    <li><a href="#s4">4. D: folha de apoio</a></li>
+    <li><a href="#s5">5. E: preparando o Spyder</a></li>
   </ol>
 </aside>
 
@@ -44,7 +48,7 @@
 
 
   <h1>Apêndices</h1>
-  <p class="subtitulo">As duas deduções passo a passo, a folha de apoio com tudo em uma página e o preparo do computador.</p>
+  <p class="subtitulo">As deduções passo a passo, a folha de apoio com tudo em uma página e o preparo do Spyder.</p>
   <!-- ============================================== -->
   <h2 id="s1">1. Apêndice A: dedução da equação de onda (corda)</h2>
 
@@ -127,95 +131,187 @@
   </div>
 
   <!-- ============================================== -->
-  <h2 id="s3">3. Apêndice C: folha de apoio, tudo em uma página</h2>
+  <h2 id="s3">3. Apêndice C: a placa pelo balanço de forças</h2>
 
-  <p><strong>Corda (equação de onda).</strong></p>
-  <p>\[u_{tt}=c^2u_{xx},\quad c=\sqrt{T/\mu},\qquad \omega=ck,
-  \qquad f_n=\frac{n}{2L}\sqrt{\frac{T}{\mu}}.\]</p>
+  <p>A dedução do bloco 6 integrou as equações de Cauchy na espessura. O mesmo resultado sai
+  de um balanço de forças num elemento \(dx\,dy\) da superfície média, e é esse o caminho
+  que a maioria dos livros segue. Vale ter os dois.</p>
 
-  <p><strong>Viga (Euler-Bernoulli).</strong></p>
-  <p>\[\rho A\,w_{tt}+EI\,w_{xxxx}=0,\qquad \omega=k^2\sqrt{\frac{EI}{\rho A}},
-  \qquad I=\frac{bh^3}{12},\quad A=bh.\]</p>
+  <p>No elemento, as faces de normal \(+x\) e \(+y\) carregam os esforços incrementados, e as
+  de normal \(-x\) e \(-y\), os valores de referência. O balanço de forças verticais envolve
+  só os cortantes e a carga:</p>
 
-  <p><strong>Viga engastada-livre.</strong></p>
-  <p>\[\cos\left(\beta L\right)\cosh\left(\beta L\right)+1=0,\qquad
-  f_n=\frac{\left(\beta_nL\right)^2}{2\pi L^2}\,\frac{h}{\sqrt{12}}\sqrt{\frac{E}{\rho}},\]</p>
-  <p>\[\beta_1L=1{,}8751,\quad\beta_2L=4{,}6941,\quad\beta_3L=7{,}8548,
-  \quad\beta_4L=10{,}996.\]</p>
+  <p>\[\left(Q_x+\pder{Q_x}{x}dx\right)dy-Q_x\,dy
+  +\left(Q_y+\pder{Q_y}{y}dy\right)dx-Q_y\,dx+q\,dx\,dy
+  =\rho h\,\pder{^2w}{t^2}dx\,dy,\]</p>
 
-  <p><strong>Problema de autovalores.</strong>
-  \(\Ten{K}\vet{\phi}=\omega^2\Ten{M}\vet{\phi}\), com \(f=\omega/2\pi\).</p>
+  <p>que, dividindo por \(dx\,dy\), dá
+  \(\partial Q_x/\partial x+\partial Q_y/\partial y+q=\rho h\,\ddot w\).</p>
 
-  <p><strong>Propriedades úteis.</strong></p>
+  <p>O balanço de momentos em torno do eixo \(y\) envolve o momento fletor \(M_x\), o
+  torçor \(M_{xy}\) vindo das faces perpendiculares, e o cortante \(Q_x\), cujo braço é
+  \(dx\). Desprezando a inércia de rotação e os termos de ordem superior,</p>
+
+  <p>\[\pder{M_x}{x}+\pder{M_{xy}}{y}=Q_x,\]</p>
+
+  <p>e, por simetria, a mesma equação com \(x\) e \(y\) trocados. Derivando a primeira em
+  \(x\), a segunda em \(y\), somando e levando ao balanço de forças, chega-se à mesma
+  equação do bloco 6.</p>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">O que esse caminho não dá</span>
+    <p>O balanço de forças produz a equação de movimento e nada mais. As condições de
+    contorno precisam ser postuladas à parte, e foi exatamente aí que Poisson e Navier
+    erraram, impondo três condições por borda. O princípio de Hamilton, que o bloco 6 usa,
+    produz equação e condições de contorno de uma vez só, com o cortante efetivo
+    aparecendo sozinho. É a diferença entre uma dedução que dá a resposta e uma que dá a
+    resposta e a razão dela.</p>
+  </div>
+
+  <p>Vale registrar também a identidade que faz a energia perder a dependência de \(\nu\)
+  quando a placa é presa em todo o contorno. Com</p>
+
+  <p>\[w_{,xx}w_{,yy}-w_{,xy}^2=\left(w_{,x}w_{,yy}\right)_{,x}-\left(w_{,x}w_{,xy}\right)_{,y},\]</p>
+
+  <p>a integral do hessiano vira uma integral de contorno. Em cada borda em que \(w\equiv0\),
+  a derivada segunda ao longo da borda também se anula, e os dois termos somem. Daí
+  \(U=\frac{D}{2}\int(\nabla^2w)^2dA\) para placas apoiadas ou engastadas em todo o
+  contorno, qualquer que seja \(\nu\).</p>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. Apêndice D: folha de apoio, tudo em uma página</h2>
 
   <div class="tabela-rolavel">
   <table>
-    <thead><tr><th>Material</th><th>\(E\) [GPa]</th><th>\(\rho\) [kg/m³]</th>
-      <th>\(\sqrt{E/\rho}\) [m/s]</th></tr></thead>
+    <thead><tr><th>Sistema</th><th>Equação</th><th>Rigidez</th><th>Dispersão</th></tr></thead>
     <tbody>
-      <tr><td>Aço</td><td>200</td><td>7850</td><td>5050</td></tr>
-      <tr><td>Alumínio</td><td>69</td><td>2700</td><td>5050</td></tr>
-      <tr><td>Latão</td><td>100</td><td>8500</td><td>3430</td></tr>
-      <tr><td>Acrílico (PMMA)</td><td>3,0</td><td>1190</td><td>1590</td></tr>
+      <tr><td>Corda</td><td>\(\mu\,\ddot u=T\,u_{,xx}\)</td><td>\(T\)</td><td>\(\omega=ck\)</td></tr>
+      <tr><td>Viga</td><td>\(\rho A\,\ddot w+YI\,w_{,xxxx}=q\)</td><td>\(YI\), \(I=bh^3/12\)</td><td>\(\omega\propto k^2\)</td></tr>
+      <tr><td>Placa</td><td>\(\rho h\,\ddot w+D\,\nabla^4w=q\)</td><td>\(D=\dfrac{Yh^3}{12(1-\nu^2)}\)</td><td>\(\omega\propto k^2\)</td></tr>
     </tbody>
   </table>
   </div>
 
-  <p><strong>Razões entre modos.</strong> Corda: 1 : 2 : 3 : 4. Viga engastada-livre:
-  1 : 6,27 : 17,55 : 34,4. Viga livre-livre: 1 : 2,76 : 5,40 : 8,93.</p>
+  <div class="bloco">
+    <span class="rotulo">Viga: frequências</span>
+    <p>\(f_n=\dfrac{\left(\beta_nL\right)^2}{2\pi L^2}\sqrt{\dfrac{YI}{\rho A}}\)</p>
+    <p>engastada-livre: \(\cos\beta L\cosh\beta L=-1\); \(\beta L=\) 1,8751; 4,6941; 7,8548
+    &nbsp;·&nbsp; razões 1; 6,267; 17,55</p>
+    <p>livre-livre e biengastada: \(\cos\beta L\cosh\beta L=1\); \(\beta L=\) 4,7300;
+    7,8532; 10,9956 &nbsp;·&nbsp; razões 1; 2,757; 5,404</p>
+    <p>biapoiada: \(\sen\beta L=0\); \(\beta L=n\pi\) &nbsp;·&nbsp; razões 1; 4; 9</p>
+  </div>
+
+  <div class="bloco">
+    <span class="rotulo">Placa: esforços e modos</span>
+    <p>\(M_x=-D\left(w_{,xx}+\nu w_{,yy}\right)\) &nbsp;·&nbsp;
+    \(M_y=-D\left(w_{,yy}+\nu w_{,xx}\right)\) &nbsp;·&nbsp;
+    \(M_{xy}=-D(1-\nu)w_{,xy}\)</p>
+    <p>\(Q_x=-D\left(\nabla^2w\right)_{,x}\) &nbsp;·&nbsp;
+    cortante efetivo \(V_x=-D\left[w_{,xxx}+(2-\nu)w_{,xyy}\right]\) &nbsp;·&nbsp;
+    canto \(R_c=-2D(1-\nu)w_{,xy}\)</p>
+    <p>\(\lambda=\omega a^2\sqrt{\rho h/D}\) &nbsp;·&nbsp; Navier (SSSS):
+    \(\lambda_{mn}=\pi^2\left[m^2+n^2(a/b)^2\right]\)</p>
+    <p>quadrada: SSSS 19,739 &nbsp;·&nbsp; SCSS 23,646 &nbsp;·&nbsp; SCSC 28,951
+    &nbsp;·&nbsp; CCCC 35,99 &nbsp;·&nbsp; SFSF 9,631 &nbsp;·&nbsp; CFFF 3,472</p>
+    <p>em balanço, quadrada: 3,472 (flexão); 8,507 (torção); 21,29; 27,20; 30,96</p>
+  </div>
+
+  <div class="bloco">
+    <span class="rotulo">Energia e propriedades efetivas</span>
+    <p>\(U=\dfrac{D}{2}\displaystyle\int\left[\left(\nabla^2w\right)^2
+    -2(1-\nu)\left(w_{,xx}w_{,yy}-w_{,xy}^2\right)\right]dA\)</p>
+    <p>torção: \(\dfrac{D(1-\nu)}{2}=\dfrac{Gh^3}{12}\), com
+    \(G=\dfrac{Y}{2(1+\nu)}\)</p>
+    <p>efetivas: \(E^*=eY\), \(G^*=gG\), \(\rho^*=\eta\rho\) &nbsp;·&nbsp;
+    \(\nu^*=(1+\nu)\dfrac{e}{g}-1\)</p>
+  </div>
+
+  <div class="bloco">
+    <span class="rotulo">Materiais usados no curso</span>
+    <p>aço: \(Y=200\) GPa, \(\nu=0{,}29\), \(\rho=7850\) kg/m³, \(G=77{,}5\) GPa</p>
+    <p>alumínio: \(Y=70\) GPa, \(\nu=0{,}33\), \(\rho=2700\) kg/m³</p>
+    <p>latão: \(Y=100\) GPa, \(\nu=0{,}34\), \(\rho=8500\) kg/m³</p>
+    <p>PMMA: \(Y=3{,}0\) GPa, \(\nu=0{,}37\), \(\rho=1190\) kg/m³</p>
+  </div>
 
   <!-- ============================================== -->
-  <h2 id="s4">4. Apêndice D: preparando o computador</h2>
+  <h2 id="s5">5. Apêndice E: preparando o Spyder</h2>
 
-  <p>O curso usa apenas <code>numpy</code>, <code>scipy</code> e <code>matplotlib</code>, mais
-  <code>IPython.display.Audio</code> para ouvir os sons. Tudo isso já vem na instalação padrão
-  do Anaconda e do Google Colab.</p>
+  <p>O curso inteiro roda no Spyder, e usa apenas <code>numpy</code>, <code>scipy</code> e
+  <code>matplotlib</code>, que já vêm na instalação padrão do Anaconda. Para o som, um
+  pacote a mais.</p>
 
-  <p>No laboratório, abra o Spyder e rode esta célula. Se ela imprimir "ambiente OK" e tocar um
-  bipe, está tudo pronto:</p>
+  <p>Abra o Spyder, crie um arquivo novo, cole o programa abaixo e rode com <kbd>F5</kbd>.
+  Se imprimir <code>ambiente OK</code>, está tudo pronto para as oito horas.</p>
 
-<div class="codigo" data-lingua="Python"><pre><code>import sys
+  <div class="codigo">
+    <span class="arquivo">ambiente.py</span>
+<pre><code>import sys
 import numpy as np
 import scipy
 import matplotlib
 from scipy.linalg import eigh
 from scipy.optimize import brentq
 
-print("Python     ", sys.version.split()[0])
-print("NumPy      ", np.__version__)
-print("SciPy      ", scipy.__version__)
-print("Matplotlib ", matplotlib.__version__)
+print("Python    ", sys.version.split()[0])
+print("NumPy     ", np.__version__)
+print("SciPy     ", scipy.__version__)
+print("Matplotlib", matplotlib.__version__)
 
-# um teste de verdade: o autovalor de uma matriz 2x2 conhecida
+# um teste de verdade: autovalores de uma matriz 2x2 conhecida
 K = np.array([[2.0, -1.0], [-1.0, 2.0]])
 M = np.eye(2)
-lam, _ = eigh(K, M)
+lam = eigh(K, M, eigvals_only=True)
 assert np.allclose(lam, [1.0, 3.0]), "algo errado com o SciPy"
 
-print("ambiente OK")
+# e uma raiz da equação característica da viga engastada
+raiz = brentq(lambda x: np.cos(x) * np.cosh(x) + 1, 1.5, 2.5)
+assert abs(raiz - 1.8751) &lt; 1e-3, "algo errado com o brentq"
 
-# bipe de 1 segundo em la 440, so para confirmar o som
-from IPython.display import Audio
-fs = 44100
-t = np.arange(0, 1.0, 1/fs)
-Audio(0.3*np.sin(2*np.pi*440*t), rate=fs, autoplay=True)</code></pre></div>
+print("ambiente OK")</code></pre>
+  </div>
 
-  <p>Se estiver no Colab, não é preciso instalar nada. Se estiver numa instalação enxuta do
-  Python, o comando é</p>
+  <div class="bloco def">
+    <span class="rotulo">Três ajustes no Spyder, uma vez só</span>
+    <ol>
+      <li><strong>Gráficos em janela.</strong> Em <em>Ferramentas, Preferências, Console do
+      IPython, Gráficos</em>, troque a saída de <em>Inline</em> para <em>Automático</em>. Sem
+      isso as figuras saem miúdas no painel lateral e não dá para inspecionar nada.</li>
+      <li><strong>Som.</strong> No console do próprio Spyder,
+      <code>pip install sounddevice</code>. O <code>IPython.display.Audio</code>, que
+      funciona em notebook, não toca no Spyder; os programas do curso caem automaticamente
+      para gravar um arquivo <code>.wav</code> quando o <code>sounddevice</code> não está
+      disponível.</li>
+      <li><strong>Células de execução.</strong> Um comentário <code># %%</code> divide o
+      arquivo em blocos. Com o cursor dentro de um bloco,
+      <kbd>Ctrl</kbd>+<kbd>Enter</kbd> roda só aquele trecho e guarda as variáveis no
+      console; <kbd>Shift</kbd>+<kbd>Enter</kbd> roda e pula para o próximo. É o modo de
+      trabalhar do curso: nada de rodar o arquivo inteiro a cada mudança.</li>
+    </ol>
+  </div>
 
-<div class="codigo" data-lingua="terminal"><pre><code>pip install numpy scipy matplotlib ipython</code></pre></div>
+  <div class="bloco cuidado">
+    <span class="rotulo">Se faltar alguma biblioteca</span>
+    <p>Numa instalação enxuta do Python, o comando é
+    <code>pip install numpy scipy matplotlib sounddevice</code>. Nenhum programa do curso
+    precisa de <code>gmsh</code>, <code>scikit-fem</code> ou <code>shapely</code>: esses
+    aparecem no código de pesquisa do grupo, mencionado no bloco 8, e não nos programas que
+    vamos rodar.</p>
+  </div>
 
-  <div class="bloco alerta">
-    <span class="rotulo">Cuidado</span>
-    <p>No Spyder, gráficos aparecem por padrão no painel lateral, pequenos. Para abri-los em
-    janela, vá em Ferramentas, Preferências, Console do IPython, Gráficos, e troque a saída de
-    "Inline" para "Automático". Para ouvir som no Spyder, use <code>sounddevice</code> em vez
-    do <code>Audio</code> do IPython, que só funciona em notebook.</p>
+  <div class="bloco">
+    <span class="rotulo">Atalhos do Spyder que valem a pena</span>
+    <p><kbd>F5</kbd> roda o arquivo &nbsp;·&nbsp; <kbd>Ctrl</kbd>+<kbd>Enter</kbd> roda a
+    célula &nbsp;·&nbsp; <kbd>F9</kbd> roda a linha ou a seleção &nbsp;·&nbsp;
+    <kbd>Ctrl</kbd>+<kbd>1</kbd> comenta &nbsp;·&nbsp; <kbd>Ctrl</kbd>+<kbd>I</kbd> abre a
+    ajuda do objeto sob o cursor &nbsp;·&nbsp; <kbd>Ctrl</kbd>+<kbd>L</kbd> limpa o
+    console</p>
   </div>
 
 
   <nav class="nav-aulas">
-    <a href="bloco5.html"><small>Anterior</small>← Bloco 5: para onde isso vai</a>
+    <a href="bloco8.html"><small>Anterior</small>← Bloco 8: placas perfuradas</a>
   </nav>
 
 </main>
@@ -227,6 +323,6 @@ Audio(0.3*np.sin(2*np.pi*440*t), rate=fs, autoplay=True)</code></pre></div>
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611091502"></script>
+<script src="assets/js/widgets.js?v=202611091631"></script>
 </body>
 </html>

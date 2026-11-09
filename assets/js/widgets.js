@@ -645,6 +645,331 @@
     registrarRedesenho(desenhar);
   };
 
+  /* ---------- polinômios, para o Rayleigh-Ritz de placa ---------- */
+  /* Um polinômio é um vetor de coeficientes: p[k] multiplica s^k. */
+  function polMul(a, b) {
+    var c = new Array(a.length + b.length - 1).fill(0);
+    for (var i = 0; i < a.length; i++)
+      for (var j = 0; j < b.length; j++) c[i + j] += a[i] * b[j];
+    return c;
+  }
+  function polDer(a) {
+    return a.length < 2 ? [0] : a.slice(1).map((v, i) => v * (i + 1));
+  }
+  function polVal(a, s) {
+    var v = 0;
+    for (var i = a.length - 1; i >= 0; i--) v = v * s + a[i];
+    return v;
+  }
+  function polPot(a, n) {
+    var r = [1];
+    for (var i = 0; i < n; i++) r = polMul(r, a);
+    return r;
+  }
+  /* Legendre deslocado para [0,1], pela recorrência de Bonnet em t = 2s-1. */
+  function legendre(n) {
+    var P = [[1], [-1, 2]];
+    for (var k = 2; k <= n; k++) {
+      var t = polMul([-1, 2], P[k - 1]).map(v => v * (2 * k - 1) / k);
+      var u = P[k - 2].map(v => -v * (k - 1) / k);
+      var c = t.slice();
+      for (var i = 0; i < u.length; i++) c[i] += u[i];
+      P.push(c);
+    }
+    return P[n];
+  }
+  var EXPO = { S: 1, C: 2, F: 0 };
+  function familiaPol(c0, c1, n) {
+    var fator = polMul(polPot([0, 1], EXPO[c0]), polPot([1, -1], EXPO[c1]));
+    var saida = [];
+    for (var k = 0; k < n; k++) saida.push(polMul(fator, legendre(k)));
+    return saida;
+  }
+
+  /* Jacobi que devolve autovalores E autovetores, em ordem crescente. */
+  function jacobiCompleto(Ain, iter) {
+    var A = Ain.map(r => r.slice()), n = A.length;
+    var V = A.map((_, i) => A.map((__, j) => (i === j ? 1 : 0)));
+    for (var s = 0; s < (iter || 120); s++) {
+      var off = 0, i, j, k;
+      for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) off += A[i][j] * A[i][j];
+      if (off < 1e-20) break;
+      for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) {
+        if (Math.abs(A[i][j]) < 1e-16) continue;
+        var th = (A[j][j] - A[i][i]) / (2 * A[i][j]);
+        var t = Math.sign(th || 1) / (Math.abs(th) + Math.sqrt(th * th + 1));
+        var c = 1 / Math.sqrt(t * t + 1), sn = t * c;
+        for (k = 0; k < n; k++) {
+          var aik = A[i][k], ajk = A[j][k];
+          A[i][k] = c * aik - sn * ajk; A[j][k] = sn * aik + c * ajk;
+        }
+        for (k = 0; k < n; k++) {
+          var aki = A[k][i], akj = A[k][j];
+          A[k][i] = c * aki - sn * akj; A[k][j] = sn * aki + c * akj;
+          var vki = V[k][i], vkj = V[k][j];
+          V[k][i] = c * vki - sn * vkj; V[k][j] = sn * vki + c * vkj;
+        }
+      }
+    }
+    var ord = A.map((r, i) => [r[i], i]).sort((a, b) => a[0] - b[0]);
+    return { val: ord.map(o => o[0]), vet: ord.map(o => V.map(r => r[o[1]])) };
+  }
+
+  /* Rayleigh-Ritz da placa de Kirchhoff. Devolve lambdas e autovetores. */
+  function ritzPlaca(bcx, bcy, n, nu, razao) {
+    var fx = familiaPol(bcx[0], bcx[1], n);
+    var fy = familiaPol(bcy[0], bcy[1], n);
+    /* Simpson com 480 intervalos: os integrandos são polinômios suaves. */
+    var NG = 480, s = [], w = [];
+    for (var q = 0; q <= NG; q++) {
+      s.push(q / NG);
+      w.push((q === 0 || q === NG ? 1 : (q % 2 ? 4 : 2)) / (3 * NG));
+    }
+    function amostra(fs) {
+      var V = fs.map(p => s.map(x => polVal(p, x)));
+      var D1 = fs.map(p => s.map(x => polVal(polDer(p), x)));
+      var D2 = fs.map(p => s.map(x => polVal(polDer(polDer(p)), x)));
+      return [V, D1, D2];
+    }
+    var X = amostra(fx), Y = amostra(fy);
+    function I(A, B) {
+      var m = A.length, R = [];
+      for (var i = 0; i < m; i++) {
+        R.push([]);
+        for (var j = 0; j < m; j++) {
+          var t = 0;
+          for (var q2 = 0; q2 <= NG; q2++) t += A[i][q2] * B[j][q2] * w[q2];
+          R[i].push(t);
+        }
+      }
+      return R;
+    }
+    var x00 = I(X[0], X[0]), x22 = I(X[2], X[2]),
+        x02 = I(X[2], X[0]), x11 = I(X[1], X[1]);
+    var y00 = I(Y[0], Y[0]), y22 = I(Y[2], Y[2]),
+        y02 = I(Y[2], Y[0]), y11 = I(Y[1], Y[1]);
+    var r = razao, N = n * n, K = [], M = [];
+    for (var a = 0; a < N; a++) {
+      K.push(new Array(N).fill(0));
+      M.push(new Array(N).fill(0));
+      var i1 = Math.floor(a / n), j1 = a % n;
+      for (var b = 0; b < N; b++) {
+        var k1 = Math.floor(b / n), l1 = b % n;
+        K[a][b] = x22[i1][k1] * y00[j1][l1]
+                + Math.pow(r, 4) * x00[i1][k1] * y22[j1][l1]
+                + nu * r * r * (x02[i1][k1] * y02[l1][j1] + x02[k1][i1] * y02[j1][l1])
+                + 2 * (1 - nu) * r * r * x11[i1][k1] * y11[j1][l1];
+        M[a][b] = x00[i1][k1] * y00[j1][l1];
+      }
+    }
+    var Lm = cholesky(M);
+    var Li = inversaInferior(Lm);
+    var Ared = mult(mult(Li, K), transposta(Li));
+    var e = jacobiCompleto(Ared, 160);
+    /* desfaz a transformação: v = L^{-T} y  (resolvido por substituição) */
+    var vets = e.vet.map(function (y) {
+      var v = new Array(N).fill(0);
+      for (var i = N - 1; i >= 0; i--) {
+        var t = y[i];
+        for (var k = i + 1; k < N; k++) t -= Lm[k][i] * v[k];
+        v[i] = t / Lm[i][i];
+      }
+      return v;
+    });
+    return { lam: e.val.map(v => Math.sqrt(Math.max(v, 0))), vet: vets,
+             fx: fx, fy: fy, n: n };
+  }
+
+  /* Campo w(x,y) de um modo, numa grade nx por ny. */
+  function campoModo(sol, idx, nx, ny) {
+    var n = sol.n, c = sol.vet[idx], G2 = [], max = 0;
+    var VX = [], VY = [];
+    for (var i = 0; i < n; i++) {
+      VX.push([]); VY.push([]);
+      for (var p = 0; p < nx; p++) VX[i].push(polVal(sol.fx[i], p / (nx - 1)));
+      for (var q = 0; q < ny; q++) VY[i].push(polVal(sol.fy[i], q / (ny - 1)));
+    }
+    for (p = 0; p < nx; p++) {
+      G2.push([]);
+      for (q = 0; q < ny; q++) {
+        var v = 0;
+        for (i = 0; i < n; i++)
+          for (var j = 0; j < n; j++) v += c[i * n + j] * VX[i][p] * VY[j][q];
+        G2[p].push(v);
+        if (Math.abs(v) > max) max = Math.abs(v);
+      }
+    }
+    return { W: G2, max: max || 1 };
+  }
+
+  /* Desenha um campo como mapa de cores, com a linha nodal destacada. */
+  function desenhaCampo(ct, W, max, x0, y0, larg, alt, areia) {
+    var nx = W.length, ny = W[0].length;
+    var dx = larg / nx, dy = alt / ny;
+    for (var p = 0; p < nx; p++) {
+      for (var q = 0; q < ny; q++) {
+        var v = W[p][q] / max;
+        if (areia) {
+          var g = Math.min(1, Math.abs(v) * 13);
+          ct.fillStyle = 'rgb(' + Math.round(40 + 200 * g) + ','
+                       + Math.round(30 + 190 * g) + ',' + Math.round(25 + 180 * g) + ')';
+        } else {
+          /* cores opacas: com alfa, as bordas das células se somam e
+             aparece uma malha que não existe no campo */
+          var m2 = Math.min(1, Math.abs(v));
+          var cor = v >= 0 ? [138, 90, 36] : [44, 95, 141];
+          ct.fillStyle = 'rgb(' + Math.round(255 + (cor[0] - 255) * m2) + ','
+                       + Math.round(255 + (cor[1] - 255) * m2) + ','
+                       + Math.round(255 + (cor[2] - 255) * m2) + ')';
+        }
+        ct.fillRect(x0 + p * dx, y0 + alt - (q + 1) * dy, dx + 0.6, dy + 0.6);
+      }
+    }
+    ct.strokeStyle = '#1b1f24';
+    ct.lineWidth = 1.2;
+    ct.strokeRect(x0, y0, larg, alt);
+  }
+
+
+  REGISTRO.placamodos = function (raiz) {
+    var corpo = moldura(raiz, 'Os modos de uma placa retangular');
+    var cv = el('canvas');
+    corpo.appendChild(cv);
+
+    var CASOS = [
+      { rot: 'SSSS', bcx: 'SS', bcy: 'SS', ref: 19.739 },
+      { rot: 'SCSC', bcx: 'SS', bcy: 'CC', ref: 28.951 },
+      { rot: 'CCCC', bcx: 'CC', bcy: 'CC', ref: 35.99 },
+      { rot: 'SFSF', bcx: 'SS', bcy: 'FF', ref: 9.631 },
+      { rot: 'Balanço', bcx: 'CF', bcy: 'FF', ref: 3.472 }
+    ];
+    var caso = CASOS[0], modo = 0, razao = 1.0, nu = 0.3;
+
+    opcoes(corpo, CASOS.map(c => ({ rot: c.rot, v: c })), 0,
+      function (v) { caso = v; modo = 0; desenhar(); });
+    var botModo = opcoes(corpo, [1, 2, 3, 4].map(i => ({ rot: 'modo ' + i, v: i - 1 })), 0,
+      function (v) { modo = v; desenhar(); });
+    deslizante(corpo, 'Razão de lados \\(a/b\\):', 0.5, 3, 0.05, 1,
+      function (v) { razao = v; desenhar(); }, v => F.fmt(v, 2));
+
+    var mostrar = cartoes(corpo, [
+      { rot: '\\(\\lambda\\) do modo', k: 'lam' },
+      { rot: 'Tipo', k: 'tipo' },
+      { rot: '\\(\\lambda_1\\) na referência', k: 'ref' }
+    ]);
+    var saida = el('div', { class: 'saida' });
+    corpo.appendChild(saida);
+
+    function desenhar() {
+      var p = G.preparar(cv, Math.min(330, Math.max(240, cv.clientWidth * 0.5)));
+      var ct = p.ct;
+      var sol = ritzPlaca(caso.bcx, caso.bcy, 5, nu, razao);
+      /* a placa livre-livre tem modos de corpo rígido: saltam-se os nulos */
+      var base = 0;
+      while (base < sol.lam.length && sol.lam[base] < 1e-6) base++;
+      var idx = base + modo;
+      var c = campoModo(sol, idx, 64, 64);
+
+      var alt = Math.min(p.A - 30, p.L * 0.42);
+      var larg = alt * Math.max(1, razao) / Math.max(1, 1);
+      larg = Math.min(p.L * 0.8, alt * razao);
+      var hh = larg / razao;
+      if (hh > p.A - 30) { hh = p.A - 30; larg = hh * razao; }
+      desenhaCampo(ct, c.W, c.max, (p.L - larg) / 2, (p.A - hh) / 2 - 4, larg, hh, false);
+      rotulo(ct, 'x', (p.L + larg) / 2 + 10, p.A / 2 - 4, '#5b6773');
+      rotulo(ct, 'y', (p.L - larg) / 2 - 10, (p.A - hh) / 2 - 14, '#5b6773');
+
+      /* flexão ou torção: paridade em y */
+      var par = 0, imp = 0;
+      for (var i = 0; i < 64; i++) for (var j = 0; j < 64; j++) {
+        var d = c.W[i][j] - c.W[i][63 - j], e2 = c.W[i][j] + c.W[i][63 - j];
+        par += d * d; imp += e2 * e2;
+      }
+      var tipo = par < imp ? 'flexão' : 'torção';
+      mostrar({ lam: F.fmt(sol.lam[idx], 3), tipo: tipo,
+                ref: F.fmt(sol.lam[base], 3) + ' (tabela: ' + F.fmt(caso.ref, 3) + ')' });
+
+      saida.innerHTML = caso.rot === 'Balanço'
+        ? 'Na placa em balanço os modos se alternam entre flexão, em que a placa inteira '
+          + 'sobe e desce, e torção, em que um lado sobe enquanto o outro desce. O modo 2 '
+          + 'é o primeiro de torção, e é dele que se extrai o módulo de cisalhamento.'
+        : 'As cores são o deslocamento: um sinal em bronze e o outro em azul. As fronteiras '
+          + 'entre as cores são as linhas nodais, onde a areia se acumularia. O valor de '
+          + '\\(\\lambda\\) vale para qualquer material e qualquer espessura: toda a física '
+          + 'do problema está em \\(\\lambda=\\omega a^2\\sqrt{\\rho h/D}\\).';
+      tipografar(saida);
+      tipografar(raiz);
+    }
+
+    registrarRedesenho(desenhar);
+  };
+
+
+  REGISTRO.chladni = function (raiz) {
+    var corpo = moldura(raiz, 'As figuras de Chladni e a degenerescência');
+    var cv = el('canvas');
+    corpo.appendChild(cv);
+
+    var pares = [[1, 2], [1, 3], [2, 3], [1, 4]];
+    var par = pares[0], ang = 0;
+
+    opcoes(corpo, pares.map(p => ({ rot: '(' + p[0] + ',' + p[1] + ')', v: p })), 0,
+      function (v) { par = v; desenhar(); });
+    deslizante(corpo, 'Mistura \\(\\theta\\):', 0, 180, 1, 0,
+      function (v) { ang = v; desenhar(); }, v => F.fmt(v, 0) + '°');
+
+    var mostrar = cartoes(corpo, [
+      { rot: '\\(\\lambda\\) do par', k: 'lam' },
+      { rot: 'Combinação', k: 'comb' }
+    ]);
+    var saida = el('div', { class: 'saida' });
+    corpo.appendChild(saida);
+
+    function desenhar() {
+      var p = G.preparar(cv, Math.min(340, Math.max(250, cv.clientWidth * 0.5)));
+      var ct = p.ct;
+      var m = par[0], n = par[1];
+      var th = ang * Math.PI / 180, c1 = Math.cos(th), c2 = Math.sin(th);
+      var NX = 96, W = [], max = 0;
+      for (var i = 0; i < NX; i++) {
+        W.push([]);
+        for (var j = 0; j < NX; j++) {
+          var x = i / (NX - 1), y = j / (NX - 1);
+          var v = c1 * Math.sin(m * Math.PI * x) * Math.sin(n * Math.PI * y)
+                + c2 * Math.sin(n * Math.PI * x) * Math.sin(m * Math.PI * y);
+          W[i].push(v);
+          if (Math.abs(v) > max) max = Math.abs(v);
+        }
+      }
+      var lado = Math.min(p.A - 20, p.L * 0.46);
+      desenhaCampo(ct, W, max, p.L * 0.06, (p.A - lado) / 2, lado, lado, false);
+      desenhaCampo(ct, W, max, p.L - lado - p.L * 0.06, (p.A - lado) / 2, lado, lado, true);
+      rotulo(ct, 'deslocamento', p.L * 0.06 + lado / 2, (p.A - lado) / 2 - 10, '#5b6773');
+      rotulo(ct, 'a areia', p.L - lado / 2 - p.L * 0.06, (p.A - lado) / 2 - 10, '#5b6773');
+
+      var lam = Math.PI * Math.PI * (m * m + n * n);
+      var nome = ang === 0 ? '\\(W_{' + m + n + '}\\) puro'
+               : ang === 90 ? '\\(W_{' + n + m + '}\\) puro'
+               : ang === 45 ? 'soma: nó na diagonal'
+               : ang === 135 ? 'diferença: nó na outra diagonal'
+               : 'mistura qualquer';
+      mostrar({ lam: F.fmt(lam, 3), comb: nome });
+
+      saida.innerHTML = 'Os modos \\(('+m+','+n+')\\) e \\(('+n+','+m+')\\) têm a mesma '
+        + 'frequência, \\(\\lambda=\\pi^2('+(m*m)+'+'+(n*n)+')='+F.fmt(lam, 2)+'\\), '
+        + 'porque girar a placa quadrada de 90° leva um no outro. Qualquer mistura dos dois '
+        + 'é também um modo, com a mesma frequência e linhas nodais diferentes. Quem escolhe '
+        + 'a mistura, no experimento, é o ponto em que a placa é presa: sobrevive o modo que '
+        + 'tem um nó ali. É por isso que a mesma placa, na mesma frequência, mostra figuras '
+        + 'diferentes.';
+      tipografar(saida);
+      tipografar(raiz);
+    }
+
+    registrarRedesenho(desenhar);
+  };
+
+
   /* ---------- inicialização ---------- */
   document.addEventListener('DOMContentLoaded', function () {
     Array.prototype.forEach.call(document.querySelectorAll('[data-widget]'), function (n) {

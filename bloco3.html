@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bloco 3: o método dos elementos finitos | Da kalimba à viga</title>
+<title>Bloco 3: a viga engastada | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611091502">
-<script src="assets/js/comum.js?v=202611091502"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
+<script src="assets/js/comum.js?v=202611091631"></script>
 <script src="assets/js/codigo.js"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
@@ -18,11 +18,14 @@
     <nav class="menu">
       <a href="index.html">Início</a>
       <span class="grupo">Blocos</span>
-      <a href="bloco1.html" class="num" title="Bloco 1: duas equações">1</a>
-      <a href="bloco2.html" class="num" title="Bloco 2: a viga engastada">2</a>
-      <a href="bloco3.html" class="num ativo" title="Bloco 3: o método dos elementos finitos">3</a>
-      <a href="bloco4.html" class="num" title="Bloco 4: mão na massa">4</a>
-      <a href="bloco5.html" class="num" title="Bloco 5: para onde isso vai">5</a>
+      <a href="bloco1.html" class="num" title="Bloco 1: a corda e a equação de onda">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a barra e a quarta ordem">2</a>
+      <a href="bloco3.html" class="num ativo" title="Bloco 3: a viga engastada">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: o método dos elementos finitos">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: mão na massa">5</a>
+      <a href="bloco6.html" class="num" title="Bloco 6: da viga à placa">6</a>
+      <a href="bloco7.html" class="num" title="Bloco 7: modos torsionais e Chladni">7</a>
+      <a href="bloco8.html" class="num" title="Bloco 8: placas perfuradas">8</a>
       <a href="apendices.html">Apêndices</a>
     </nav>
   </div>
@@ -33,128 +36,334 @@
 <aside class="lateral">
   <h4>Neste bloco</h4>
   <ol>
-    <li><a href="#s1">1. Por que precisamos dele</a></li>
-    <li><a href="#s2">2. Forma fraca</a></li>
-    <li><a href="#s3">3. O elemento de viga</a></li>
-    <li><a href="#s4">4. Montagem e autovalores</a></li>
+    <li><a href="#s1">1. Por que a viga engastada</a></li>
+    <li><a href="#s2">2. Separação de variáveis</a></li>
+    <li><a href="#s3">3. A equação característica</a></li>
+    <li><a href="#s4">4. A fórmula das frequências</a></li>
+    <li><a href="#s5">5. Projetar a kalimba</a></li>
+    <li><a href="#s6">6. Com a kalimba na mão</a></li>
+    <li><a href="#s7">7. No Spyder: raízes e modos</a></li>
   </ol>
 </aside>
 
 <main class="conteudo">
 
-  <p class="chapeu">Bloco 3 · 45 minutos</p>
-  <h1>Bloco 3: o método dos elementos finitos</h1>
-  <p class="subtitulo">A fórmula do bloco anterior é exata e frágil. O MEF é a saída geral, e a ideia dele cabe em quatro passos.</p>
+  <p class="chapeu">Bloco 3 · 1 hora</p>
+  <h1>Bloco 3: a viga engastada</h1>
+  <p class="subtitulo">A lamela da kalimba é uma viga presa numa ponta e livre na outra. Este bloco resolve esse problema por completo, no papel, e mostra onde ele reaparece.</p>
   <!-- ============================================== -->
-  <h2 id="s1">1. Por que precisamos dele</h2>
+  <h2 id="s1">1. Por que a viga engastada</h2>
 
-  <p>A fórmula do bloco 2 é ótima e frágil. Ela vale para uma viga uniforme, reta e com
-  condições de contorno simples. Basta</p>
+  <p>A viga presa numa ponta e livre na outra é o problema que Galileu formulou no
+  <em>Discorsi</em> e que ninguém resolveu em vibração até o século XIX. Hoje ela é o
+  primeiro exemplo de qualquer curso de vibrações, e por um motivo prático: é a condição de
+  contorno mais fácil de realizar em bancada, bastando uma morsa.</p>
+
+  <p>É também a condição de contorno da lâmina da kalimba, do braço do diapasão, da alavanca
+  do microscópio de força atômica e da pá de turbina. Em todos esses casos o que se procura
+  é a mesma coisa: a primeira frequência natural e a sensibilidade dela aos parâmetros.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">A alavanca que pesa um vírus</span>
+    <p>Um microscópio de força atômica mede força pelo desvio de frequência de uma alavanca
+    de silício de cem micrômetros. Como \(f_1\propto\sqrt{k_{\text{ef}}/m_{\text{ef}}}\),
+    acrescentar massa na ponta abaixa a frequência, e o deslocamento é mensurável quando a
+    massa acrescentada é uma fração minúscula da massa da alavanca. Ressoadores desse tipo
+    já pesaram vírus individuais, da ordem de \(10^{-18}\) kg. A conta que faz isso
+    funcionar é a deste bloco.</p>
+  </div>
+
+  <p>A ordem das três condições de contorno clássicas, em frequência, também vale guardar.
+  Para a mesma barra, mesmo material e mesmo comprimento:</p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Condição</th><th>\(\beta_1L\)</th><th>\(f_1\) relativa</th><th>Sobretons \(f_n/f_1\)</th></tr></thead>
+    <tbody>
+      <tr><td>Engastada-livre</td><td>1,8751</td><td>1,00</td><td>1; 6,267; 17,55</td></tr>
+      <tr><td>Biapoiada</td><td>\(\pi\) = 3,1416</td><td>2,81</td><td>1; 4; 9</td></tr>
+      <tr><td>Livre-livre</td><td>4,7300</td><td>6,36</td><td>1; 2,757; 5,404</td></tr>
+      <tr><td>Biengastada</td><td>4,7300</td><td>6,36</td><td>1; 2,757; 5,404</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Duas coisas chamam a atenção. A viga biapoiada é o único caso com sobretons na razão
+  dos quadrados dos inteiros, porque ali os modos são senos puros. E a biengastada tem
+  exatamente as mesmas frequências da livre-livre, apesar de as formas modais serem
+  diferentes: é uma coincidência da equação característica, que fica
+  \(\cos\beta L\cosh\beta L=1\) nos dois casos.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. Separação de variáveis</h2>
+
+  <p>A lamela da kalimba é uma <strong>viga engastada</strong>: presa numa ponta, livre na
+  outra. É o mesmo problema de um trampolim, de uma asa de avião e do corpo de prova do nosso
+  laboratório. Vamos resolvê-lo por completo.</p>
+
+  <p>Procuramos soluções em que todos os pontos oscilem na mesma frequência, cada um com a sua
+  amplitude:</p>
+
+  <p>\[w(x,t)=W(x)\cos\omega t.\]</p>
+
+  <p>Substituindo na equação de Euler-Bernoulli do bloco 1,</p>
+
+  <p>\[\der{^4W}{x^4}=\beta^4W,\qquad \beta^4=\frac{\rho A\,\omega^2}{EI}.\]</p>
+
+  <p>A solução geral combina quatro funções:</p>
+
+  <p>\[W(x)=C_1\cos\beta x+C_2\sen\beta x+C_3\cosh\beta x+C_4\senh\beta x.\]</p>
+
+  <p>Note a diferença para a corda: lá apareceriam apenas seno e cosseno. As funções
+  hiperbólicas são a marca da quarta ordem, e são elas que fazem a conta deixar de ter
+  solução em forma fechada.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s3">3. As condições de contorno e a equação característica</h2>
+
+  <p>São quatro condições, duas em cada ponta:</p>
 
   <ul>
-    <li>variar a seção ao longo do comprimento, como na marimba;</li>
-    <li>furar a peça;</li>
-    <li>juntar duas barras de materiais diferentes;</li>
-    <li>trocar a viga por uma placa,</li>
+    <li><strong>No engaste</strong> (\(x=0\)): não desloca nem gira,
+    \(W(0)=W^{\prime}(0)=0\);</li>
+    <li><strong>Na ponta livre</strong> (\(x=L\)): não há momento nem força cortante,
+    \(W^{\prime\prime}(L)=W^{\prime\prime\prime}(L)=0\).</li>
   </ul>
 
-  <p>e não existe mais fórmula fechada. O <strong>método dos elementos finitos</strong> é a
-  saída geral, e é o que roda por trás de qualquer software de simulação estrutural.</p>
+  <p>Impondo as quatro, sobra um sistema homogêneo nos quatro coeficientes, que só tem solução
+  diferente da trivial se o determinante for nulo. O resultado é</p>
+
+  <div class="destaque">
+    <span class="anuncio">Equação característica</span>
+    \[\cos\left(\beta L\right)\cosh\left(\beta L\right)+1=0.\]
+  </div>
+
+  <p>Essa equação não se resolve no papel: as raízes saem numericamente, e são elas que fixam
+  as frequências.</p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>\(n\)</th><th>\(\beta_nL\)</th><th>\((\beta_nL)^2\)</th>
+      <th>\(f_n/f_1\)</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>1,8751</td><td>3,516</td><td>1</td></tr>
+      <tr><td>2</td><td>4,6941</td><td>22,03</td><td>6,27</td></tr>
+      <tr><td>3</td><td>7,8548</td><td>61,70</td><td>17,55</td></tr>
+      <tr><td>4</td><td>10,996</td><td>120,9</td><td>34,4</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Vale reparar que as raízes, a partir da segunda, ficam muito perto de
+  \(\left(n-\tfrac12\right)\pi\): 4,712, 7,854, 10,996. A razão é que \(\cosh\beta L\) cresce
+  tão depressa que a equação vira, na prática, \(\cos\beta L=0\).</p>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. A fórmula das frequências</h2>
+
+  <p>Isolando \(\omega\) na definição de \(\beta\), com \(I=bh^3/12\) e \(A=bh\):</p>
+
+  <div class="destaque">
+    <span class="anuncio">A fórmula do curso</span>
+    \[f_n=\frac{\left(\beta_nL\right)^2}{2\pi L^2}\sqrt{\frac{EI}{\rho A}}
+    =\frac{\left(\beta_nL\right)^2}{2\pi L^2}\,\frac{h}{\sqrt{12}}\sqrt{\frac{E}{\rho}}.\]
+  </div>
+
+  <p>Vale parar aqui e ler o que ela diz, porque quatro leituras saem de graça:</p>
+
+  <ul>
+    <li>\(f_n\propto1/L^2\), que é a lei ouvida na kalimba;</li>
+    <li>\(f_n\propto h\): barra mais grossa, som mais agudo;</li>
+    <li>\(f_n\) <strong>não depende da largura \(b\)</strong>. Uma barra mais larga é mais
+    rígida e também mais pesada, e os dois efeitos se cancelam exatamente;</li>
+    <li>o material entra só por \(\sqrt{E/\rho}\). Por isso aço e alumínio, que têm
+    \(E/\rho\) quase igual, dão quase a mesma frequência, apesar de um ser três vezes mais
+    denso que o outro.</li>
+  </ul>
+
+  <div data-widget="vigaengastada"></div>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Demonstração na sala</span>
+    <p>Meça uma lamela da kalimba com o paquímetro: comprimento livre, espessura e largura.
+    Calcule \(f_1\) pela fórmula acima e compare com o que o analisador de espectro mostra.
+    Depois meça uma régua de aço presa na beirada da mesa, que é a mesma física com outra
+    escala.</p>
+  </div>
+
+  <div class="bloco ex">
+    <span class="rotulo">Exemplo numérico</span>
+    <p>Uma lamela de aço com comprimento livre \(L=40\) mm e espessura \(h=1\) mm, com
+    \(E=200\) GPa e \(\rho=7850\) kg/m³, de modo que \(\sqrt{E/\rho}=5047\) m/s:</p>
+    <p>\[f_1=\frac{3{,}516}{2\pi\left(0{,}040\right)^2}\cdot\frac{0{,}001}{\sqrt{12}}
+    \cdot5047=510\ \text{Hz},\]</p>
+    <p>algo perto de um dó agudo. O segundo modo fica em \(6{,}27\cruz510=3{,}2\) kHz, bem
+    longe de qualquer relação musical com o primeiro.</p>
+  </div>
+
+  <div class="bloco alerta">
+    <span class="rotulo">Cuidado</span>
+    <p>Se o valor medido ficar <em>abaixo</em> do calculado, isso é esperado. O engaste real
+    não é perfeito: a lamela cede um pouco na base, o que equivale a um comprimento livre
+    maior, e frequência menor. Esse é exatamente o problema que enfrentamos no laboratório ao
+    medir módulo de elasticidade por vibração, e é a principal fonte de erro sistemático do
+    método.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s5">5. Do outro lado: projetar a kalimba</h2>
+
+  <p>O construtor de kalimba usa a mesma fórmula de trás para frente: ele conhece a nota que
+  quer e procura o comprimento livre que a produz. Isolando \(L\),</p>
+
+  <p>\[L=\sqrt{\frac{\left(\beta_1L\right)^2}{2\pi f_1}\,\frac{h}{\sqrt{12}}
+  \sqrt{\frac{E}{\rho}}}.\]</p>
+
+  <div data-widget="kalimba"></div>
+
+  <p>Duas coisas que o simulador deixa claras e que valem no instrumento real. Os
+  comprimentos caem com a raiz da frequência, e não com o inverso dela: para subir uma oitava
+  é preciso encurtar a lamela em 30 %, não pela metade. E trocar aço por alumínio quase não
+  muda nada, o que explica por que kalimbas de fabricantes diferentes, com ligas diferentes,
+  têm lamelas de comprimentos parecidos.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s6">6. Com a kalimba na mão</h2>
+
+  <p>A kalimba em cima da mesa permite fechar o bloco com uma medida de verdade, e não uma
+  conferência de fórmula. O que se vai medir é o módulo de elasticidade do aço das lâminas,
+  usando como instrumento um paquímetro e um celular.</p>
+
+  <p>A fórmula do bloco é \(f_1=\dfrac{(\beta_1L)^2}{2\pi L^2}\sqrt{\dfrac{YI}{\rho A}}\)
+  com \(\beta_1L=1{,}8751\). Para seção retangular, \(I=bh^3/12\) e \(A=bh\), de modo que a
+  largura some:</p>
+
+  <div class="destaque">
+    <span class="anuncio">A lâmina, com a largura cancelada</span>
+    \[f_1=0{,}16154\;\frac{h}{L^2}\sqrt{\frac{Y}{\rho}}.\]
+  </div>
+
+  <p>Só o comprimento livre \(L\) e a espessura \(h\) entram. Isso é uma afirmação forte e
+  fácil de testar: lâminas de larguras diferentes, com o mesmo \(L\) e o mesmo \(h\), têm de
+  soar na mesma nota.</p>
 
   <div class="bloco def">
-    <span class="rotulo">A ideia em uma frase</span>
-    <p>O MEF troca "achar a função \(W(x)\) que resolve a equação" por "achar alguns números
-    que descrevem \(W\) em pedaços". O problema diferencial vira um problema de álgebra
-    linear.</p>
+    <span class="rotulo">O procedimento</span>
+    <ol>
+      <li>Meça com o paquímetro o comprimento livre \(L\) de cada lâmina, do ponto de apoio
+      até a ponta, e a espessura \(h\). Anote em milímetros.</li>
+      <li>Grave cada lâmina separadamente, com dois segundos de decaimento.</li>
+      <li>Rode o <code>espectro.py</code> do bloco 1 em cada gravação e anote a
+      frequência do primeiro pico.</li>
+      <li>Monte a tabela \(L\) contra \(f\), e desenhe \(f\) em função de \(1/L^2\).</li>
+    </ol>
+  </div>
+
+  <p>Se a teoria está certa, os pontos caem numa reta pela origem, e o coeficiente angular
+  vale \(0{,}16154\,h\sqrt{Y/\rho}\). Invertendo,</p>
+
+  <p>\[Y=\rho\left(\frac{\text{coeficiente angular}}{0{,}16154\,h}\right)^2.\]</p>
+
+  <div class="bloco ex">
+    <span class="rotulo">O que esperar</span>
+    <p>Para aço, \(\sqrt{Y/\rho}=5048\) m/s. Uma lâmina de 1 mm de espessura e 40 mm de
+    comprimento livre deve soar em</p>
+    <p>\[f_1=0{,}16154\cruz\frac{0{,}001}{0{,}040^2}\cruz5048=510\ \text{Hz},\]</p>
+    <p>que é um dó agudo aproximado. Dobrando para 80 mm, a frequência cai para 127 Hz: um
+    quarto, e não metade, porque a lei é \(1/L^2\).</p>
+  </div>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">Onde a medida vai discordar, e por quê</span>
+    <p>Três coisas puxam o resultado, e todas para o mesmo lado. O apoio da kalimba não é um
+    engaste perfeito: a lâmina se acomoda um pouco, o que <em>abaixa</em> a frequência e faz
+    o \(Y\) medido sair menor que o real. A lâmina costuma ser levemente afinada em
+    espessura na ponta. E o comprimento livre é difícil de definir com precisão, porque o
+    ponto exato em que a lâmina deixa de tocar o descanso depende da pressão.</p>
+    <p>Um erro de 1 mm em \(L=40\) mm é 2,5 %, e entra ao quadrado na frequência e à quarta
+    potência em \(Y\): 10 %. Se o seu \(Y\) sair entre 150 e 200 GPa, a medida está boa.
+    Esse é o ponto da atividade: a fórmula é exata e a medida não, e saber de onde vem a
+    diferença vale mais do que acertar o número.</p>
   </div>
 
   <!-- ============================================== -->
-  <h2 id="s2">2. Forma fraca</h2>
+  <h2 id="s7">7. No Spyder: raízes e modos</h2>
 
-  <p>Multiplique a equação de Euler-Bernoulli por uma função-peso \(v(x)\), que se anula onde
-  a viga é engastada, e integre no comprimento. Integrando por partes <em>duas vezes</em> o
-  termo de quarta ordem:</p>
-
-  <div class="destaque">
-    <span class="anuncio">Forma fraca</span>
-    \[\underbrace{\int_0^LEI\,v^{\prime\prime}W^{\prime\prime}\,dx}_{\text{rigidez}}
-    \;-\;\omega^2\underbrace{\int_0^L\rho A\,v\,W\,dx}_{\text{massa}}\;=\;0.\]
+  <div class="bloco ex">
+    <span class="rotulo">Sua vez (no computador)</span>
+    <p><strong>Notebook 2.</strong> Ache as raízes da equação característica com
+    <code>scipy.optimize.brentq</code>, plote os três primeiros modos e localize os nós, e
+    depois compare o \(f_1\) calculado da sua lamela com o espectro medido.</p>
   </div>
 
-  <p>Duas vantagens aparecem de graça. Sobraram apenas derivadas segundas, de modo que a
-  função aproximada não precisa mais ter quatro derivadas, só duas. E as condições de contorno
-  de força e momento já estão embutidas: elas saem dos termos de fronteira da integração por
-  partes, que se anulam na ponta livre.</p>
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+from scipy.optimize import brentq
 
-  <!-- ============================================== -->
-  <h2 id="s3">3. O elemento de viga</h2>
+def caracteristica(bL):
+    """cos(bL) cosh(bL) + 1 = 0, a equacao da viga engastada-livre."""
+    return np.cos(bL) * np.cosh(bL) + 1.0
 
-  <p>Divida a viga em \(n_e\) pedaços de comprimento \(\ell\). Em cada pedaço, descrevemos
-  \(W(x)\) por quatro números: o deslocamento e a rotação em cada um dos dois nós,</p>
+# As raizes ficam perto de (n - 1/2) pi a partir da segunda; procuramos
+# uma em cada intervalo em volta desses pontos.
+chutes = [(1.0, 2.5), (4.0, 5.5), (7.0, 8.5), (10.0, 11.5)]
+raizes = [brentq(caracteristica, a, b) for a, b in chutes]
 
-  <p>\[\vet{u}_e=\left\{w_1,\ \theta_1,\ w_2,\ \theta_2\right\}^{\mathsf T}.\]</p>
+print("beta_n L :", np.round(raizes, 4))
+print("f_n/f_1  :", np.round((np.array(raizes)/raizes[0])**2, 3))</code></pre></div>
 
-  <p>Dentro do elemento, interpolamos com quatro polinômios cúbicos, as <strong>funções de
-  forma de Hermite</strong> \(N_i(x)\), tais que \(W(x)=\sum_iN_i(x)u_{e,i}\). Cada \(N_i\)
-  vale 1 no grau de liberdade correspondente e 0 nos outros três. Por que cúbicas? Porque
-  quatro coeficientes é o que quatro números determinam, e porque a forma fraca exige
-  derivada segunda, que uma cúbica tem de sobra.</p>
+  <p>Rodando, saem 1,8751, 4,6941, 7,8548 e 10,9955, e as razões 1, 6,267, 17,55 e 34,39. Com
+  as raízes em mãos, a frequência é uma linha:</p>
 
-  <p>Levando a interpolação para a forma fraca, as integrais saem analiticamente e produzem
-  duas matrizes \(4\cruz4\):</p>
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
 
-  <div class="destaque">
-    <span class="anuncio">Matrizes do elemento de viga</span>
-    \[\Ten{K}_e=\frac{EI}{\ell^3}\begin{pmatrix}
-    12&6\ell&-12&6\ell\\
-    6\ell&4\ell^2&-6\ell&2\ell^2\\
-    -12&-6\ell&12&-6\ell\\
-    6\ell&2\ell^2&-6\ell&4\ell^2\end{pmatrix},
-    \qquad
-    \Ten{M}_e=\frac{\rho A\ell}{420}\begin{pmatrix}
-    156&22\ell&54&-13\ell\\
-    22\ell&4\ell^2&13\ell&-3\ell^2\\
-    54&13\ell&156&-22\ell\\
-    -13\ell&-3\ell^2&-22\ell&4\ell^2\end{pmatrix}\]
-  </div>
+def frequencias_viga(L, h, b, E, rho, raizes):
+    """Frequencias naturais [Hz] de uma viga engastada-livre de secao retangular."""
+    I = b * h**3 / 12
+    A = b * h
+    return np.array([(bL**2) / (2*np.pi*L**2) * np.sqrt(E*I / (rho*A))
+                     for bL in raizes])
 
-  <p>Não é preciso decorá-las: elas estão na folha de apoio e no notebook. Vale, isso sim,
-  conferir duas coisas. As duas são simétricas, como a aula de pequenas oscilações manda. E a
-  soma dos termos de massa associados a deslocamento, \(156+54+54+156\) dividido por 420, dá
-  exatamente 1: a matriz de massa conserva a massa total do elemento.</p>
+# lamela de aco: 40 mm livres, 1 mm de espessura, 10 mm de largura
+f = frequencias_viga(0.040, 0.001, 0.010, 200e9, 7850, raizes)
+print(np.round(f, 1))        # [ 509.6 3193.7 8942.4 17523.6]</code></pre></div>
 
-  <!-- ============================================== -->
-  <h2 id="s4">4. Montagem, contorno e autovalores</h2>
+  <p>E as formas modais, que o programa desenha com os nós marcados:</p>
 
-  <ol>
-    <li><strong>Montagem.</strong> Some cada \(\Ten{K}_e\) e \(\Ten{M}_e\) nas posições
-    correspondentes das matrizes globais. Nós compartilhados por dois elementos recebem
-    contribuição dos dois, e é isso que costura os pedaços;</li>
-    <li><strong>Contorno.</strong> O engaste em \(x=0\) significa \(w_1=\theta_1=0\): basta
-    eliminar as duas primeiras linhas e colunas;</li>
-    <li><strong>Autovalores.</strong> Procurando \(\vet{u}=\vet{\phi}\cos\omega t\),
-    chega-se a</li>
-  </ol>
+<div class="codigo" data-lingua="Python"><pre><code>import numpy as np
+import matplotlib.pyplot as plt
 
-  <div class="destaque">
-    <span class="anuncio">O problema de autovalores</span>
-    \[\Ten{K}\,\vet{\phi}=\omega^2\,\Ten{M}\,\vet{\phi}.\]
-  </div>
+def forma(x, bL):
+    """Forma modal da viga engastada-livre, x em unidades de L."""
+    s = (np.cos(bL) + np.cosh(bL)) / (np.sin(bL) + np.sinh(bL))
+    return (np.cosh(bL*x) - np.cos(bL*x)
+            - s * (np.sinh(bL*x) - np.sin(bL*x)))
 
-  <p>Cada autovalor \(\omega_n^2\) é uma frequência natural, e cada autovetor \(\vet{\phi}_n\)
-  é a forma do modo.</p>
+x = np.linspace(0, 1, 400)
+plt.figure(figsize=(9, 4))
+for n, bL in enumerate(raizes[:3], start=1):
+    y = forma(x, bL)
+    y = y / np.max(np.abs(y))
+    plt.plot(x, y, label=f"modo {n}")
+    troca = np.where(np.sign(y[:-1]) != np.sign(y[1:]))[0]   # nos
+    plt.plot(x[troca], y[troca], "o", color="firebrick")
 
-  <div class="bloco def">
-    <span class="rotulo">A ideia em uma frase</span>
-    <p>Essa equação é o velho \(k=\omega^2m\) do sistema massa-mola, escrito para muitos graus
-    de liberdade ao mesmo tempo. Com um grau de liberdade, ela se reduz literalmente a
-    isso.</p>
+plt.axhline(0, color="0.8", lw=1)
+plt.xlabel("x / L"); plt.ylabel("amplitude normalizada")
+plt.legend(); plt.tight_layout(); plt.show()</code></pre></div>
+
+  <div class="bloco alerta">
+    <span class="rotulo">Cuidado</span>
+    <p>Ao avaliar \(\cosh\beta L\) para \(\beta L\) grande, os números crescem depressa:
+    \(\cosh(11)\approx3\cruz10^4\) e \(\cosh(30)\approx5\cruz10^{12}\). Para as quatro
+    primeiras raízes não há problema, mas se você for procurar a décima, use a forma
+    equivalente \(\cos\beta L+1/\cosh\beta L=0\), que é numericamente bem mais bem
+    comportada.</p>
   </div>
 
 
   <nav class="nav-aulas">
-    <a href="bloco2.html"><small>Anterior</small>← Bloco 2: a viga engastada</a>
-    <a class="prox" href="bloco4.html"><small>Próximo</small>Bloco 4: mão na massa →</a>
+    <a href="bloco2.html"><small>Anterior</small>← Bloco 2: a barra e a quarta ordem</a>
+    <a class="prox" href="bloco4.html"><small>Próximo</small>Bloco 4: o método dos elementos finitos →</a>
   </nav>
 
 </main>
@@ -166,6 +375,6 @@
   Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
 </footer>
 
-<script src="assets/js/widgets.js?v=202611091502"></script>
+<script src="assets/js/widgets.js?v=202611091631"></script>
 </body>
 </html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bloco 6: da viga à placa | Da kalimba à viga</title>
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611091631">
+<script src="assets/js/comum.js?v=202611091631"></script>
+<script src="assets/js/codigo.js"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+
+<header class="topo">
+  <div class="topo-interno">
+    <a class="marca" href="index.html">Da kalimba à viga <span>· LFCA/URCA</span></a>
+    <nav class="menu">
+      <a href="index.html">Início</a>
+      <span class="grupo">Blocos</span>
+      <a href="bloco1.html" class="num" title="Bloco 1: a corda e a equação de onda">1</a>
+      <a href="bloco2.html" class="num" title="Bloco 2: a barra e a quarta ordem">2</a>
+      <a href="bloco3.html" class="num" title="Bloco 3: a viga engastada">3</a>
+      <a href="bloco4.html" class="num" title="Bloco 4: o método dos elementos finitos">4</a>
+      <a href="bloco5.html" class="num" title="Bloco 5: mão na massa">5</a>
+      <a href="bloco6.html" class="num ativo" title="Bloco 6: da viga à placa">6</a>
+      <a href="bloco7.html" class="num" title="Bloco 7: modos torsionais e Chladni">7</a>
+      <a href="bloco8.html" class="num" title="Bloco 8: placas perfuradas">8</a>
+      <a href="apendices.html">Apêndices</a>
+    </nav>
+  </div>
+</header>
+
+<div class="envoltorio">
+
+<aside class="lateral">
+  <h4>Neste bloco</h4>
+  <ol>
+    <li><a href="#s1">1. Chladni e Sophie Germain</a></li>
+    <li><a href="#s2">2. Os esforços resultantes</a></li>
+    <li><a href="#s3">3. A cinemática de Kirchhoff-Love</a></li>
+    <li><a href="#s4">4. Rigidez à flexão</a></li>
+    <li><a href="#s5">5. A equação de Germain-Lagrange</a></li>
+    <li><a href="#s6">6. Hamilton e o cortante efetivo</a></li>
+  </ol>
+</aside>
+
+<main class="conteudo">
+
+  <p class="chapeu">Bloco 6 · 1 hora</p>
+  <h1>Bloco 6: da viga à placa</h1>
+  <p class="subtitulo">A teoria de Kirchhoff-Love deduzida do começo ao fim: esforços resultantes, rigidez à flexão, princípio de Hamilton e o cortante efetivo.</p>
+  <!-- ============================================== -->
+  <h2 id="s1">1. Chladni, Napoleão e Sophie Germain</h2>
+
+  <p>Em 1787 Ernst Chladni publicou um livro com desenhos que ninguém sabia explicar. Ele
+  espalhava areia fina sobre placas de metal, prendia a placa num ponto e passava um arco de
+  violino na borda; a areia fugia das regiões que vibravam e se acumulava nas linhas
+  paradas, desenhando figuras de uma simetria desconcertante. Chladni percorreu a Europa
+  fazendo a demonstração, e em 1809 a fez diante de Napoleão.</p>
+
+  <p>Napoleão, que havia estudado matemática, ficou impressionado e destinou um prêmio de um
+  quilo de ouro a quem desse a teoria das superfícies elásticas. A Academia de Paris abriu o
+  concurso em 1809.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Sophie Germain e o prêmio</span>
+    <p>Na primeira rodada apareceu uma única candidata, Sophie Germain, que não tinha
+    formação formal: como mulher, não podia frequentar a École Polytechnique, e estudava
+    com notas de aula emprestadas. A sua primeira memória, de 1811, continha a ideia certa
+    (a energia proporcional ao quadrado da curvatura média) e erros de cálculo variacional.
+    Lagrange, no comitê, corrigiu as contas e escreveu a equação correta. Germain tentou de
+    novo em 1813, ganhou menção honrosa, e venceu o prêmio em 1816, na terceira tentativa.
+    A equação leva hoje os dois nomes.</p>
+  </div>
+
+  <p>A história não acaba bem nem rápido. A equação de Germain-Lagrange estava certa, e as
+  condições de contorno estavam erradas, e assim ficaram por trinta e cinco anos. Poisson,
+  em 1814, e Navier, em 1820, impunham três condições em cada borda livre: cortante nulo,
+  momento fletor nulo e momento torçor nulo. Mas a equação é de quarta ordem e só admite
+  <strong>duas</strong> condições por borda. O sistema era inconsistente.</p>
+
+  <p>Gustav Kirchhoff resolveu o impasse em 1850, mostrando que o momento torçor distribuído
+  ao longo da borda é estaticamente equivalente a uma distribuição de forças transversais
+  mais forças concentradas nos cantos. Dessas três condições, duas se fundem numa só, e
+  nasce o <strong>cortante efetivo</strong> que vamos deduzir na última seção. Thomson e
+  Tait, em 1867, deram o argumento físico que torna isso intuitivo.</p>
+
+  <div class="bloco">
+    <span class="rotulo">E as figuras de Chladni?</span>
+    <p>Continuaram sem solução. A placa quadrada livre nos quatro lados não cede a nenhum
+    dos métodos exatos, e só foi resolvida em 1909, por Walther Ritz, num trabalho dedicado
+    justamente às figuras de Chladni. O método que ele inventou para isso é o que hoje se
+    chama Rayleigh-Ritz, é o avô do método dos elementos finitos, e é o que vamos rodar no
+    bloco 8. São cento e vinte e dois anos entre a pergunta e a resposta.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s2">2. Os esforços resultantes</h2>
+
+  <p>Numa viga, o momento fletor numa seção é a resultante de momento das tensões normais:
+  \(M=\int_A\sigma z\,dA\). Numa placa não existe seção privilegiada, porque em cada ponto
+  da superfície média é possível cortar faces com normal em qualquer direção do plano. A
+  saída é definir os esforços <strong>por unidade de comprimento</strong> da borda do corte,
+  integrando apenas na espessura.</p>
+
+  <div class="destaque">
+    <span class="anuncio">Esforços resultantes</span>
+    \[M_{\alpha\beta}=\int_{-h/2}^{h/2}\sigma_{\alpha\beta}\,z\,dz,
+    \qquad
+    Q_{\alpha}=\int_{-h/2}^{h/2}\sigma_{\alpha z}\,dz,\]
+  </div>
+
+  <p>com os índices gregos variando em \(\{x,y\}\). Escritos um a um, numa face de normal
+  \(x\): \(M_x\) é o momento fletor, \(M_{xy}\) é o <strong>momento torçor</strong> e
+  \(Q_x\) é o esforço cortante, todos por unidade de comprimento na direção \(y\). As
+  dimensões merecem atenção: \([M]\) é força (não força vezes comprimento) e \([Q]\) é
+  força por comprimento.</p>
+
+  <p>Pela simetria do tensor de tensões, \(\tau_{xy}=\tau_{yx}\) e portanto
+  \(M_{xy}=M_{yx}\): o conjunto \(M_{\alpha\beta}\) é um tensor simétrico de segunda ordem
+  no plano. Isso tem uma consequência imediata, e é a razão de escrever assim. Para uma
+  direção qualquer \(\vet{n}=(\cos\theta,\sen\theta)\), com tangente
+  \(\vet{s}=(-\sen\theta,\cos\theta)\),</p>
+
+  <p>\[\begin{aligned}
+  M_{nn}&amp;=M_{\alpha\beta}n_\alpha n_\beta
+  =M_x\cos^2\theta+M_y\sen^2\theta+2M_{xy}\sen\theta\cos\theta,\\
+  M_{ns}&amp;=M_{\alpha\beta}n_\alpha s_\beta
+  =(M_y-M_x)\sen\theta\cos\theta+M_{xy}(\cos^2\theta-\sen^2\theta),\\
+  Q_n&amp;=Q_\alpha n_\alpha=Q_x\cos\theta+Q_y\sen\theta.
+  \end{aligned}\]</p>
+
+  <p>São as fórmulas do círculo de Mohr, com momentos no lugar de tensões. Existem direções
+  principais, em que \(M_{ns}=0\) e só há flexão pura, e direções a 45° delas, em que a
+  torção é máxima. Guarde essa ideia: ela é o que separa, no bloco 7, um modo de flexão de
+  um modo de torção.</p>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">Convenções de sinal variam entre livros</span>
+    <p>Com \(z\) para cima, \(M_x&gt;0\) traciona as fibras superiores. Timoshenko usa \(z\)
+    para baixo e define o momento torçor com o sinal trocado. As equações finais são as
+    mesmas; os sinais intermediários não. Aqui se adota a convenção tensorial acima, que faz
+    as transformações de coordenadas saírem sozinhas.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s3">3. A cinemática de Kirchhoff-Love</h2>
+
+  <p>A hipótese de Kirchhoff-Love é o análogo bidimensional da de Euler-Bernoulli, e vem em
+  quatro partes:</p>
+
+  <div class="bloco def">
+    <span class="rotulo">As quatro hipóteses</span>
+    <ol>
+      <li>Segmentos retos normais à superfície média permanecem retos e normais à superfície
+      média deformada.</li>
+      <li>Esses segmentos não se alongam: \(\varepsilon_z=0\).</li>
+      <li>A tensão normal transversal é desprezível diante das de flexão:
+      \(\sigma_z\approx0\), isto é, estado plano de tensões em cada lâmina.</li>
+      <li>Deslocamentos e rotações são pequenos.</li>
+    </ol>
+  </div>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">As hipóteses 2 e 3 se contradizem</span>
+    <p>Se \(\sigma_z=0\), o efeito de Poisson produz \(\varepsilon_z\neq0\); se
+    \(\varepsilon_z=0\), aparece \(\sigma_z\neq0\). A teoria usa as duas assim mesmo, cada
+    uma no seu lugar: a hipótese 2 na cinemática e a 3 na lei constitutiva. Isso não é
+    descuido, é consistência assintótica: as duas incompatibilidades são de ordem
+    \((h/L)^2\), que é justamente a ordem do erro que a teoria já admite.</p>
+  </div>
+
+  <p>Da primeira hipótese, um ponto à altura \(z\) acompanha o giro da normal, que é
+  \(-\partial w/\partial x\) em torno de \(y\) e \(-\partial w/\partial y\) em torno de
+  \(x\). Logo</p>
+
+  <p>\[u(x,y,z,t)=-z\,\pder{w}{x},\qquad
+  v(x,y,z,t)=-z\,\pder{w}{y},\qquad
+  w(x,y,z,t)=w(x,y,t).\]</p>
+
+  <p>As deformações saem derivando:</p>
+
+  <p>\[\varepsilon_x=-z\,\pder{^2w}{x^2},\qquad
+  \varepsilon_y=-z\,\pder{^2w}{y^2},\qquad
+  \gamma_{xy}=-2z\,\frac{\partial^2w}{\partial x\,\partial y},\]</p>
+
+  <p>e as transversais se anulam identicamente,
+  \(\gamma_{xz}=\gamma_{yz}=0\). Definindo as curvaturas</p>
+
+  <p>\[\kappa_x=-\pder{^2w}{x^2},\qquad
+  \kappa_y=-\pder{^2w}{y^2},\qquad
+  \kappa_{xy}=-2\frac{\partial^2w}{\partial x\,\partial y},\]</p>
+
+  <p>fica \(\varepsilon_x=z\kappa_x\), \(\varepsilon_y=z\kappa_y\) e
+  \(\gamma_{xy}=z\kappa_{xy}\): tudo linear na espessura, tudo nulo na superfície média.
+  Note a novidade em relação à viga: além das duas curvaturas de flexão, existe agora uma
+  <strong>curvatura de torção</strong> \(\kappa_{xy}\), que mede o quanto a superfície se
+  retorce. É ela que não tem análogo unidimensional.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s4">4. Rigidez à flexão e momento-curvatura</h2>
+
+  <p>Com \(\sigma_z=0\), a lei de Hooke em estado plano de tensões dá</p>
+
+  <p>\[\sigma_x=\frac{Y}{1-\nu^2}(\varepsilon_x+\nu\varepsilon_y),\qquad
+  \sigma_y=\frac{Y}{1-\nu^2}(\varepsilon_y+\nu\varepsilon_x),\qquad
+  \tau_{xy}=\frac{Y}{2(1+\nu)}\gamma_{xy},\]</p>
+
+  <p>com \(Y\) o módulo de elasticidade e \(\nu\) o coeficiente de Poisson. Levando as
+  deformações da seção anterior às definições dos esforços e usando
+  \(\int_{-h/2}^{h/2}z^2dz=h^3/12\):</p>
+
+  <div class="destaque">
+    <span class="anuncio">Relações momento-curvatura e a rigidez à flexão</span>
+    \[M_x=-D\left(\pder{^2w}{x^2}+\nu\,\pder{^2w}{y^2}\right),\qquad
+    M_y=-D\left(\pder{^2w}{y^2}+\nu\,\pder{^2w}{x^2}\right),\]
+    \[M_{xy}=-D(1-\nu)\frac{\partial^2w}{\partial x\,\partial y},
+    \qquad\qquad
+    D=\frac{Yh^3}{12\left(1-\nu^2\right)}.\]
+  </div>
+
+  <p>Compare com a viga: lá era \(M=-YIw''\) com \(I=bh^3/12\), ou seja \(Yh^3/12\) por
+  unidade de largura. A placa tem o fator extra \(1/(1-\nu^2)\), que para o aço
+  (\(\nu=0{,}29\)) vale 1,092: a placa é cerca de 9 % mais rígida do que um feixe de vigas
+  estreitas lado a lado.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Por que a placa é mais rígida: o efeito de viga larga</span>
+    <p>Encurve uma tira estreita de papel: ela se curva para cima numa direção e, por
+    Poisson, para baixo na outra, assumindo a forma de uma sela. Essa curvatura secundária
+    alivia tensões e deixa a tira mais flexível. Numa placa larga, o material vizinho impede
+    essa contração lateral, a sela não pode se formar, e a rigidez sobe de \(Y\) para
+    \(Y/(1-\nu^2)\). O mesmo papel, mais largo, é mais rígido por unidade de largura.</p>
+  </div>
+
+  <p>Invertendo as relações, as tensões voltam lineares em \(z\), com máximo nas faces:</p>
+
+  <p>\[\sigma_x=\frac{12M_x}{h^3}\,z,
+  \qquad\qquad
+  \left|\sigma_x\right|_{\max}=\frac{6\left|M_x\right|}{h^2}.\]</p>
+
+  <div class="bloco cuidado">
+    <span class="rotulo">A inconsistência do cortante</span>
+    <p>A cinemática deu \(\gamma_{xz}=\gamma_{yz}=0\), e a lei de Hooke daria então
+    \(Q_x=Q_y=0\), o que é absurdo: sem cortante a placa não equilibra carga transversal
+    nenhuma. A saída clássica é tratar \(Q_\alpha\) como <strong>reação interna</strong>,
+    determinada pelo equilíbrio e não pela lei constitutiva. Integrando o equilíbrio
+    tridimensional com faces livres, recupera-se a distribuição parabólica
+    \(\tau_{xz}=\frac{3Q_x}{2h}\left(1-4z^2/h^2\right)\), a mesma de Jourawski para vigas. A
+    teoria de Mindlin-Reissner elimina a inconsistência admitindo que a normal gire
+    independentemente, e é a que se usa para placas espessas.</p>
+  </div>
+
+  <!-- ============================================== -->
+  <h2 id="s5">5. Equilíbrio e a equação de Germain-Lagrange</h2>
+
+  <p>Falta juntar as peças. Integrando na espessura as equações de Cauchy, com as faces
+  livres de cisalhamento e a carga \(q\) aplicada,</p>
+
+  <p>\[\pder{Q_x}{x}+\pder{Q_y}{y}+q=\rho h\,\pder{^2w}{t^2}\]</p>
+
+  <p>para as forças transversais, e, multiplicando por \(z\) antes de integrar,</p>
+
+  <p>\[\pder{M_x}{x}+\pder{M_{xy}}{y}=Q_x,
+  \qquad
+  \pder{M_{xy}}{x}+\pder{M_y}{y}=Q_y\]</p>
+
+  <p>para os momentos, desprezada a inércia de rotação. Eliminando os cortantes entre as
+  três equações,</p>
+
+  <p>\[\frac{\partial^2M_x}{\partial x^2}
+  +2\frac{\partial^2M_{xy}}{\partial x\,\partial y}
+  +\frac{\partial^2M_y}{\partial y^2}+q=\rho h\,\pder{^2w}{t^2},\]</p>
+
+  <p>e substituindo as relações momento-curvatura, o lado esquerdo colapsa num único
+  operador:</p>
+
+  <p>\[\frac{\partial^2M_x}{\partial x^2}
+  +2\frac{\partial^2M_{xy}}{\partial x\,\partial y}
+  +\frac{\partial^2M_y}{\partial y^2}
+  =-D\left(\frac{\partial^4w}{\partial x^4}
+  +2\frac{\partial^4w}{\partial x^2\partial y^2}
+  +\frac{\partial^4w}{\partial y^4}\right)=-D\,\nabla^4w.\]</p>
+
+  <div class="destaque">
+    <span class="anuncio">Equação de Germain-Lagrange</span>
+    \[D\,\nabla^4w+\rho h\,\pder{^2w}{t^2}=q(x,y,t),
+    \qquad
+    \nabla^4=\left(\pder{^2}{x^2}+\pder{^2}{y^2}\right)^2.\]
+  </div>
+
+  <p>É a equação da viga com \(\partial^4/\partial x^4\) trocado pelo bilaplaciano, e com
+  \(YI\) trocado por \(D\). Repare que o coeficiente do termo cruzado é exatamente 2: nem 1,
+  nem \(2(1-\nu)\). Esse 2 é o que Lagrange acertou e Sophie Germain, na primeira memória,
+  não.</p>
+
+  <p>Uma vez conhecido \(w\), os cortantes saem de volta:</p>
+
+  <p>\[Q_x=-D\,\pder{}{x}\nabla^2w,\qquad Q_y=-D\,\pder{}{y}\nabla^2w.\]</p>
+
+  <p>A energia de deformação, que vai ser a ferramenta do bloco 8, é</p>
+
+  <div class="destaque">
+    <span class="anuncio">Energia de deformação da placa</span>
+    \[U=\frac{D}{2}\int_\Omega\left[\left(\nabla^2w\right)^2
+    -2(1-\nu)\left(\pder{^2w}{x^2}\pder{^2w}{y^2}
+    -\left(\frac{\partial^2w}{\partial x\,\partial y}\right)^2\right)\right]dA.\]
+  </div>
+
+  <p>O segundo termo é o determinante do hessiano de \(w\), ligado à curvatura gaussiana da
+  superfície deformada. Ele tem uma propriedade notável: se \(w=0\) em todo o contorno, a
+  sua integral se anula, e a energia fica simplesmente
+  \(U=\frac{D}{2}\int(\nabla^2w)^2dA\), sem depender de \(\nu\). É por isso que a frequência
+  de uma placa apoiada ou engastada em todo o contorno não depende do coeficiente de
+  Poisson, enquanto a de uma placa com borda livre depende.</p>
+
+  <!-- ============================================== -->
+  <h2 id="s6">6. Hamilton e o cortante efetivo</h2>
+
+  <p>Resta a parte que travou a teoria por trinta e cinco anos. Aplicando o princípio de
+  Hamilton, \(\delta\int(T-U+W_q)\,dt=0\), a variação da energia de deformação produz, além
+  do termo de volume que dá a equação de movimento, integrais no contorno:</p>
+
+  <p>\[\delta U=-\int_\Omega M_{\alpha\beta,\alpha\beta}\,\delta w\,dA
+  +\oint_\Gamma M_{\alpha\beta,\alpha}n_\beta\,\delta w\,ds
+  -\oint_\Gamma\left(M_{nn}\pder{\delta w}{n}+M_{ns}\pder{\delta w}{s}\right)ds.\]</p>
+
+  <p>Aqui está o problema. As três grandezas \(Q_n\), \(M_{nn}\) e \(M_{ns}\) aparecem, mas
+  as variações \(\delta w\) e \(\partial\delta w/\partial s\) <strong>não são
+  independentes</strong>: a derivada tangencial de \(\delta w\) ao longo da borda é
+  determinada pelo próprio \(\delta w\) ao longo da borda. Integrando por partes ao longo de
+  cada lado reto,</p>
+
+  <p>\[-\oint_\Gamma M_{ns}\pder{\delta w}{s}\,ds
+  =\oint_\Gamma\pder{M_{ns}}{s}\,\delta w\,ds
+  -\sum_c\left[M_{ns}\right]_c\,\delta w_c,\]</p>
+
+  <p>em que \(\left[M_{ns}\right]_c\) é o salto do momento torçor no canto \(c\). O termo de
+  borda se funde com o cortante, e nasce o cortante efetivo:</p>
+
+  <div class="destaque">
+    <span class="anuncio">Cortante efetivo de Kirchhoff e força de canto</span>
+    \[V_n=Q_n+\pder{M_{ns}}{s},
+    \qquad\qquad
+    R_c=\left[M_{ns}\right]_c.\]
+  </div>
+
+  <p>A interpretação física é de Thomson e Tait. Um momento torçor distribuído ao longo da
+  borda pode ser substituído por um par de forças verticais em cada trechinho; pares
+  vizinhos se cancelam parcialmente, sobrando uma força distribuída
+  \(\partial M_{ns}/\partial s\) ao longo da borda e forças concentradas onde a borda muda
+  de direção, isto é, nos cantos. Três condições viram duas, mais uma condição por
+  canto.</p>
+
+  <div class="tabela-rolavel">
+  <table>
+    <thead><tr><th>Borda \(x=x_0\)</th><th>Condições</th><th>Em termos de \(w\)</th></tr></thead>
+    <tbody>
+      <tr><td>Apoiada (S)</td><td>\(w=0\), \(M_x=0\)</td><td>\(w=0\), \(\partial^2w/\partial x^2=0\)</td></tr>
+      <tr><td>Engastada (C)</td><td>\(w=0\), \(\partial w/\partial x=0\)</td><td>as mesmas</td></tr>
+      <tr><td>Livre (F)</td><td>\(M_x=0\), \(V_x=0\)</td><td>\(w_{,xx}+\nu w_{,yy}=0\) e \(w_{,xxx}+(2-\nu)w_{,xyy}=0\)</td></tr>
+      <tr><td>Deslizante (G)</td><td>\(\partial w/\partial x=0\), \(V_x=0\)</td><td>\(w_{,x}=0\), \(w_{,xxx}=0\)</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p>Na borda apoiada, \(w\equiv0\) ao longo da borda implica \(\partial^2w/\partial y^2=0\)
+  ali, e por isso \(M_x=0\) se reduz a \(\partial^2w/\partial x^2=0\). Na borda livre
+  aparece o \((2-\nu)\), que é a assinatura do cortante efetivo: um 2 do cortante verdadeiro
+  e um \(-\nu\) vindo do momento torçor.</p>
+
+  <div class="bloco fisica">
+    <span class="rotulo">Os cantos que levantam</span>
+    <p>Numa placa quadrada apoiada nos quatro lados e carregada no centro, a força de canto
+    vale \(R_c=2M_{xy}\big|_c=-2D(1-\nu)\,w_{,xy}\big|_c\) e aponta para cima: os cantos
+    tendem a se levantar do apoio. Em laje de concreto apoiada em vigas de borda, é preciso
+    armadura superior nos cantos exatamente por isso. Quem já viu uma folha de papel apoiada
+    nas quatro bordas e carregada no meio viu os cantos subirem; o que a teoria acrescenta é
+    o valor da força.</p>
+  </div>
+
+  <p>Com isso a teoria está fechada: equação de movimento, condições de contorno e condições
+  de canto, todas saídas de um único princípio variacional. O bloco seguinte a resolve.</p>
+
+
+  <nav class="nav-aulas">
+    <a href="bloco5.html"><small>Anterior</small>← Bloco 5: mão na massa</a>
+    <a class="prox" href="bloco7.html"><small>Próximo</small>Bloco 7: modos torsionais e Chladni →</a>
+  </nav>
+
+</main>
+</div>
+
+<footer class="rodape">
+  <img class="logo-rodape" src="assets/img/logo-lfca.png" alt="LFCA | URCA">
+  <p><strong>Prof. Apiano Morais</strong> · <a href="mailto:apiano.morais@urca.br">apiano.morais@urca.br</a><br>
+  Laboratório de Física Computacional Aplicada (LFCA) · Universidade Regional do Cariri</p>
+</footer>
+
+<script src="assets/js/widgets.js?v=202611091631"></script>
+</body>
+</html>
