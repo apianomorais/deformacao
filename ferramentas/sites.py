@@ -37,14 +37,6 @@ SITES = [
      'DF005',
      'Das leis de Newton às órbitas de Kepler, passando pelas oscilações e '
      'pelo ponto em que o determinismo deixa de ser previsão.'),
-    ('eletromagnetismo', 'disciplina', 'Eletromagnetismo',
-     'DF032 · DF033 · DF053',
-     'Doze capítulos, do cálculo vetorial à radiação, com exercícios '
-     'resolvidos e programas em Python que conferem cada conta.'),
-    ('fisica-estatistica', 'disciplina', 'Física Estatística',
-     'Dez módulos',
-     'De Boltzmann aos gases quânticos e à supercondutividade, com widgets '
-     'interativos em cada módulo.'),
     ('mecanica-classica-ii', 'disciplina', 'Mecânica Clássica II',
      'DF006',
      'Corpo rígido, referenciais em rotação, cálculo variacional, Lagrange, '
@@ -53,6 +45,14 @@ SITES = [
      'DF007',
      'Tensor de inércia, equações de Euler, o pião simétrico, modos normais '
      'e a equação de onda.'),
+    ('eletromagnetismo', 'disciplina', 'Eletromagnetismo',
+     'DF032 · DF033 · DF053',
+     'Doze capítulos, do cálculo vetorial à radiação, com exercícios '
+     'resolvidos e programas em Python que conferem cada conta.'),
+    ('fisica-estatistica', 'disciplina', 'Física Estatística',
+     'Dez módulos',
+     'De Boltzmann aos gases quânticos e à supercondutividade, com widgets '
+     'interativos em cada módulo.'),
     ('fenomenos-transporte', 'disciplina', 'Fenômenos de Transporte',
      'DF065',
      'Calor, massa e momento transportados pela mesma equação, de '
