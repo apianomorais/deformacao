@@ -33,6 +33,10 @@ BASE = 'https://apianomorais.github.io/%s/'
 
 # (chave do repositório, grupo, título, etiqueta, uma linha de descrição)
 SITES = [
+    ('mecanica-classica-i', 'disciplina', 'Mecânica Clássica I',
+     'DF005',
+     'Das leis de Newton às órbitas de Kepler, passando pelas oscilações e '
+     'pelo ponto em que o determinismo deixa de ser previsão.'),
     ('eletromagnetismo', 'disciplina', 'Eletromagnetismo',
      'DF032 · DF033 · DF053',
      'Doze capítulos, do cálculo vetorial à radiação, com exercícios '
@@ -70,6 +74,16 @@ SITES = [
      'Pesquisa',
      'Calculadora aberta do índice publicado em Frontiers of Urban and Rural '
      'Planning 4, 18 (2026), com a metodologia e os dados do artigo.'),
+    ('reticulado', 'pesquisa',
+     'Dinâmica em potenciais de rede',
+     'Pesquisa',
+     'Geometria, caos e transporte em potenciais periódicos: reticulados, '
+     'anisotropia, forma normal e difusão, com os programas do projeto.'),
+    ('jaguarete', 'divulgacao', 'Jaguaretê',
+     'Jogo',
+     'Jogo de estratégia sobre pecuária e grandes felinos no Pantanal, na '
+     'Amazônia, no Cerrado, na Caatinga e na Chapada do Araripe, com dinâmica '
+     'de presa e predador.'),
 ]
 
 LINHA_RODAPE = (
@@ -108,8 +122,8 @@ def bloco(aqui=None, titulo=True, marcadores=True):
     titulo=False serve para os sites cujo molde já põe o <h2> da seção.
     """
     aqui = aqui or daqui()
-    disc = [s for s in SITES if s[1] == 'disciplina' and s[0] != aqui]
-    pesq = [s for s in SITES if s[1] == 'pesquisa' and s[0] != aqui]
+    grupos = [[s for s in SITES if s[1] == g and s[0] != aqui]
+              for g in ('disciplina', 'pesquisa', 'divulgacao')]
     partes = []
     if marcadores:
         partes.append('<!--SITES-->')
@@ -117,14 +131,13 @@ def bloco(aqui=None, titulo=True, marcadores=True):
         partes += ['  <h2>Outros sites</h2>', '']
     partes += ['  <p>As demais disciplinas que ministro na URCA, e a pesquisa '
               'do laboratório. Tudo reunido em '
-              '<a href="%s">apianomorais.github.io</a>.</p>' % PORTAL, '',
-              '  <div class="cartoes">']
-    partes += [cartao(s) for s in disc]
-    partes.append('  </div>')
-    if pesq:
-        partes += ['', '  <div class="cartoes">']
-        partes += [cartao(s) for s in pesq]
-        partes.append('  </div>')
+              '<a href="%s">apianomorais.github.io</a>.</p>' % PORTAL, '']
+    for grupo in grupos:
+        if not grupo:
+            continue
+        partes.append('  <div class="cartoes">')
+        partes += [cartao(s) for s in grupo]
+        partes += ['  </div>', '']
     if marcadores:
         partes.append('<!--/SITES-->')
     return '\n'.join(partes)
