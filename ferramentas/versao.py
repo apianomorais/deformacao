@@ -14,7 +14,8 @@ import datetime
 import glob
 import re
 
-ALVOS = ('assets/css/estilo.css', 'assets/js/comum.js', 'assets/js/widgets.js')
+ALVOS = ('assets/css/estilo.css', 'assets/js/comum.js', 'assets/js/widgets.js',
+         'assets/js/codigo.js')
 
 
 def main():

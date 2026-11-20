@@ -75,6 +75,18 @@ for p in paginas:
             erros.append('%s: "<" cru antes de letra em "%s" '
                          '(escreva &lt;)' % (p, trecho.replace('\n', ' ')[:60]))
 
+
+    # 14. escape de Python que nao foi interpretado. Um "\\n" literal no HTML
+    #     aparece como texto na tela, e foi assim que o indice lateral de
+    #     quatro aulas ficou com "\\n" entre os itens durante meses sem que
+    #     nenhuma regra pegasse. Comandos de LaTeX como \\nu e \\nabla sao
+    #     legitimos, e por isso so se cobra o "\\n" que NAO e seguido de letra.
+    sem_codigo = re.sub(r'<(code|pre|script|style)[^>]*>.*?</\1>', '', t,
+                        flags=re.S)
+    for m in re.finditer(r'\\n(?![A-Za-z])', sem_codigo):
+        ini = max(0, m.start() - 30)
+        erros.append('%s: "\\n" literal no HTML, em "...%s..."'
+                     % (p, sem_codigo[ini:m.end() + 20].replace('\n', ' ')))
     # 10. tags equilibradas nos contêineres principais
     for tag in ('div', 'main', 'section', 'details', 'table'):
         a = len(re.findall(r'<%s[\s>]' % tag, t))
@@ -86,11 +98,52 @@ for p in paginas:
 #     string JavaScript, "\(" vira "(" e "\sigma" vira "sigma": a barra some
 #     antes de o MathJax ver a expressão, e a fórmula chega destruída à
 #     página. Toda barra de LaTeX em widgets.js tem de ser dupla.
+def sem_comentarios(js):
+    """Troca comentario de JavaScript por espaco, preservando as quebras de
+    linha para que os numeros de linha continuem certos.
+
+    As regras abaixo procuram LaTeX escrito com uma barra so dentro de string
+    de JavaScript. Um comentario que CITA LaTeX, como "deixa \\(\\mu_0\\) cru
+    na tela", nao e erro, e era o unico falso positivo que o validador
+    produzia."""
+    saida = []
+    i, n = 0, len(js)
+    estado = None          # None, aspa aberta, '//' ou '/*'
+    while i < n:
+        c = js[i]
+        prox = js[i + 1] if i + 1 < n else ''
+        if estado is None:
+            if c == '/' and prox == '/':
+                estado = '//'; saida.append('  '); i += 2; continue
+            if c == '/' and prox == '*':
+                estado = '/*'; saida.append('  '); i += 2; continue
+            if c in '\'"`':
+                estado = c
+            saida.append(c); i += 1; continue
+        if estado in ('\'', '"', '`'):
+            if c == '\\':
+                saida.append(js[i:i + 2]); i += 2; continue
+            if c == estado:
+                estado = None
+            saida.append(c); i += 1; continue
+        if estado == '//':
+            if c == '\n':
+                estado = None; saida.append(c)
+            else:
+                saida.append(' ')
+            i += 1; continue
+        if c == '*' and prox == '/':
+            estado = None; saida.append('  '); i += 2; continue
+        saida.append('\n' if c == '\n' else ' ')
+        i += 1
+    return ''.join(saida)
+
+
 BARRA = re.compile(r'(?<!\\)\\[(\[\])a-zA-Z]')
 PERMITIDAS = {'\\n', '\\t', '\\r', '\\u', '\\d', '\\s', '\\w', '\\b', '\\f', '\\v'}
 js = os.path.join('assets', 'js', 'widgets.js')
 if os.path.exists(js):
-    tj = open(js, encoding='utf-8').read()
+    tj = sem_comentarios(open(js, encoding='utf-8').read())
     for m in BARRA.finditer(tj):
         if m.group(0) in PERMITIDAS:
             continue
@@ -105,7 +158,7 @@ if os.path.exists(js):
 #     Basta um espaco antes da aspa de fechamento.
 COLADA = re.compile(r"\\\\[a-zA-Z]+'\s*\+\s*'[a-zA-Z]")
 if os.path.exists(js):
-    tj = open(js, encoding='utf-8').read()
+    tj = sem_comentarios(open(js, encoding='utf-8').read())
     for m in COLADA.finditer(tj):
         linha = tj[:m.start()].count('\n') + 1
         erros.append('widgets.js:%d: "%s" gruda na string seguinte; '
@@ -122,7 +175,7 @@ TAGS_OK = {'p', 'ul', 'ol', 'li', 'strong', 'em', 'br', 'span', 'div',
            'img', 'hr', 'figure', 'figcaption'}
 SOLTO = re.compile(r"<(/?)([a-zA-Z]+)")
 if os.path.exists(js):
-    tj = open(js, encoding='utf-8').read()
+    tj = sem_comentarios(open(js, encoding='utf-8').read())
     for m in SOLTO.finditer(tj):
         if m.group(2).lower() in TAGS_OK:
             continue
