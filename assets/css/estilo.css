@@ -244,14 +244,6 @@ canvas{display:block;width:100%;height:auto;border-radius:6px;background:#fff}
   color:#fff;border-radius:14px;padding:2.2rem 1.9rem;margin:1.6rem 0 2.2rem;
 }
 .heroi h1{color:#fff;margin:0 0 .5rem}
-/* O ganso é cinza-claro: brilha sobre o azul do heroi, sem placa. */
-.placa-logo{
-  display:inline-block;margin-bottom:1.1rem;line-height:0;
-  filter:drop-shadow(0 3px 10px rgba(0,0,0,.28));
-}
-.placa-logo img{height:124px;width:auto;display:block}
-@media (max-width:620px){.placa-logo img{height:86px}}
-
 /* No rodape o fundo e claro: o ganso ganha uma placa discreta para nao sumir. */
 .rodape img.logo-rodape{
   height:118px;width:auto;margin-bottom:.8rem;display:inline-block;
@@ -619,9 +611,6 @@ p.centro{text-align:center}
   font-family:var(--sans);font-size:.92rem;letter-spacing:.02em;
   padding:.7rem 1.3rem;border-radius:var(--raio);text-decoration:none}
 .botao-grande:hover{background:var(--azul-claro);color:#fff}
-
-/* o logotipo do herói é retrato: limitar a altura evita que ele domine a capa */
-.heroi .placa-logo img{max-height:190px;width:auto !important}
 
 /* o link de inscrição fica sobre o fundo escuro do herói: herda a cor
    clara do texto, senão some */
