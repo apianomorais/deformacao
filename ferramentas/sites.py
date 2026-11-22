@@ -65,6 +65,10 @@ SITES = [
      'DF050',
      'Planilha, LaTeX e Python num fluxo de trabalho único, da tabela de '
      'medidas ao relatório final.'),
+    ('metodos-numericos', 'disciplina', 'Métodos Numéricos',
+     'Módulo III',
+     'O erro que a máquina comete, raízes, interpolação, integração e o '
+     'projeto que fecha o curso.'),
     ('deformacao', 'disciplina', 'Da kalimba à viga',
      'Minicurso',
      'Vibração, frequências naturais e elementos finitos em Python, na '
