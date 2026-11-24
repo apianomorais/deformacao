@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apêndices | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611201318">
-<script src="assets/js/comum.js?v=202611201318"></script>
-<script src="assets/js/codigo.js?v=202611201318"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611241336">
+<script src="assets/js/comum.js?v=202611241336"></script>
+<script src="assets/js/codigo.js?v=202611241336"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
@@ -96,10 +96,10 @@
 
   <p><strong>Passo 1: da curvatura ao momento interno.</strong> Quando a barra se encurva com
   raio \(R\), uma fibra à distância \(y\) da linha neutra estica de
-  \(\varepsilon=y/R\). A tensão nela é \(\sigma=E\varepsilon=Ey/R\), e o momento que todas as
+  \(\varepsilon=y/R\). A tensão nela é \(\sigma=Y\varepsilon=Yy/R\), e o momento que todas as
   fibras exercem sobre a seção é</p>
 
-  <p>\[M=\int_A y\,\sigma\,dA=\frac{E}{R}\int_Ay^2dA=\frac{EI}{R}\approx EI\,\pder{^2w}{x^2},\]</p>
+  <p>\[M=\int_A y\,\sigma\,dA=\frac{Y}{R}\int_Ay^2dA=\frac{YI}{R}\approx YI\,\pder{^2w}{x^2},\]</p>
 
   <p>onde \(I=\int y^2dA\) é o momento de inércia de área, que para seção retangular vale
   \(bh^3/12\), e usamos \(1/R\approx\partial^2w/\partial x^2\) para curvaturas pequenas.</p>
@@ -110,10 +110,10 @@
 
   <p>\[\rho A\,dx\,\pder{^2w}{t^2}=\pder{V}{x}dx=\pder{^2M}{x^2}dx.\]</p>
 
-  <p><strong>Passo 3: juntar tudo.</strong> Substituindo \(M=EI\,\partial^2w/\partial x^2\)
+  <p><strong>Passo 3: juntar tudo.</strong> Substituindo \(M=YI\,\partial^2w/\partial x^2\)
   e cancelando \(dx\),</p>
 
-  <p>\[\rho A\,\pder{^2w}{t^2}+EI\,\pder{^4w}{x^4}=0,\]</p>
+  <p>\[\rho A\,\pder{^2w}{t^2}+YI\,\pder{^4w}{x^4}=0,\]</p>
 
   <p>com o sinal de mais porque a derivada segunda do momento entra com sinal trocado em
   relação à curvatura. Cada derivada espacial tem uma origem física: duas vêm da curvatura que
@@ -126,7 +126,7 @@
     <strong>modo é alto</strong>: no modo \(n\), o comprimento de onda é da ordem de \(L/n\),
     e a viga se comporta como uma sequência de trechos curtos. Nesses casos usa-se a teoria de <strong><a href="https://en.wikipedia.org/wiki/Stephen_Timoshenko">Timoshenko</a></strong>, que inclui cisalhamento e inércia de rotação e sempre prevê
     frequências <em>menores</em> que Euler-Bernoulli. Guarde isso: parte do erro que você verá
-    nos modos altos do bloco 4 é numérica, da malha, mas parte é do próprio modelo.</p>
+    nos modos altos do bloco 5 é numérica, da malha, mas parte é do próprio modelo.</p>
   </div>
 
   <!-- ============================================== -->
@@ -221,7 +221,7 @@
     -2(1-\nu)\left(w_{,xx}w_{,yy}-w_{,xy}^2\right)\right]dA\)</p>
     <p>torção: \(\dfrac{D(1-\nu)}{2}=\dfrac{Gh^3}{12}\), com
     \(G=\dfrac{Y}{2(1+\nu)}\)</p>
-    <p>efetivas: \(E^*=eY\), \(G^*=gG\), \(\rho^*=\eta\rho\) &nbsp;·&nbsp;
+    <p>efetivas: \(Y^*=eY\), \(G^*=gG\), \(\rho^*=\eta\rho\) &nbsp;·&nbsp;
     \(\nu^*=(1+\nu)\dfrac{e}{g}-1\)</p>
   </div>
 
@@ -322,6 +322,6 @@ print("ambiente OK")</code></pre>
   <!--PORTAL--><p><small><a href="https://apianomorais.github.io/">Todas as disciplinas e a pesquisa em apianomorais.github.io</a></small></p><!--/PORTAL-->
 </footer>
 
-<script src="assets/js/widgets.js?v=202611201318"></script>
+<script src="assets/js/widgets.js?v=202611241336"></script>
 </body>
 </html>

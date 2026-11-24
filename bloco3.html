@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bloco 3: a viga engastada | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611201318">
-<script src="assets/js/comum.js?v=202611201318"></script>
-<script src="assets/js/codigo.js?v=202611201318"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611241336">
+<script src="assets/js/comum.js?v=202611241336"></script>
+<script src="assets/js/codigo.js?v=202611241336"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
@@ -107,9 +107,9 @@
 
   <p>\[w(x,t)=W(x)\cos\omega t.\]</p>
 
-  <p>Substituindo na equação de Euler-Bernoulli do bloco 1,</p>
+  <p>Substituindo na equação de Euler-Bernoulli do bloco 2,</p>
 
-  <p>\[\der{^4W}{x^4}=\beta^4W,\qquad \beta^4=\frac{\rho A\,\omega^2}{EI}.\]</p>
+  <p>\[\der{^4W}{x^4}=\beta^4W,\qquad \beta^4=\frac{\rho A\,\omega^2}{YI}.\]</p>
 
   <p>A solução geral combina quatro funções:</p>
 
@@ -166,8 +166,8 @@
 
   <div class="destaque">
     <span class="anuncio">A fórmula do curso</span>
-    \[f_n=\frac{\left(\beta_nL\right)^2}{2\pi L^2}\sqrt{\frac{EI}{\rho A}}
-    =\frac{\left(\beta_nL\right)^2}{2\pi L^2}\,\frac{h}{\sqrt{12}}\sqrt{\frac{E}{\rho}}.\]
+    \[f_n=\frac{\left(\beta_nL\right)^2}{2\pi L^2}\sqrt{\frac{YI}{\rho A}}
+    =\frac{\left(\beta_nL\right)^2}{2\pi L^2}\,\frac{h}{\sqrt{12}}\sqrt{\frac{Y}{\rho}}.\]
   </div>
 
   <p>Vale parar aqui e ler o que ela diz, porque quatro leituras saem de graça:</p>
@@ -177,8 +177,8 @@
     <li>\(f_n\propto h\): barra mais grossa, som mais agudo;</li>
     <li>\(f_n\) <strong>não depende da largura \(b\)</strong>. Uma barra mais larga é mais
     rígida e também mais pesada, e os dois efeitos se cancelam exatamente;</li>
-    <li>o material entra só por \(\sqrt{E/\rho}\). Por isso aço e alumínio, que têm
-    \(E/\rho\) quase igual, dão quase a mesma frequência, apesar de um ser três vezes mais
+    <li>o material entra só por \(\sqrt{Y/\rho}\). Por isso aço e alumínio, que têm
+    \(Y/\rho\) quase igual, dão quase a mesma frequência, apesar de um ser três vezes mais
     denso que o outro.</li>
   </ul>
 
@@ -195,7 +195,7 @@
   <div class="bloco ex">
     <span class="rotulo">Exemplo numérico</span>
     <p>Uma lamela de aço com comprimento livre \(L=40\) mm e espessura \(h=1\) mm, com
-    \(E=200\) GPa e \(\rho=7850\) kg/m³, de modo que \(\sqrt{E/\rho}=5047\) m/s:</p>
+    \(Y=200\) GPa e \(\rho=7850\) kg/m³, de modo que \(\sqrt{Y/\rho}=5047\) m/s:</p>
     <p>\[f_1=\frac{3{,}516}{2\pi\left(0{,}040\right)^2}\cdot\frac{0{,}001}{\sqrt{12}}
     \cdot5047=510\ \text{Hz},\]</p>
     <p>algo perto de um dó agudo. O segundo modo fica em \(6{,}27\cruz510=3{,}2\) kHz, bem
@@ -211,6 +211,19 @@
     método.</p>
   </div>
 
+  <div class="bloco som">
+    <span class="rotulo">Ouça: a lamela calculada, e o engaste que cede</span>
+    <ul class="sons">
+      <li><span class="legenda-som">engaste perfeito, \(L=40\) mm: 510 Hz, o tom do exemplo numérico</span>
+        <audio controls preload="none" src="assets/sons/lamela_510.wav"></audio>
+        <a class="baixar-som" href="assets/sons/lamela_510.wav" download>baixar .wav</a></li>
+      <li><span class="legenda-som">engaste que cede 1 mm, como se \(L=41\) mm: 485 Hz, quase um semitom abaixo</span>
+        <audio controls preload="none" src="assets/sons/lamela_485.wav"></audio>
+        <a class="baixar-som" href="assets/sons/lamela_485.wav" download>baixar .wav</a></li>
+    </ul>
+    <p class="nota-som">Sintetizados com os sobretons da viga engastada, 6,27, 17,55 e 34,39 vezes a fundamental. Compare de ouvido com uma lamela de verdade.</p>
+  </div>
+
   <!-- ============================================== -->
   <h2 id="s5">5. Do outro lado: projetar a kalimba</h2>
 
@@ -218,7 +231,7 @@
   quer e procura o comprimento livre que a produz. Isolando \(L\),</p>
 
   <p>\[L=\sqrt{\frac{\left(\beta_1L\right)^2}{2\pi f_1}\,\frac{h}{\sqrt{12}}
-  \sqrt{\frac{E}{\rho}}}.\]</p>
+  \sqrt{\frac{Y}{\rho}}}.\]</p>
 
   <div data-widget="kalimba"></div>
 
@@ -292,7 +305,7 @@
 
   <div class="bloco ex">
     <span class="rotulo">Sua vez (no computador)</span>
-    <p><strong>Notebook 2.</strong> Ache as raízes da equação característica com
+    <p><strong>viga.py.</strong> Ache as raízes da equação característica com
     <code>scipy.optimize.brentq</code>, plote os três primeiros modos e localize os nós, e
     depois compare o \(f_1\) calculado da sua lamela com o espectro medido.</p>
   </div>
@@ -313,7 +326,8 @@ print("beta_n L :", np.round(raizes, 4))
 print("f_n/f_1  :", np.round((np.array(raizes)/raizes[0])**2, 3))</code></pre></div>
 
   <p>Rodando, saem 1,8751, 4,6941, 7,8548 e 10,9955, e as razões 1, 6,267, 17,55 e 34,39. Com
-  as raízes em mãos, a frequência é uma linha:</p>
+  as raízes em mãos, a frequência é uma linha (no código, o módulo de elasticidade \(Y\)
+  se chama <code>E</code>, como é costume em programas de engenharia):</p>
 
 <div class="codigo" data-lingua="Python"><pre><code>import numpy as np
 
@@ -327,6 +341,16 @@ def frequencias_viga(L, h, b, E, rho, raizes):
 # lamela de aco: 40 mm livres, 1 mm de espessura, 10 mm de largura
 f = frequencias_viga(0.040, 0.001, 0.010, 200e9, 7850, raizes)
 print(np.round(f, 1))        # [ 509.6 3193.7 8942.4 17523.6]</code></pre></div>
+
+  <div class="bloco som">
+    <span class="rotulo">Ouça a frequência que o programa calcula</span>
+    <ul class="sons">
+      <li><span class="legenda-som">509,6 Hz, com os sobretons da viga engastada</span>
+        <audio controls preload="none" src="assets/sons/lamela_510.wav"></audio>
+        <a class="baixar-som" href="assets/sons/lamela_510.wav" download>baixar .wav</a></li>
+    </ul>
+    <p class="nota-som">Para ouvir a sua lamela, ponha o \(L\) e o \(h\) dela no <code>frequencias_viga</code> e sintetize o tom com a <code>nota()</code> do <code>corda.py</code>.</p>
+  </div>
 
   <p>E as formas modais, que o programa desenha com os nós marcados:</p>
 
@@ -377,6 +401,6 @@ plt.legend(); plt.tight_layout(); plt.show()</code></pre></div>
   <!--PORTAL--><p><small><a href="https://apianomorais.github.io/">Todas as disciplinas e a pesquisa em apianomorais.github.io</a></small></p><!--/PORTAL-->
 </footer>
 
-<script src="assets/js/widgets.js?v=202611201318"></script>
+<script src="assets/js/widgets.js?v=202611241336"></script>
 </body>
 </html>

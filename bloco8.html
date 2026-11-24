@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bloco 8: placas perfuradas | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611201318">
-<script src="assets/js/comum.js?v=202611201318"></script>
-<script src="assets/js/codigo.js?v=202611201318"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611241336">
+<script src="assets/js/comum.js?v=202611241336"></script>
+<script src="assets/js/codigo.js?v=202611241336"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
@@ -63,7 +63,7 @@
   geometria complicada, por um material fictício homogêneo que se comporta igual nas escalas
   que interessam. Esse material tem propriedades <em>efetivas</em>,</p>
 
-  <p>\[E^*=e\,Y,\qquad G^*=g\,G,\qquad \rho^*=\eta\,\rho,\]</p>
+  <p>\[Y^*=e\,Y,\qquad G^*=g\,G,\qquad \rho^*=\eta\,\rho,\]</p>
 
   <p>com \(e\), \(g\) e \(\eta\) entre zero e um. A fração de material que sobra,
   \(\eta\), é puramente geométrica e se conhece de antemão; os dois primeiros é que se quer
@@ -80,7 +80,7 @@
   </div>
 
   <p>É aí que entra tudo o que foi feito até agora. A região perfurada responde à flexão com
-  \(E^*\) e à torção com \(G^*\), e as duas coisas são independentes. Medindo
+  \(Y^*\) e à torção com \(G^*\), e as duas coisas são independentes. Medindo
   <strong>uma frequência de flexão e uma de torção</strong> da mesma peça, obtêm-se duas
   equações para as duas incógnitas. A frequência de torção, que até o bloco 7 era uma
   curiosidade, vira instrumento de medida.</p>
@@ -166,14 +166,14 @@
   direções do plano são equivalentes entre si, e a resposta ao cisalhamento é independente.
   As rigidezes ficam</p>
 
-  <p>\[D_{11}=D_{22}=\frac{E^*h^3}{12\left(1-\nu^{*2}\right)},
+  <p>\[D_{11}=D_{22}=\frac{Y^*h^3}{12\left(1-\nu^{*2}\right)},
   \qquad D_{12}=\nu^*D_{11},
   \qquad D_{66}=\frac{G^*h^3}{12},\]</p>
 
   <p>e o coeficiente de Poisson efetivo sai no fim, de graça, da combinação das duas
   medidas:</p>
 
-  <p>\[\nu^*=\frac{E^*}{2G^*}-1=(1+\nu)\,\frac{e}{g}-1.\]</p>
+  <p>\[\nu^*=\frac{Y^*}{2G^*}-1=(1+\nu)\,\frac{e}{g}-1.\]</p>
 
   <div class="bloco fisica">
     <span class="rotulo">O que esse \(\nu^*\) revela</span>
@@ -380,7 +380,7 @@ if __name__ == '__main__':
   <p>O que também muda é a geração da malha. No caso unidimensional, dividir em pedaços iguais
   resolve. Numa peça furada, o gerador precisa refinar sozinho em volta dos furos, onde a
   solução tem mais curvatura, e deixar os elementos grandes onde nada acontece. É a mesma
-  lição da convergência do bloco 4, agora automatizada.</p>
+  lição da convergência do bloco 5, agora automatizada.</p>
 
   <!-- ============================================== -->
   <h2 id="s6">6. E fora do laboratório</h2>
@@ -388,8 +388,9 @@ if __name__ == '__main__':
   <ul>
     <li><strong>Passarelas e pisos.</strong> Se a frequência natural cair perto de 2 Hz, que é
     a frequência do caminhar humano, a estrutura balança demais. É por isso que normas limitam
-    a frequência mínima de passarelas, e foi por ignorar isso que a Millennium Bridge, em
-    Londres, teve de ser fechada três dias depois de inaugurada;</li>
+    a frequência mínima de passarelas. O passo também empurra de lado: a Millennium Bridge,
+    em Londres, foi fechada dois dias depois de inaugurada, em 2000, porque a multidão a
+    fazia balançar lateralmente;</li>
     <li><strong>Eixos de máquinas.</strong> A velocidade crítica de um eixo é a rotação em que
     a frequência de excitação encontra uma frequência natural. Projetar um eixo é, em boa
     parte, manter a rotação de trabalho longe dessas velocidades;</li>
@@ -444,6 +445,6 @@ if __name__ == '__main__':
   <!--PORTAL--><p><small><a href="https://apianomorais.github.io/">Todas as disciplinas e a pesquisa em apianomorais.github.io</a></small></p><!--/PORTAL-->
 </footer>
 
-<script src="assets/js/widgets.js?v=202611201318"></script>
+<script src="assets/js/widgets.js?v=202611241336"></script>
 </body>
 </html>

@@ -617,3 +617,19 @@ p.centro{text-align:center}
 .heroi .meta a{color:inherit;text-decoration:underline;
   text-underline-offset:2px;opacity:.95}
 .heroi .meta a:hover{opacity:1}
+
+/* ---------- Sons sintetizados ----------
+   Um quadro por seção, com um tocador por som. Os arquivos estão em
+   assets/sons/ e saem de ferramentas/sons.py; preload="none" faz a página
+   não baixar nada antes de alguém apertar o play. */
+.bloco.som{border-left-color:var(--verde);background:#f3f7fb}
+.bloco.som .rotulo{color:var(--verde)}
+.sons{list-style:none;margin:.5rem 0 0;padding:0;display:grid;gap:.6rem}
+.sons li{display:flex;flex-wrap:wrap;align-items:center;gap:.35rem 1rem;margin:0}
+.sons .legenda-som{flex:1 1 16rem;font-family:var(--sans);font-size:.92rem;
+  color:var(--tinta)}
+.sons audio{flex:0 1 19rem;width:19rem;max-width:100%;height:2.4rem}
+.sons .baixar-som{font-family:var(--sans);font-size:.78rem;color:var(--tinta-suave);
+  white-space:nowrap}
+.bloco.som .nota-som{font-size:.88rem;color:var(--tinta-suave);margin:.7rem 0 0}
+@media (max-width:620px){.sons audio{flex-basis:100%;width:100%}}

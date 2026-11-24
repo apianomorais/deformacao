@@ -377,7 +377,7 @@
     var mostrar = cartoes(corpo, [
       { rot: 'Comprimento livre', k: 'L' },
       { rot: 'Se cortar \\(L\\) pela metade', k: 'met' },
-      { rot: '\\(\\sqrt{E/\\rho}\\)', k: 'vel' }
+      { rot: '\\(\\sqrt{Y/\\rho}\\)', k: 'vel' }
     ]);
     var saida = el('div', { class: 'saida' });
     corpo.appendChild(saida);
@@ -423,7 +423,7 @@
         + F.fmt(h, 2) + ' mm de espessura, o comprimento livre é '
         + F.fmt(Ls[nota] * 1000, 1) + ' mm. Troque o material: aço e alumínio dão '
         + 'comprimentos quase iguais, porque o que entra na fórmula é '
-        + '\\(\\sqrt{E/\\rho}\\), e os dois têm praticamente o mesmo valor. O acrílico, '
+        + '\\(\\sqrt{Y/\\rho}\\), e os dois têm praticamente o mesmo valor. O acrílico, '
         + 'muito mais mole, exige lamelas bem mais curtas para a mesma nota.';
       tipografar(saida);
       tipografar(raiz);
