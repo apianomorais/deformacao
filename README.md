@@ -8,6 +8,8 @@ em Python**, da XI Semana Universitária da URCA.
 - Notebooks: `notebooks/`, com o código completo (o da apostila é propositalmente
   incompleto).
 - Apostila: `apostila.pdf`.
+- Sons: `assets/sons/`, sintetizados por `ferramentas/sons.py` (nenhum é gravação),
+  tocados nos blocos 1, 2, 3 e 7.
 
 As ferramentas em `ferramentas/` montam as páginas a partir do molde comum
 (`molde.py`), carimbam as versões dos arquivos estáticos (`versao.py`) e conferem as

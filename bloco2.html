@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bloco 2: a barra e a quarta ordem | Da kalimba à viga</title>
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
-<link rel="stylesheet" href="assets/css/estilo.css?v=202611201318">
-<script src="assets/js/comum.js?v=202611201318"></script>
-<script src="assets/js/codigo.js?v=202611201318"></script>
+<link rel="stylesheet" href="assets/css/estilo.css?v=202611241333">
+<script src="assets/js/comum.js?v=202611241333"></script>
+<script src="assets/js/codigo.js?v=202611241333"></script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
@@ -202,6 +202,25 @@ pergunta qual é a carga que quebra uma viga engastada numa parede, e monta a co
   não por dois. E os sobretons deixam de ser múltiplos inteiros, porque as raízes da
   equação característica não são múltiplos de \(\pi\), como veremos no bloco 3.</p>
 
+  <div class="bloco som">
+    <span class="rotulo">Ouça: a lei de escala</span>
+    <ul class="sons">
+      <li><span class="legenda-som">corda de comprimento \(L\): 220 Hz</span>
+        <audio controls preload="none" src="assets/sons/corda_220.wav"></audio>
+        <a class="baixar-som" href="assets/sons/corda_220.wav" download>baixar .wav</a></li>
+      <li><span class="legenda-som">corda com \(L/2\): 440 Hz, uma oitava acima</span>
+        <audio controls preload="none" src="assets/sons/corda_440.wav"></audio>
+        <a class="baixar-som" href="assets/sons/corda_440.wav" download>baixar .wav</a></li>
+      <li><span class="legenda-som">barra de comprimento \(L\): 220 Hz</span>
+        <audio controls preload="none" src="assets/sons/barra_220.wav"></audio>
+        <a class="baixar-som" href="assets/sons/barra_220.wav" download>baixar .wav</a></li>
+      <li><span class="legenda-som">barra com \(L/2\): 880 Hz, duas oitavas acima</span>
+        <audio controls preload="none" src="assets/sons/barra_880.wav"></audio>
+        <a class="baixar-som" href="assets/sons/barra_880.wav" download>baixar .wav</a></li>
+    </ul>
+    <p class="nota-som">Cortar pela metade dobra a frequência da corda e quadruplica a da barra. Sons sintetizados, cada um com as razões de sobretons do seu objeto.</p>
+  </div>
+
   <div class="bloco ex">
     <span class="rotulo">Os números de Chladni, recalculados</span>
     <p>Para a barra livre nas duas pontas, a equação característica é
@@ -253,6 +272,16 @@ pergunta qual é a carga que quebra uma viga engastada numa parede, e monta a co
     que o diapasão é batido. Esse modo se amortece depressa, porque faz a base balançar e
     perde energia pelo cabo; em um segundo sobra só a fundamental, e é por isso que um
     diapasão serve para afinar.</p>
+  </div>
+
+  <div class="bloco som">
+    <span class="rotulo">Ouça: o diapasão em 440 Hz</span>
+    <ul class="sons">
+      <li><span class="legenda-som">fundamental de 440 Hz e sobretom em 6,27 vezes 440 Hz, que some em décimos de segundo</span>
+        <audio controls preload="none" src="assets/sons/diapasao_440.wav"></audio>
+        <a class="baixar-som" href="assets/sons/diapasao_440.wav" download>baixar .wav</a></li>
+    </ul>
+    <p class="nota-som">Preste atenção no começo: o "tlim" é o sobretom, e depois sobra só a fundamental. Som sintetizado.</p>
   </div>
 
   <!-- ============================================== -->
@@ -334,6 +363,6 @@ print('barra: cortar pela metade multiplica f por', 2 ** 2)</code></pre>
   <!--PORTAL--><p><small><a href="https://apianomorais.github.io/">Todas as disciplinas e a pesquisa em apianomorais.github.io</a></small></p><!--/PORTAL-->
 </footer>
 
-<script src="assets/js/widgets.js?v=202611201318"></script>
+<script src="assets/js/widgets.js?v=202611241333"></script>
 </body>
 </html>
