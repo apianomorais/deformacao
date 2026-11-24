@@ -3,10 +3,10 @@
 Site do minicurso **Da kalimba à viga: vibração, frequências naturais e elementos finitos
 em Python**, da XI Semana Universitária da URCA.
 
-- Páginas: `index.html` e os cinco blocos, mais os apêndices.
+- Páginas: `index.html` e os oito blocos, mais os apêndices.
 - Simuladores: `assets/js/widgets.js`, sem dependências, desenhados em canvas.
-- Notebooks: `notebooks/`, com o código completo (o da apostila é propositalmente
-  incompleto).
+- Programas: os `.py` do curso estão nas próprias páginas, prontos para copiar para o
+  Spyder (o curso não usa notebooks).
 - Apostila: `apostila.pdf`.
 - Sons: `assets/sons/`, sintetizados por `ferramentas/sons.py` (nenhum é gravação),
   tocados nos blocos 1, 2, 3 e 7.
